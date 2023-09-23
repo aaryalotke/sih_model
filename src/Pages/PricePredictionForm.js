@@ -251,10 +251,31 @@ const PricePredictionForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here, e.g., send data to the backend
-  };
+    try {
+      // Send the selected field values to your Flask backend
+      const response = await fetch('/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        // Convert form data to JSON
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Predicted Price:', result.predicted_price);
+    console.log(formData);
+      } else {
+        console.error('Failed to make the prediction request.');
+        console.log(formData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
