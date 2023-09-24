@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 
 const PricePredictionForm = () => {
   const [formData, setFormData] = useState({
-    commodity: '',
-    stateName: '',
-    districtName: '',
-    marketCenterName: '',
-    variety: '',
-    date: '',
+    // commodity: '1',
+    // state: '1',
+    // district:'1',
+    // market:'1',
+    // variety: '1',
+    // group: '1',
+    // day: '1',
+    // month: '1',
+    // year: '2023',
   });
+  const [predictedPrice, setPredictedPrice] = useState(null); // State to store predicted price
 
   // Define the options for the dropdowns
   const commodityOptions = [
@@ -255,7 +259,7 @@ const PricePredictionForm = () => {
     e.preventDefault();
     try {
       // Send the selected field values to your Flask backend
-      const response = await fetch('/predict', {
+      const response = await fetch('http://127.0.0.1:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -266,7 +270,9 @@ const PricePredictionForm = () => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log('Predicted Price:', result.predicted_price);
+        console.log(result)
+        console.log('Predicted Price:', result.modal);
+        setPredictedPrice(result.modal);
     console.log(formData);
       } else {
         console.error('Failed to make the prediction request.');
@@ -280,11 +286,11 @@ const PricePredictionForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="commodity">Commodity:</label>
+        <label htmlFor="Commodity">Commodity:</label>
         <select
-          id="commodity"
-          name="commodity"
-          value={formData.commodity}
+          id="Commodity"
+          name="Commodity"
+          value={formData.Commodity}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -297,11 +303,11 @@ const PricePredictionForm = () => {
       </div>
 
       <div>
-        <label htmlFor="state">State:</label>
+        <label htmlFor="state_name">State:</label>
         <select
-          id="state"
-          name="state"
-          value={formData.market}
+          id="state_name"
+          name="state_name"
+          value={formData.state_name}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -314,11 +320,11 @@ const PricePredictionForm = () => {
       </div>
 
       <div>
-        <label htmlFor="district">District:</label>
+        <label htmlFor="district_name">District:</label>
         <select
-          id="district"
-          name="district"
-          value={formData.district}
+          id="district_name"
+          name="district_name"
+          value={formData.district_name}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -331,11 +337,11 @@ const PricePredictionForm = () => {
       </div>
 
       <div>
-        <label htmlFor="market">Market:</label>
+        <label htmlFor="market_center_name">Market:</label>
         <select
-          id="market"
-          name="market"
-          value={formData.market}
+          id="market_center_name"
+          name="market_center_name"
+          value={formData.market_center_name}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -348,11 +354,11 @@ const PricePredictionForm = () => {
       </div>
 
       <div>
-        <label htmlFor="variety">Variety:</label>
+        <label htmlFor="Variety">Variety:</label>
         <select
-          id="variety"
-          name="variety"
-          value={formData.market}
+          id="Variety"
+          name="Variety"
+          value={formData.Variety}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -365,11 +371,11 @@ const PricePredictionForm = () => {
       </div>
 
       <div>
-        <label htmlFor="group">Group:</label>
+        <label htmlFor="group_name">Group:</label>
         <select
-          id="group"
-          name="group"
-          value={formData.market}
+          id="group_name"
+          name="group_name"
+          value={formData.group_name}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -388,7 +394,7 @@ const PricePredictionForm = () => {
         <select
           id="day"
           name="day"
-          value={formData.market}
+          value={formData.day}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -405,7 +411,7 @@ const PricePredictionForm = () => {
         <select
           id="month"
           name="month"
-          value={formData.market}
+          value={formData.month}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -422,7 +428,7 @@ const PricePredictionForm = () => {
         <select
           id="year"
           name="year"
-          value={formData.market}
+          value={formData.year}
           onChange={handleInputChange}
         >
           <option value="">Select</option>
@@ -435,6 +441,13 @@ const PricePredictionForm = () => {
       </div>
 
       <button type="submit">Predict</button>
+      {/* Display the predicted price */}
+      {predictedPrice !== null && (
+        <div>
+          <h2>Predicted Price:</h2>
+          <p>{predictedPrice}</p>
+        </div>
+      )}
     </form>
   );
 };
