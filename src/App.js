@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
 import PricePredictionForm from './Pages/PricePredictionForm';
+import ChartOne from './Pages/Chart_one';
 
 function App() {
   return (
     <div className="App">
-      <h1>Price Prediction</h1>
+      
       <PricePredictionForm />
+      {/* <ChartOne /> */}
     </div>
   );
 }
