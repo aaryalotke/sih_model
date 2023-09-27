@@ -13,6 +13,8 @@ const PricePredictionForm = () => {
     // year: '2023',
   });
   const [predictedPrice, setPredictedPrice] = useState(null); // State to store predicted price
+  const [minPrice, setminPrice] = useState(null); // State to store predicted price
+  const [maxPrice, setmaxPrice] = useState(null); // State to store predicted price
 
   // Define the options for the dropdowns
   const commodityOptions = [
@@ -272,7 +274,11 @@ const PricePredictionForm = () => {
         const result = await response.json();
         console.log(result)
         console.log('Predicted Price:', result.modal);
+        console.log('Min Price:', result.min);
+        console.log('Max Price:', result.max);
         setPredictedPrice(result.modal);
+        setminPrice(result.min);
+        setmaxPrice(result.max);
     console.log(formData);
       } else {
         console.error('Failed to make the prediction request.');
@@ -284,170 +290,426 @@ const PricePredictionForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="Commodity">Commodity:</label>
-        <select
-          id="Commodity"
-          name="Commodity"
-          value={formData.Commodity}
-          onChange={handleInputChange}
-        >
-          <option value="">Select</option>
-          {commodityOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
 
-      <div>
-        <label htmlFor="state_name">State:</label>
-        <select
-          id="state_name"
-          name="state_name"
-          value={formData.state_name}
-          onChange={handleInputChange}
-        >
-          <option value="">Select</option>
-          {stateOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
 
-      <div>
-        <label htmlFor="district_name">District:</label>
-        <select
-          id="district_name"
-          name="district_name"
-          value={formData.district_name}
-          onChange={handleInputChange}
+    <form onSubmit={handleSubmit} className="bg-green-100 p-6 rounded-lg shadow-md">
+     <div className="bg-white-100 min-h-screen">
+      <header className="bg-green-900 p-4 text-white text-center rounded-lg">
+        <h1 className="text-4xl font-semibold">Price Prediction</h1>
+      </header>
+      <div className="container mx-auto mt-4 p-4">
+        <div className="grid gap-4">
+          {/* Dashboard Cards or Widgets */}
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            {/* Card Content Here */}
+            <div className="flex mb-4">
+  {/* Commodity */}
+  <div className="flex-1">
+    <label htmlFor="Commodity" className="block text-sm font-medium text-gray-700">
+      Commodity:
+    </label>
+    <div className="relative inline-block w-32">
+      <select
+        id="Commodity"
+        name="Commodity"
+        value={formData.Commodity}
+        onChange={handleInputChange}
+        className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select</option>
+        {commodityOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {districtOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
 
-      <div>
-        <label htmlFor="market_center_name">Market:</label>
-        <select
-          id="market_center_name"
-          name="market_center_name"
-          value={formData.market_center_name}
-          onChange={handleInputChange}
+  {/* State */}
+  <div className="flex-1 ml-4">
+    <label htmlFor="state_name" className="block text-sm font-medium text-gray-700">
+      State:
+    </label>
+    <div className="relative inline-block w-32">
+      <select
+        id="state_name"
+        name="state_name"
+        value={formData.state_name}
+        onChange={handleInputChange}
+        className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select</option>
+        {stateOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {marketOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
 
-      <div>
-        <label htmlFor="Variety">Variety:</label>
-        <select
-          id="Variety"
-          name="Variety"
-          value={formData.Variety}
-          onChange={handleInputChange}
+  {/* District */}
+  <div className="flex-1 ml-4">
+    <label htmlFor="district_name" className="block text-sm font-medium text-gray-700">
+      District:
+    </label>
+    <div className="relative inline-block w-32">
+      <select
+        id="district_name"
+        name="district_name"
+        value={formData.district_name}
+        onChange={handleInputChange}
+        className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select</option>
+        {districtOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {varietyOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
 
-      <div>
-        <label htmlFor="group_name">Group:</label>
-        <select
-          id="group_name"
-          name="group_name"
-          value={formData.group_name}
-          onChange={handleInputChange}
+  {/* Market */}
+  <div className="flex-1 ml-4">
+    <label htmlFor="market_center_name" className="block text-sm font-medium text-gray-700">
+      Market:
+    </label>
+    <div className="relative inline-block w-32">
+      <select
+        id="market_center_name"
+        name="market_center_name"
+        value={formData.market_center_name}
+        onChange={handleInputChange}
+        className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select</option>
+        {marketOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {groupOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
 
-      {/* Repeat the above block for other dropdowns */}
+  {/* Group */}
+  <div className="flex-1 ml-4">
+    <label htmlFor="group_name" className="block text-sm font-medium text-gray-700">
+      Group:
+    </label>
+    <div className="relative inline-block w-32">
+      <select
+        id="group_name"
+        name="group_name"
+        value={formData.group_name}
+        onChange={handleInputChange}
+        className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select</option>
+        {groupOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  {/* Variety */}
+  <div className="flex-1 ml-4">
+    <label htmlFor="variety_name" className="block text-sm font-medium text-gray-700">
+      Variety:
+    </label>
+    <div className="relative inline-block w-32">
+      <select
+        id="variety_name"
+        name="variety_name"
+        value={formData.variety_name}
+        onChange={handleInputChange}
+        className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select</option>
+        {varietyOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="flex mb-4">
+  {/* day */}
+  <div className="flex-1">
+  <label htmlFor="day" className="block text-sm font-medium text-gray-700">
+      Day:
+    </label>
+    <div className="relative inline-block w-32">
+    <select
+      id="day"
+      name="day"
+      value={formData.day}
+      onChange={handleInputChange}
+      className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+    >
+      <option value="">Select</option>
+      {dayOptions.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+
       
-      <div>
-        <label htmlFor="day">Day:</label>
-        <select
-          id="day"
-          name="day"
-          value={formData.day}
-          onChange={handleInputChange}
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {dayOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
 
-      <div>
-        <label htmlFor="month">Month:</label>
-        <select
-          id="month"
-          name="month"
-          value={formData.month}
-          onChange={handleInputChange}
+  {/* month */}
+  <div className="flex-1 ml-4">
+  <label htmlFor="month" className="block text-sm font-medium text-gray-700">
+      Month:
+    </label>
+    <div className="relative inline-block w-32">
+    <select
+      id="month"
+      name="month"
+      value={formData.month}
+      onChange={handleInputChange}
+      className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+    >
+      <option value="">Select</option>
+      {monthOptions.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {monthOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
 
-      <div>
-        <label htmlFor="year">Year:</label>
-        <select
-          id="year"
-          name="year"
-          value={formData.year}
-          onChange={handleInputChange}
+  {/* year */}
+  <div className="flex-1 ml-4">
+  <label htmlFor="year" className="block text-sm font-medium text-gray-700">
+      Year:
+    </label>
+    <div className="relative inline-block w-32">
+    <select
+      id="year"
+      name="year"
+      value={formData.year}
+      onChange={handleInputChange}
+      className="appearance-none h-10 px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+    >
+      <option value="">Select</option>
+      {yearOptions.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg
+          className="w-4 h-4 text-gray-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          <option value="">Select</option>
-          {yearOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
+    </div>
+  </div>
+  </div>
 
-      <button type="submit">Predict</button>
+  <button
+  type="submit"
+  className="bg-green-500 hover:bg-green-600 text-white mt-10 py-4 px-8 rounded-lg"
+>
+  Predict
+</button>
       {/* Display the predicted price */}
       {predictedPrice !== null && (
-        <div>
-          <h2>Predicted Price:</h2>
-          <p>{predictedPrice}</p>
+      //   <div className="mt-4">
+      //   <h2 className="text-xl font-semibold">Predicted Price:</h2>
+      //   <p className="text-lg text-green-600">{predictedPrice}</p>
+      // </div>
+      <section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-col text-center w-full mb-20">
+    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+  Market Prices for {formData.Commodity ? commodityOptions.find((option) => option.value === formData.Commodity)?.label : "Commodity"} in {formData.state_name ? stateOptions.find((option) => option.value === formData.state_name)?.label : "state_name"}
+</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Explore the market prices for a specific commodity in a particular market center.</p>
+      
+    </div>
+    <div class="flex flex-wrap -m-4 text-center">
+      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+          <h2 class="title-font font-medium text-3xl text-gray-900">{predictedPrice}</h2>
+          <p class="leading-relaxed">Predicted Price</p>
         </div>
+      </div>
+      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+          <h2 class="title-font font-medium text-3xl text-gray-900">{minPrice}</h2>
+          <p class="leading-relaxed">Minimum Price</p>
+        </div>
+      </div>
+      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+          <h2 class="title-font font-medium text-3xl text-gray-900">{maxPrice}</h2>
+          <p class="leading-relaxed">Maximum Price</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    
+
       )}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+  
+
+  
+
+
+
+      
     </form>
   );
 };

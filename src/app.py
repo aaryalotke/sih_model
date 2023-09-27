@@ -40,9 +40,9 @@ def predict():
         state_name = input_data.get('state_name')
         district_name = input_data.get('district_name')
         market_center_name = input_data.get('market_center_name')
-        Variety = input_data.get('Variety')
+        Variety = input_data.get('variety_name')
         group_name = input_data.get('group_name')
-        Arrival = 192
+        Arrival = 118
         day = input_data.get('day')
         month = input_data.get('month')
         year = input_data.get('year')

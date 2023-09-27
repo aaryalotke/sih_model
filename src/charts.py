@@ -2,14 +2,16 @@ from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
 import numpy as np
+from flask_cors import CORS
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/chart": {"origins": "http://localhost:3000"}})
 
 # Load your pre-trained machine learning model
 model = joblib.load('random_forest_model_new.pkl')
 
-@app.route('/chart', methods=['POST'])
+@app.route('/chart', methods=['GET','POST'])
 def predict():
     try:
         # Get input data from the frontend
@@ -40,7 +42,7 @@ def predict():
             market_center_name = 109
             Variety = 2
             group_name = 1
-            Arrival = 192
+            Arrival = 118
             day = start_date.day
             month = start_date.month
             year = start_date.year
