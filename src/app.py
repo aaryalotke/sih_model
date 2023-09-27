@@ -73,33 +73,6 @@ def predict():
         # Perform predictions using your model
         prediction = original_model.predict([feature_values])
         print(prediction)
-
-        #trail2
-        # feature_names = ['Commodity', 'state_name', 'district_name', 'market_center_name', 'Variety', 'group_name', 'Arrival', 'day', 'month', 'year']
-        # feature_values = [Commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
-
-        # # Create a dictionary where keys are feature names and values are feature values
-        # input_data = {feature_name: feature_value for feature_name, feature_value in zip(feature_names, feature_values)}
-
-        # # Perform predictions using your model
-        # prediction = original_model.predict([list(input_data.values())])
-
-        #trail3
-        # int_features=[int(x) for x in input_data.values()]
-        # # final=[np.array(int_features)]
-        # print(int_features)
-        # # print(final)
-        # prediction=original_model.predict(int_features)
-        # print(prediction)
-        # output='{0:.{1}f}'.format(prediction[0][1], 2)
-
-        #trail4
-        # int_features=[int(x) for x in input_data.values()]
-        # model = LinearRegression()
-        # # You would typically load a pre-trained model here if you have one.
-
-        # # Step 4: Inference
-        # prediction = model.predict([int_features])
         
 
 
