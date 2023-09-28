@@ -4,6 +4,7 @@ import ChartOne from './Chart_one';
 import PricePredictionForm from './PricePredictionForm';
 import RestaurantManagerPage from './RestaurantManagerPage';
 import Profile from './Profile';
+import Updateprice from './Updateprice';
 import Dashboard from './dashboard';
 import NotificationsPage from './notifications';
 import InventoryManagement from './inventory';
@@ -34,6 +35,7 @@ function Callsidebar() {
         {activeTab === 'adddish' && <RestaurantManagerPage/>}
         {activeTab === 'Inventory' && <InventoryManagement/>}
         {activeTab === 'profile' && <Profile/>}
+        {activeTab === 'updateprice' && <Updateprice/>}
       </div>
     </div>
   );

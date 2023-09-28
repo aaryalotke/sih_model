@@ -11,6 +11,9 @@ function Sidebar({ activeTab, setActiveTab }) {
     { id: 'adddish', label: 'Add Dish' },
     { id: 'Inventory', label: 'Inventory' },
     { id: 'profile', label: 'Profile' },
+    { id: 'updateprice', label: 'Update Price ?' },
+    
+    
 
   ];
 
