@@ -19,8 +19,7 @@ function Callsidebar() {
       {/* Main Content */}
       <div className="flex-1 p-10">
         {activeTab === 'dashboard' && <Dashboard/>}
-        {activeTab === 'DailyPricePrediction' && 
-          <PricePredictionForm/>}
+        {activeTab === 'DailyPricePrediction' && <PricePredictionForm/>}
         
         {activeTab === 'messages' && <NotificationsPage/>}
         {activeTab === 'settings' && (
@@ -30,7 +29,6 @@ function Callsidebar() {
           </div>
         )}
         {activeTab === 'commodityPrediction' && <ChartOne/>}
-       
         {activeTab === 'adddish' && <RestaurantManagerPage/>}
         {activeTab === 'profile' && <Profile/>}
         {activeTab === 'updateprice' && <Updateprice/>}

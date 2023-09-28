@@ -9,7 +9,8 @@ app = Flask(__name__)
 cors = CORS(app, resources={
     r"/chart": {"origins": "http://localhost:3000"},
     r"/notifs": {"origins": "http://localhost:3000"},
-    r"/predict": {"origins": "http://localhost:3000"}
+    r"/predict": {"origins": "http://localhost:3000"},
+    r"/today": {"origins": "http://localhost:3000"},
 })
 
 # Load your pre-trained machine learning model
@@ -175,6 +176,56 @@ def predict_price():
             'error_message': str(e)
         }
         return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
+
+@app.route('/today', methods=['GET','POST'])
+def today_price():
+    try:
+        current_date = datetime.now().date()
+
+        commodities = {
+            'Onion': 2,
+            'Tomato': 1,
+            'Potato': 3
+        }
+
+        # Initialize an empty dictionary to store responses
+        predictions = {}
+        
+        state_name = 1
+        district_name = 17
+        market_center_name = 109
+        Variety = 2
+        group_name = 1
+        Arrival = 118
+        day = current_date.day
+        month = current_date.month
+        year = current_date.year
+
+        # Loop through commodities and make predictions
+        for commodity, commodity_value in commodities.items():
+            # Perform predictions using your model
+            feature_values = [commodity_value, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
+            prediction = model.predict([feature_values])
+
+            # Store the prediction in the dictionary
+            predictions[commodity] = {
+                'modal': prediction[0][0],
+                'min': prediction[0][1],
+                'max': prediction[0][2],
+            }
+           
+            print("predictions",predictions)
+            print("onion", predictions['Onion']['modal'])
+            # print("onion",predictions[2])
+
+        return jsonify(predictions)
+
+    except Exception as e:
+        # Handle exceptions, e.g., invalid input data
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
