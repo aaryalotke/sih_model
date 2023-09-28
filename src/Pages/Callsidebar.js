@@ -4,6 +4,7 @@ import ChartOne from './Chart_one';
 import PricePredictionForm from './PricePredictionForm';
 import RestaurantManagerPage from './RestaurantManagerPage';
 import Profile from './Profile';
+import Updateprice from './Updateprice';
 
 function Callsidebar() {
        const [activeTab, setActiveTab] = useState('dashboard');
@@ -40,6 +41,7 @@ function Callsidebar() {
        
         {activeTab === 'adddish' && <RestaurantManagerPage/>}
         {activeTab === 'profile' && <Profile/>}
+        {activeTab === 'updateprice' && <Updateprice/>}
       </div>
     </div>
   );
