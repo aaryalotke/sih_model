@@ -6,26 +6,38 @@ import Contactus from './Pages/Contactus';
 import Aboutus from './Pages/Aboutus';
 import reportWebVitals from './reportWebVitals';
 import Header from './Pages/header';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link,Navigate } from 'react-router-dom';
 import Callsidebar from './Pages/Callsidebar';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-<Header/>
+    <Header />
 
-      <Routes>
-        <Route path="/contactus" element={<Contactus />} />
-        <Route path="/aboutus" element={<Aboutus />} />
-        <Route path="/home" element={<Callsidebar />} />
-      </Routes>
-  
-    <App />
+    <Routes>
+      <Route
+        exact
+        path="/"
+        element={<Navigate to="/login" />} // Use Navigate to redirect
+      />
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/contactus" element={<Contactus />} />
+      <Route path="/aboutus" element={<Aboutus />} />
+      <Route path="/home" element={<Callsidebar />} />
+    </Routes>
 
+    {/* <App /> */}
   </Router>
   // <React.StrictMode>
+
+  //   <BrowserRouter>
   //    <Header/>
   //   <App />
+  //   </BrowserRouter>
   // </React.StrictMode>
 );
 
