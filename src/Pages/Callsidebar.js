@@ -9,6 +9,7 @@ import Dashboard from './dashboard';
 import NotificationsPage from './notifications';
 import InventoryManagement from './inventory';
 
+
 function Callsidebar() {
        const [activeTab, setActiveTab] = useState('dashboard');
    return (

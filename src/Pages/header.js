@@ -1,8 +1,26 @@
 import React from "react";
 import logo from "./../cutlery.png";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { auth } from "../firebase";
+import { AuthErrorCodes, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+        console.log("Signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error)
+      });
+  };
+
   return (
     <header className="text-indigo-600 body-font">
       <div className="container flex flex-wrap py-4  mx-7 flex-col md:flex-row items-center w-screen">
@@ -13,7 +31,7 @@ function Header() {
         alt="Logo"
         className="w-10 h-10 rounded-full"
       />
-          <span className="ml-3 text-xl"><Link to="/" class="nav-link active">ByteBistro</Link></span>
+          <span className="ml-3 text-xl"><Link to="/home" class="nav-link active">ByteBistro</Link></span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-black text-base justify-center">
          
@@ -23,7 +41,7 @@ function Header() {
          
         </nav>
         <div className="md:ml-auto md:mr-0 mt-4 md:mt-0">
-          <button className="inline-flex text-white items-center bg-gray-800 border-0 mr-6 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base">
+          <button className="inline-flex text-white items-center bg-gray-800 border-0 mr-6 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base" onClick={handleLogout}>
             Exit
             <svg
               fill="none"
