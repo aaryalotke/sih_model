@@ -56,11 +56,13 @@ function ChartOne() {
   }, [startDay, startMonth, startYear, endDay, endMonth, endYear,selectedCommodity]);
 
   return (
-    <div className="container mx-auto flex px-5 md:flex-row flex-col items-center">
-         <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Commodity Price Prediction</h1>
+    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-white-100 min-h-screen">
+      <header className="bg-gray-800 mb-12 p-4 text-white text-center rounded-lg lg:flex-grow">
+        <h1 className="text-4xl font-semibold">Commodity Price Prediction</h1>
+      </header>
       <div className="my-4">
-      <label className="mr-2 text-lg">Commodity:</label>
+      <label className="mr-6  text-sm font-medium text-gray-700">Commodity :</label>
           <select
             value={selectedCommodity}
             onChange={(e) => setSelectedCommodity(e.target.value)}
@@ -78,7 +80,7 @@ function ChartOne() {
     
 
       <div className="my-4">
-        <label className="mr-2 text-lg">Start Date:</label>
+        <label className="mr-6  text-sm font-medium text-gray-700">Start Date :</label>
         <select
           value={startDay}
           onChange={(e) => setStartDay(e.target.value)}
@@ -117,7 +119,7 @@ function ChartOne() {
         </select>
       </div>
       <div className="my-4">
-        <label className="mr-2 text-lg">End Date : </label>
+        <label className="mr-6  text-sm font-medium text-gray-700">End Date : </label>
         <select
           value={endDay}
           onChange={(e) => setEndDay(e.target.value)}
@@ -162,8 +164,8 @@ function ChartOne() {
         Predict
       </button>
       {chartData ? (
-        <div className="mt-8">
-          <h2 className="text-xl font-bold">Predictions for the Date Range</h2>
+         <div className="md:w-1/2">
+          <h2 className="text-xl font-bold mb-12 ">Predictions for the Date Range</h2>
           <LineChart width={600} height={300} data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />

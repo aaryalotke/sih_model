@@ -9,11 +9,13 @@ function Sidebar({ activeTab, setActiveTab }) {
     { id: 'commodityPrediction', label: 'Commodity Prediction' },
     { id: 'messages', label: 'Messages' },
     { id: 'settings', label: 'Settings' },
+    { id: 'adddish', label: 'Add Dish' },
+    { id: 'profile', label: 'Profile' },
 
   ];
 
   return (
-    <div className="w-1/5 bg-gray-800 h-screen py-8">
+    <div className="w-1/5 bg-gray-800 rounded-lg h-100 py-8">
       <ul className="space-y-2 h-20">
         {tabs.map((tab) => (
           <li key={tab.id}>
@@ -35,3 +37,6 @@ function Sidebar({ activeTab, setActiveTab }) {
 }
 
 export default Sidebar;
+
+
+

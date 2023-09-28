@@ -292,15 +292,15 @@ const PricePredictionForm = () => {
   return (
 
 
-    <form onSubmit={handleSubmit} className="bg-green-100 p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
      <div className="bg-white-100 min-h-screen">
-      <header className="bg-green-900 p-4 text-white text-center rounded-lg">
+      <header className="bg-gray-800 p-4 text-white text-center rounded-lg">
         <h1 className="text-4xl font-semibold">Price Prediction</h1>
       </header>
       <div className="container mx-auto mt-4 p-4">
         <div className="grid gap-4">
           {/* Dashboard Cards or Widgets */}
-          <div className="bg-white p-4 rounded-lg shadow-md">
+          <div className=" p-4 rounded-lg ">
             {/* Card Content Here */}
             <div className="flex mb-4">
   {/* Commodity */}
@@ -652,7 +652,7 @@ const PricePredictionForm = () => {
 
   <button
   type="submit"
-  className="bg-green-500 hover:bg-green-600 text-white mt-10 py-4 px-8 rounded-lg"
+  className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8 "
 >
   Predict
 </button>
