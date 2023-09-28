@@ -21,6 +21,7 @@ def chart_predict():
     try:
         # Get input data from the frontend
         data = request.json
+        Commodity = int(data['commodity'])
         start_day = int(data['start_day'])
         start_month = int(data['start_month'])
         start_year = int(data['start_year'])
@@ -39,7 +40,7 @@ def chart_predict():
         while start_date <= end_date:
             # Extract relevant features from the current date
             # Modify these as needed to match your dataset
-            Commodity = 1
+            Commodity = Commodity
             state_name = 1
             district_name = 17
             market_center_name = 109
