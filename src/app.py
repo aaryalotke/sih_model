@@ -1,41 +1,150 @@
 from flask import Flask, request, jsonify
 import joblib
-from flask_cors import CORS
-import pickle
+import pandas as pd
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
-
+from flask_cors import CORS
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
+cors = CORS(app, resources={
+    r"/chart": {"origins": "http://localhost:3000"},
+    r"/notifs": {"origins": "http://localhost:3000"},
+    r"/predict": {"origins": "http://localhost:3000"}
+})
 
-# Import and load your pre-trained machine learning model
-# from random_forest_model.plk import load_model  # Replace with your actual model import
+# Load your pre-trained machine learning model
+model = joblib.load('random_forest_model_new.pkl')
 
-# model = joblib.load('random_forest_model.pkl') # Load your pre-trained model
+@app.route('/chart', methods=['GET', 'POST'])
+def chart_predict():
+    try:
+        # Get input data from the frontend
+        data = request.json
+        start_day = int(data['start_day'])
+        start_month = int(data['start_month'])
+        start_year = int(data['start_year'])
+        end_day = int(data['end_day'])
+        end_month = int(data['end_month'])
+        end_year = int(data['end_year'])
+    
+        # Create a start date and end date object
+        start_date = datetime(start_year, start_month, start_day)
+        end_date = datetime(end_year, end_month, end_day)
+
+        # Initialize an empty list to store predictions
+        predictions = []
+
+        # Loop through the date range and make predictions
+        while start_date <= end_date:
+            # Extract relevant features from the current date
+            # Modify these as needed to match your dataset
+            Commodity = 1
+            state_name = 1
+            district_name = 17
+            market_center_name = 109
+            Variety = 2
+            group_name = 1
+            Arrival = 118
+            day = start_date.day
+            month = start_date.month
+            year = start_date.year
+
+            # Perform predictions using your model
+            feature_values = [Commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
+            prediction = model.predict([feature_values])
+
+            # Append the prediction to the list
+            predictions.append({
+                'date': start_date.strftime('%d-%m-%Y'),
+                'modal': prediction[0][0],
+                'min': prediction[0][1],
+                'max': prediction[0][2]
+            })
+
+            # Increment the date by one day
+            start_date += timedelta(days=1)
+
+        # Construct the response with predictions
+        response = {'predictions': predictions}
+        return jsonify(response)
+
+    except Exception as e:
+        # Handle exceptions
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
+
+@app.route('/notifs', methods=['GET', 'POST'])
+def notifs_predict():
+    try:
+        # Calculate the end date as 10 days from the current date
+        current_date = datetime.now().date()
+        end_date = current_date + timedelta(days=3)
+
+        # Initialize an empty list to store predictions
+        all_predictions = []
+
+        # Loop through commodities 1 to 3
+        for commodity in range(1, 4):  # Assumes 1 is tomatoes, 2 is onions, 3 is potatoes
+            commodity_predictions = []
+
+            # Reset the current_date for each commodity
+            current_date = datetime.now().date()
+
+            # Loop through the date range and make predictions
+            while current_date <= end_date:
+                # Extract relevant features from the current date
+                # Modify these as needed to match your dataset
+                state_name = 1
+                district_name = 17
+                market_center_name = 109
+                Variety = 2
+                group_name = 1
+                Arrival = 118
+                day = current_date.day
+                month = current_date.month
+                year = current_date.year
+
+                # Perform predictions using your model
+                feature_values = [commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
+                prediction = model.predict([feature_values])
+
+                # Append the prediction to the list
+                commodity_predictions.append({
+                    'date': current_date.strftime('%d-%m-%Y'),
+                    'modal': prediction[0][0],
+                    'min': prediction[0][1],
+                    'max': prediction[0][2],
+                    'commodity': commodity
+                })
+
+                # Increment the date by one day
+                current_date += timedelta(days=1)
+
+            # Append the commodity predictions to the all_predictions list
+            all_predictions.extend(commodity_predictions)
+
+        # Construct the response with all predictions
+        response = {'predictions': all_predictions}
+        return jsonify(response)
+
+    except Exception as e:
+        # Handle exceptions
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
 
 
-# original_model = joblib.load('random_forest_model.pkl')
-original_model: RandomForestRegressor = joblib.load('random_forest_model_new.pkl')
-# joblib.dump(original_model, 'compatible_model.pkl')
-@app.route('/predict', methods=['GET','POST'])
 
-
-# @app.route('/test')
-# def test_route():
-#     return 'Test route works'
-
-def predict():
-    print("inside predicting function")
+@app.route('/predict', methods=['GET', 'POST'])
+def predict_price():
     try:
         # Handle the incoming data
         input_data = request.get_json()  # Assuming the data is sent as JSON
-        print(input_data)
-        print("Received headers:", request.headers)
-        print("Received data:", request.data)
         
-        #Extract relevant features from the input data
+        # Extract relevant features from the input data
         Commodity = input_data.get('Commodity')
         state_name = input_data.get('state_name')
         district_name = input_data.get('district_name')
@@ -47,45 +156,16 @@ def predict():
         month = input_data.get('month')
         year = input_data.get('year')
 
-        # Commodity = 1
-        # state_name = 1
-        # district_name = 17
-        # market_center_name = 109
-        # Variety = 2
-        # group_name = 1
-        # Arrival = 192
-        # day = 22
-        # month = 9
-        # year = 2023
-
-        # Add more features as needed
-
         # Perform predictions using your model
-        print("before")
-        #prediction = original_model.predict([[ 'Commodity', 'state_name', 'district_name', 'market_center_name', 'Variety', 'group_name', 'Arrival', 'day', 'month', 'year']])  # Replace with your model's predict function
-        # original_model.set_params(feature_names=['Commodity', 'state_name', 'district_name', 'market_center_name', 'Variety', 'group_name', 'Arrival', 'day', 'month', 'year']) # Replace with your actual feature names
-        # prediction = original_model.predict(feature_names)
-
-        #trial1
         feature_values = [Commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
-        print(feature_values)
+        prediction = model.predict([feature_values])
 
-        # Perform predictions using your model
-        prediction = original_model.predict([feature_values])
-        print(prediction)
-        
-
-
-        print(prediction[0][0])
-        print("after")
         # Construct the response with the prediction result
         response = {
-            'modal': prediction[0][0], # Assuming a single prediction result
-            'min': prediction[0][1], # Assuming a single prediction result
-            'max': prediction[0][2],  # Assuming a single prediction result
+            'modal': prediction[0][0],
+            'min': prediction[0][1],
+            'max': prediction[0][2],
         }
-        print("incoming")
-        print(response)
 
         return jsonify(response)
 
