@@ -13,7 +13,7 @@ import {
   Legend,
 } from "recharts";
 
-import sales from './sales.png'
+import sales from './sales.png';
 
 const Dashboard = () => {
   const barChartData = [
@@ -37,7 +37,7 @@ const Dashboard = () => {
   const commodities = [
     { name: "Daily Sales", price: 1500 },
     { name: "Monthly Sales", price: 25 },
-
+    { name: "Monthly Sales", price: 25 },
   ];
 
   const data = [
@@ -61,129 +61,132 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="container p-8 m-2">
-      <h3 className="text-xl mb-2">Dashboard</h3>
-    <div className="flex flex-wrap gap-4 mb-4">
-      {commodities.map((commodity, index) => (
-        <div key={index} className="bg-white rounded-lg shadow-lg p-4" style={{ width: "calc(50% - 1rem)" }}>
-          <div className="flex items-center">
-            <img
-              src={sales}
-              alt="Image"
-              className="w-20 h-20 rounded-tl-lg mr-12"
-            />
-            <div className="">
-              <h2 className="text-lg font-semibold mb-2">{commodity.name}</h2>
-              <div className="text-gray-600">Price: ${commodity.price}</div>
-              <div className="text-gray-600">+50% sales</div>
+    <div className="grid grid-cols-4 h-screen">
+
+      {/* Main Content */}
+      <div className="col-span-3 p-8">
+        <h3 className="text-xl mb-2">Dashboard</h3>
+        <div className="flex flex-wrap gap-4 mb-4">
+          {commodities.map((commodity, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg shadow-lg p-4"
+              style={{ width: "100%", maxWidth: "320px" }}
+            >
+              <div className="flex items-center">
+                <img
+                  src={sales}
+                  alt="Image"
+                  className="w-20 h-20 rounded-tl-lg mr-12"
+                />
+                <div className="">
+                  <h2 className="text-lg font-semibold mb-2">
+                    {commodity.name}
+                  </h2>
+                  <div className="text-gray-600">Price: ${commodity.price}</div>
+                  <div className="text-gray-600">+50% sales</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-4 mb-4">
+          {/* Charts */}
+          <div className="flex-grow bg-white rounded-lg shadow-md p-4">
+            <h2 className="text-lg font-semibold ml-16 mb-2">Daily Analysis</h2>
+            <div className="border-t border-gray-300 my-2"></div>
+            <BarChart width={350} height={200} data={barChartData}>
+              <Bar dataKey="value" fill="#8884d8" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+            </BarChart>
+          </div>
+          <div className="flex-grow bg-white rounded-lg shadow-lg p-4">
+            <h2 className="text-lg font-semibold ml-16 mb-2">Commodities</h2>
+            <div className="border-t border-gray-300 my-2"></div>
+            <PieChart width={350} height={200}>
+              <Pie
+                dataKey="value"
+                isAnimationActive={false}
+                data={pieChartData}
+                fill="#8884d8"
+                label
+              />
+              <Tooltip />
+            </PieChart>
+          </div>
+          <div className="flex-grow bg-white rounded-lg shadow-lg p-4">
+            <h2 className="text-lg font-semibold ml-16 mb-2">
+              Monthly Analysis
+            </h2>
+            <div className="border-t border-gray-300 my-2"></div>
+            <LineChart width={350} height={200} data={lineChartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="value" stroke="#8884d8" />
+            </LineChart>
+          </div>
+        </div>
+        <div style={{ marginLeft: '1px' }}>
+          <div className="max-w-3xl p-6 rounded-lg shadow-md bg-white">
+            <h1 className="text-3xl font-semibold mb-4">Commodities Analytics</h1>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[640px] table-auto rounded-lg bg-blue-50">
+                <thead className="bg-blue-100">
+                  <tr>
+                    {[
+                      "Icon",
+                      "Name",
+                      "Price",
+                      "Quantity Sold",
+                      "Revenue",
+                      "Category",
+                    ].map((el, index) => (
+                      <th
+                        key={index}
+                        className={`border-b border-blue-200 py-3 px-6 text-left ${
+                          index === 6 ? '' : 'text-sm font-medium text-blue-500'
+                        }`}
+                      >
+                        {el}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((item, index) => (
+                    <tr
+                      key={index}
+                      className={`py-3 px-5 ${
+                        index === data.length - 1 ? '' : 'border-b border-blue-200'
+                      }`}
+                    >
+                      <td className="py-2">
+                        <img
+                          src={item.icon}
+                          alt={`Icon for ${item.name}`}
+                          width="30"
+                          height="30"
+                          className="rounded-full"
+                        />
+                      </td>
+                      <td className="py-2">{item.name}</td>
+                      <td className="py-2">${item.price.toFixed(2)}</td>
+                      <td className="py-2">{item.quantitySold}</td>
+                      <td className="py-2">${item.revenue.toFixed(2)}</td>
+                      <td className="py-2">{item.category}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      ))}
-</div>
-      <div className="flex flex-row gap-8 mr-2 mb-4">
-        <div className="bg-white rounded-lg shadow-md p-4 mr-2" style={{ width: "33%" }}>
-          <div className="relative">
-            {/* <img
-              src="/your-image-url.png"
-              alt="Image"
-              className="absolute top-0 left-0 w-16 h-16 rounded-tl-lg"
-            /> */}
-            <h2 className="text-lg font-semibold ml-16 mb-2">Daily Analysis</h2>
-          </div>
-          <div className="border-t border-gray-300 my-2"></div>
-          {/* <p className="text-gray-600">+50% sales</p> */}
-          <BarChart width={350} height={200} data={barChartData}>
-            <Bar dataKey="value" fill="#8884d8" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-          </BarChart>
-        </div>
-        <div className="bg-white rounded-lg shadow-lg p-4 mr-2" style={{ width: "33%" }}>
-          <div className="relative">
-            {/* <img
-              src="/your-image-url.png"
-              alt="Image"
-              className="absolute top-0 left-0 w-16 h-16 rounded-tl-lg"
-            /> */}
-            <h2 className="text-lg font-semibold ml-16 mb-2">Commodities</h2>
-          </div>
-          <div className="border-t border-gray-300 my-2"></div>
-          {/* <p className="text-gray-600">+50% sales</p> */}
-          <PieChart width={350} height={200}>
-            <Pie dataKey="value" isAnimationActive={false} data={pieChartData} fill="#8884d8" label />
-            <Tooltip />
-          </PieChart>
-        </div>
-        <div className="bg-white rounded-lg shadow-lg p-4 m-2" style={{ width: "33%" }}>
-          <div className="relative">
-            {/* <img
-              src="/your-image-url.png"
-              alt="Image"
-              className="absolute top-0 left-0 w-16 h-16 rounded-tl-lg"
-            /> */}
-            <h2 className="text-lg font-semibold ml-16 mb-2">Monthly Analysis</h2>
-          </div>
-          <div className="border-t border-gray-300 my-2"></div>
-          {/* <p className="text-gray-600">+50% sales</p> */}
-          <LineChart width={350} height={200} data={lineChartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="value" stroke="#8884d8" />
-          </LineChart>
-        </div>
       </div>
-      <div style={{ marginLeft: '1px' }}>
-    <div className="max-w-3xl p-6 rounded-lg shadow-md bg-white">
-      <h1 className="text-3xl font-semibold mb-4">Commodities Analytics</h1>
-
-      {/* Data Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[640px] table-auto rounded-lg bg-blue-50">
-          <thead className="bg-blue-100">
-            <tr>
-              {["Icon", "Name", "Price", "Quantity Sold", "Revenue", "Category"].map(
-                (el, index) => (
-                  <th
-                    key={index}
-                    className={`border-b border-blue-200 py-3 px-6 text-left ${
-                      index === 6 ? '' : 'text-sm font-medium text-blue-500'
-                    }`}
-                  >
-                    {el}
-                  </th>
-                )
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr
-                key={index}
-                className={`py-3 px-5 ${index === data.length - 1 ? '' : 'border-b border-blue-200'}`}
-              >
-                <td className="py-2">
-                  <img src={item.icon} alt={`Icon for ${item.name}`} width="30" height="30" className="rounded-full" />
-                </td>
-                <td className="py-2">{item.name}</td>
-                <td className="py-2">${item.price.toFixed(2)}</td>
-                <td className="py-2">{item.quantitySold}</td>
-                <td className="py-2">${item.revenue.toFixed(2)}</td>
-                <td className="py-2">{item.category}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    </div>
-
- 
-
     </div>
   );
 };

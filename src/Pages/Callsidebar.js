@@ -7,11 +7,13 @@ import Profile from './Profile';
 import Updateprice from './Updateprice';
 import Dashboard from './dashboard';
 import NotificationsPage from './notifications';
+import InventoryManagement from './inventory';
+
 
 function Callsidebar() {
        const [activeTab, setActiveTab] = useState('dashboard');
    return (
-    <div className="flex min-h-screen bg-gray-200">
+    <div className="flex min-h-screen min-w-screen bg-gray-200">
       
       {/* Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -30,6 +32,7 @@ function Callsidebar() {
         )}
         {activeTab === 'commodityPrediction' && <ChartOne/>}
         {activeTab === 'adddish' && <RestaurantManagerPage/>}
+        {activeTab === 'Inventory' && <InventoryManagement/>}
         {activeTab === 'profile' && <Profile/>}
         {activeTab === 'updateprice' && <Updateprice/>}
       </div>
