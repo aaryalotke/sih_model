@@ -5,6 +5,8 @@ import PricePredictionForm from './PricePredictionForm';
 import RestaurantManagerPage from './RestaurantManagerPage';
 import Profile from './Profile';
 import Updateprice from './Updateprice';
+import Dashboard from './dashboard';
+import NotificationsPage from './notifications';
 
 function Callsidebar() {
        const [activeTab, setActiveTab] = useState('dashboard');
@@ -16,21 +18,11 @@ function Callsidebar() {
 
       {/* Main Content */}
       <div className="flex-1 p-10">
-        {activeTab === 'dashboard' && (
-          <div>
-            <h1 className="text-3xl font-semibold">Dashboard</h1>
-            <p className="text-lg">This is the dashboard content.</p>
-          </div>
-        )}
+        {activeTab === 'dashboard' && <Dashboard/>}
         {activeTab === 'DailyPricePrediction' && 
           <PricePredictionForm/>}
         
-        {activeTab === 'messages' && (
-          <div>
-            <h1 className="text-3xl font-semibold">Messages</h1>
-            <p className="text-lg">This is the messages content.</p>
-          </div>
-        )}
+        {activeTab === 'messages' && <NotificationsPage/>}
         {activeTab === 'settings' && (
           <div>
             <h1 className="text-3xl font-semibold">Settings</h1>
