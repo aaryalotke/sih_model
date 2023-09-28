@@ -9,7 +9,7 @@ const RestaurantManagerPage = () => {
 
   const handleAddDish = () => {
     const newDish = {
-      name: "New Dish",
+      name: "",
       ingredients: [],
       otherCosts: 0,
       numberOfPlates: 1,
@@ -22,7 +22,7 @@ const RestaurantManagerPage = () => {
 
   const handleAddIngredient = (dishIndex) => {
     const newIngredient = {
-      name: "Ingredient Name",
+      name: "",
       quantity: 0,
     };
 

@@ -12,6 +12,8 @@ import Callsidebar from './Pages/Callsidebar';
 import Login from './Pages/Login';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Routes from './Routes';
+import Landing from './Pages/landing';
+
 
 
 function App() {
@@ -19,7 +21,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   return (
-      <Login/>
+      
+<Landing/>
       
   );
 }

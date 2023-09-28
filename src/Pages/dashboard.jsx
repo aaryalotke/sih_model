@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   const commodities = [
     { name: "Daily Sales", price: 1500 },
-    { name: "Monthly Sales", price: 25 },
+    { name: "Weekly Sales", price: 25 },
     { name: "Monthly Sales", price: 25 },
   ];
 
@@ -44,7 +44,7 @@ const Dashboard = () => {
     {
       icon: 'https://media.istockphoto.com/id/499146870/photo/red-onions.jpg?s=612x612&w=0&k=20&c=OaZUynAtxIJyPaSgAsAGWwAbpTs_EfKF5zT_UvBDpbY=',
       name: 'Onion',
-      price: 2.5,
+      price: 15,
       quantitySold: 500,
       revenue: 1250,
       category: 'Vegetable',
@@ -52,7 +52,7 @@ const Dashboard = () => {
     {
       icon: 'https://thumbs.dreamstime.com/b/one-juicy-red-tomato-isolated-white-background-54347510.jpg',
       name: 'Tomato',
-      price: 1.5,
+      price: 10,
       quantitySold: 700,
       revenue: 1050,
       category: 'Vegetable',
@@ -83,7 +83,7 @@ const Dashboard = () => {
                   <h2 className="text-lg font-semibold mb-2">
                     {commodity.name}
                   </h2>
-                  <div className="text-gray-600">Price: ${commodity.price}</div>
+                  <div className="text-gray-600">Price: Rs {commodity.price}</div>
                   <div className="text-gray-600">+50% sales</div>
                 </div>
               </div>
@@ -175,9 +175,9 @@ const Dashboard = () => {
                         />
                       </td>
                       <td className="py-2">{item.name}</td>
-                      <td className="py-2">${item.price.toFixed(2)}</td>
+                      <td className="py-2">Rs.{item.price.toFixed(2)}</td>
                       <td className="py-2">{item.quantitySold}</td>
-                      <td className="py-2">${item.revenue.toFixed(2)}</td>
+                      <td className="py-2">Rs.{item.revenue.toFixed(2)}</td>
                       <td className="py-2">{item.category}</td>
                     </tr>
                   ))}

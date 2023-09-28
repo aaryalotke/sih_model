@@ -11,7 +11,7 @@ const InventoryManagement = () => {
             currentStock: 90,
             minStockThreshold: 50,
             reorderQuantity: 100,
-            unitCost: 20,
+            unitCost: 15,
             lastUpdated: '9/28/2023',
         },
         {
@@ -22,7 +22,7 @@ const InventoryManagement = () => {
             currentStock: 30,
             minStockThreshold: 50,
             reorderQuantity: 150,
-            unitCost: 17,
+            unitCost: 10,
             lastUpdated: '9/28/2023',
         },
         {
@@ -33,7 +33,7 @@ const InventoryManagement = () => {
             currentStock: 200,
             minStockThreshold: 50,
             reorderQuantity: 150,
-            unitCost: 15,
+            unitCost: 12,
             lastUpdated: '9/28/2023',
         },
         {

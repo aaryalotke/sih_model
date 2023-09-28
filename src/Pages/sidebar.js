@@ -5,13 +5,15 @@ import React from 'react';
 function Sidebar({ activeTab, setActiveTab }) {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard' },
-    { id: 'DailyPricePrediction', label: 'Daily Prices' },
-    { id: 'commodityPrediction', label: 'Commodity Prediction' },
-    { id: 'messages', label: 'Alerts' },
-    { id: 'adddish', label: 'Add Dish' },
-    { id: 'Inventory', label: 'Inventory' },
     { id: 'profile', label: 'Profile' },
-    { id: 'updateprice', label: 'Update Price ?' },
+    { id: 'adddish', label: 'Add Dish' },
+    { id: 'updateprice', label: 'Today\'s Market Price' },
+    { id: 'DailyPricePrediction', label: 'Real Time Analysis' },
+    { id: 'commodityPrediction', label: 'Commodity Prediction' },
+    { id: 'Inventory', label: 'Inventory' },
+    { id: 'messages', label: 'Alerts' },
+   
+  
     
     
 

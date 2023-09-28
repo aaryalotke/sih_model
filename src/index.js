@@ -11,6 +11,7 @@ import Callsidebar from './Pages/Callsidebar';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import { BrowserRouter } from 'react-router-dom';
+import Landing from './Pages/landing';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,8 +22,9 @@ root.render(
       <Route
         exact
         path="/"
-        element={<Navigate to="/login" />} // Use Navigate to redirect
+        element={<Navigate to="/landing" />} // Use Navigate to redirect
       />
+       <Route path="/landing" element={<Landing/>}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<Signup />} />
       <Route path="/contactus" element={<Contactus />} />
