@@ -97,6 +97,7 @@ const IngredientPriceInput = ({ ingredients, platesPerDish  }) => {
                 .reduce((sum, cost) => sum + cost, 0)
             ).toFixed(2)}
           </p>
+          
 
         </div>
       )}
