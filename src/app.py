@@ -19,8 +19,10 @@ model = joblib.load('random_forest_model_new.pkl')
 @app.route('/chart', methods=['GET', 'POST'])
 def chart_predict():
     try:
+        
         # Get input data from the frontend
         data = request.json
+        print(data)
         Commodity = int(data['commodity'])
         start_day = int(data['start_day'])
         start_month = int(data['start_month'])
@@ -28,6 +30,9 @@ def chart_predict():
         end_day = int(data['end_day'])
         end_month = int(data['end_month'])
         end_year = int(data['end_year'])
+        state_name = int(data.get['state'])
+        district_name = int(data.get['district'])
+        market_center_name = int(data.get['market'])
     
         # Create a start date and end date object
         start_date = datetime(start_year, start_month, start_day)
@@ -40,10 +45,10 @@ def chart_predict():
         while start_date <= end_date:
             # Extract relevant features from the current date
             # Modify these as needed to match your dataset
+            # state_name = 1
+            # district_name = 1
+            # market_center_name = 1
             Commodity = Commodity
-            state_name = 1
-            district_name = 17
-            market_center_name = 109
             Variety = 2
             group_name = 1
             Arrival = 118
