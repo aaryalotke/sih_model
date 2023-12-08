@@ -666,7 +666,7 @@ const PricePredictionForm = () => {
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-20">
     <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
-  Market Prices for {formData.Commodity ? commodityOptions.find((option) => option.value === formData.Commodity)?.label : "Commodity"} in {formData.state_name ? stateOptions.find((option) => option.value === formData.state_name)?.label : "state_name"}
+  Market Prices Per Quintal for {formData.Commodity ? commodityOptions.find((option) => option.value === formData.Commodity)?.label : "Commodity"} in {formData.state_name ? stateOptions.find((option) => option.value === formData.state_name)?.label : "state_name"}
 </h1>
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Explore the market prices for a specific commodity in a particular market center.</p>
       
