@@ -8,6 +8,7 @@ import Updateprice from './Updateprice';
 import Dashboard from './dashboard';
 import NotificationsPage from './notifications';
 import InventoryManagement from './inventory';
+import Comparison from './Comparison';
 
 
 function Callsidebar() {
@@ -33,7 +34,7 @@ function Callsidebar() {
         {activeTab === 'commodityPrediction' && <ChartOne/>}
         {activeTab === 'adddish' && <RestaurantManagerPage/>}
         {activeTab === 'Inventory' && <InventoryManagement/>}
-        {activeTab === 'profile' && <Profile/>}
+        {activeTab === 'profile' && <Comparison/>}
         {activeTab === 'updateprice' && <Updateprice/>}
       </div>
     </div>

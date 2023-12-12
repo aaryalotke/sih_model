@@ -11,6 +11,7 @@ cors = CORS(app, resources={
     r"/notifs": {"origins": "http://localhost:3000"},
     r"/predict": {"origins": "http://localhost:3000"},
     r"/today": {"origins": "http://localhost:3000"},
+     r"/compare": {"origins": "http://localhost:3000"},
 })
 
 # Load your pre-trained machine learning model
@@ -21,6 +22,7 @@ def chart_predict():
     try:
         # Get input data from the frontend
         data = request.json
+        print(data)
         Commodity = int(data['commodity'])
         start_day = int(data['start_day'])
         start_month = int(data['start_month'])
@@ -28,10 +30,16 @@ def chart_predict():
         end_day = int(data['end_day'])
         end_month = int(data['end_month'])
         end_year = int(data['end_year'])
+        state = int(data.get('state'))  # Default value is 1, update as needed
+        district = int(data.get('district'))  # Default value is 17, update as needed
+        market = int(data.get('market'))  # Default value is 109, update as needed
     
         # Create a start date and end date object
         start_date = datetime(start_year, start_month, start_day)
         end_date = datetime(end_year, end_month, end_day)
+        state_name = state
+        district_name = district
+        market_center_name = market
 
         # Initialize an empty list to store predictions
         predictions = []
@@ -41,9 +49,9 @@ def chart_predict():
             # Extract relevant features from the current date
             # Modify these as needed to match your dataset
             Commodity = Commodity
-            state_name = 1
-            district_name = 17
-            market_center_name = 109
+            # state_name = 1
+            # district_name = 17
+            # market_center_name = 109
             Variety = 2
             group_name = 1
             Arrival = 118
@@ -218,6 +226,62 @@ def today_price():
             print("predictions",predictions)
             print("onion", predictions['Onion']['modal'])
             # print("onion",predictions[2])
+
+        return jsonify(predictions)
+
+    except Exception as e:
+        # Handle exceptions, e.g., invalid input data
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400
+    
+@app.route('/compare', methods=['GET','POST'])
+def compare_price():
+    try:
+        data = request.json
+        print(data)
+        # Extract parameters from the request
+        state_name = data['state']
+        district_name = data['district']
+        day = data['day']
+        month = data['month']
+        year = data['year']
+        market_values = data['markets']
+        Variety = 2
+        group_name = 1
+        Arrival = 118
+
+        # Sample commodities
+        commodities = {
+            'Onion': 2,
+            'Tomato': 1,
+            'Potato': 3
+        }
+
+        # Initialize an empty dictionary to store responses
+        predictions = {}
+
+        for commodity, commodity_value in commodities.items():
+            # Assuming your model features are in the following order
+            feature_values = [commodity_value, state_name, district_name, None, Variety, group_name, Arrival, day, month, year]
+
+            # Loop through market values and make predictions
+            for market_value in market_values:
+                # Update market center name for each iteration
+                feature_values[3] = market_value
+
+                # Perform predictions using your model
+                prediction = model.predict([feature_values])
+
+                # Store the prediction in the dictionary
+                predictions.setdefault(commodity, {})[market_value] = {
+                    'modal': prediction[0][0],
+                    'min': prediction[0][1],
+                    'max': prediction[0][2],
+                }
+            
+            print(predictions)
 
         return jsonify(predictions)
 
