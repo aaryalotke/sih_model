@@ -9,6 +9,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     { id: 'adddish', label: 'Add Dish' },
     { id: 'updateprice', label: 'Today\'s Market Price' },
     { id: 'DailyPricePrediction', label: 'Real Time Analysis' },
+    { id: 'comparison', label: 'Comparison' },
     { id: 'commodityPrediction', label: 'Commodity Prediction' },
     { id: 'Inventory', label: 'Inventory' },
     { id: 'messages', label: 'Alerts' },

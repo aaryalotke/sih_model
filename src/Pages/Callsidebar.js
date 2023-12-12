@@ -34,7 +34,8 @@ function Callsidebar() {
         {activeTab === 'commodityPrediction' && <ChartOne/>}
         {activeTab === 'adddish' && <RestaurantManagerPage/>}
         {activeTab === 'Inventory' && <InventoryManagement/>}
-        {activeTab === 'profile' && <Comparison/>}
+        {activeTab === 'profile' && <Profile/>}
+        {activeTab === 'comparison' && <Comparison/>}
         {activeTab === 'updateprice' && <Updateprice/>}
       </div>
     </div>
