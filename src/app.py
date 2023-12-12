@@ -20,6 +20,7 @@ model = joblib.load('random_forest_model_new.pkl')
 @app.route('/chart', methods=['GET', 'POST'])
 def chart_predict():
     try:
+        
         # Get input data from the frontend
         data = request.json
         print(data)
@@ -48,6 +49,9 @@ def chart_predict():
         while start_date <= end_date:
             # Extract relevant features from the current date
             # Modify these as needed to match your dataset
+            # state_name = 1
+            # district_name = 1
+            # market_center_name = 1
             Commodity = Commodity
             # state_name = 1
             # district_name = 17
