@@ -45,25 +45,23 @@ function Comparison() {
   const stateOptions = [{ value: "1", label: "Maharashtra" }];
 
   const districtOptions = [
-    { value: "1", label: "Ahmednagar" },
-    { value: "10", label: "Pune" },
+    { value: "6", label: "Jalgaon" },
+    { value: "2", label: "Sholapur" },
     // Add other districts as needed
   ];
 
   const marketMapping = {
-    10: ["Baramati", "Pune", "Junnar", "Indapur"],
-    1: ["Ahmednagar", "Akole", "Jamkhed"],
+    6: ["Jalgaon", "Bhusaval"],
+    2: ["Solapur", "Akluj"],
     // Add mappings for other districts as needed
   };
 
   const marketOptions = [
-    { value: "44", label: "Baramati" },
-    { value: "25", label: "Pune" },
-    { value: "12", label: "Junnar" },
-    { value: "54", label: "Indapur" },
-    { value: "1", label: "Ahmednagar" },
-    { value: "42", label: "Akole" },
-    { value: "55", label: "Jamkhed" },
+    { value: "11", label: "Jalgaon" },
+    { value: "6", label: "Bhusaval" },
+    { value: "2", label: "Akluj" },
+    { value: "37", label: "Solapur" },
+ 
     // Additional markets...
   ];
 
@@ -420,7 +418,7 @@ function Comparison() {
     <div className="w-full sm:w-1/2 lg:w-1/4 mb-4 sm:mb-0 p-10">
       <div className="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
         <h2 className="title-font font-medium text-3xl text-gray-900">
-          {cheapestMarketData.modalPrice}
+          {cheapestMarketData.modalPrice.toFixed(3)}
         </h2>
         <p className="leading-relaxed">Cheapest Modal Price</p>
         <p className="leading-relaxed">

@@ -56,7 +56,7 @@ const NotificationsPage = () => {
                       >
                         On {prediction.date},{" "}
                         {getCommodityName(prediction.commodity)} prices are high
-                        ({prediction.modal}) STOCK UP STOCK UP.
+                        ({prediction.modal.toFixed(3)}) STOCK UP STOCK UP.
                       </div>
                     )
                 )}
@@ -81,7 +81,7 @@ const NotificationsPage = () => {
                     >
                       On {prediction.date},{" "}
                       {getCommodityName(prediction.commodity)} prices are going
-                      to be moderately high ({prediction.modal}).
+                      to be moderately high ({prediction.modal.toFixed(3)}).
                     </div>
                   )
               )}
@@ -107,7 +107,7 @@ const NotificationsPage = () => {
                     >
                       On {prediction.date},{" "}
                       {getCommodityName(prediction.commodity)} prices are
-                      cheaper than usual ({prediction.modal}) STOCK UP STOCK UP.
+                      cheaper than usual ({prediction.modal.toFixed(3)}) STOCK UP STOCK UP.
                     </div>
                   )
               )}
