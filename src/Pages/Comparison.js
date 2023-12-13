@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from "react";
-// import { BarChart, Bar, ReferenceLine } from "recharts";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
-
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import axios from "axios";
+import { BarLoader } from "react-spinners";
 
 function Comparison() {
-
+ 
   const [selectedDay, setSelectedDay] = useState("1");
+  
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState("01");
   const [selectedYear, setSelectedYear] = useState("2021");
   const [chartData, setChartData] = useState(null);
@@ -101,6 +94,9 @@ function Comparison() {
 
   const fetchData = async () => {
     try {
+      setIsLoadingData(true); 
+      setCheapestMarketData(null); // Reset cheapestMarketData
+      setSavingsPercentage(0); 
       // Get all associated market values based on the selected district
       const marketValues = getMarketValuesForDistrict(selectedDistrict);
       console.log(marketValues);
@@ -122,9 +118,12 @@ function Comparison() {
       console.log(compareResponse.data);
       // Set the chart data state with the data received from the comparison API
       setChartData(compareResponse.data);
+      console.log("hahaha")
       console.log(chartData);
     } catch (error) {
       console.error("Error fetching comparison data:", error);
+    }finally {
+      setIsLoadingData(false); // Set loading state to false after data is fetched
     }
   };
 
@@ -217,14 +216,18 @@ function Comparison() {
     setCheapestMarketData(cheapestMarketData);
     console.log(cheapestMarketData);
     console.log(predictions);
+    console.log("yayyyy")
+    console.log(chartData);
   }, [chartData, selectedCommodity, predictions]);
+
+ 
 
   
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="bg-white-100 min-h-screen">
-        {/* ... existing code ... */}
+      
 
         <label className="mr-6 text-sm font-medium text-gray-700">
           State :
@@ -310,64 +313,8 @@ function Comparison() {
             </option>
           ))}
         </select>
-        <button
-          onClick={fetchData}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        >
-          View 
-        </button>
-        
 
-   
-        {/* <button
-          onClick={handleButtonClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        >
-          Fetch Data
-        </button> */}
-        {/* {chartData &&
-          Object.keys(chartData).map((commodity) => (
-            <div key={commodity}>
-              <h2>{commodity}</h2>
-              <LineChart
-                width={800}
-                height={400}
-                data={Object.values(chartData[commodity])}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                 <XAxis dataKey="market" />
-
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="modal"
-                  name="Modal"
-                  stroke="#8884d8"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="min"
-                  name="Min"
-                  stroke="#82ca9d"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="max"
-                  name="Max"
-                  stroke="#ff7300"
-                />
-              </LineChart>
-            </div>
-          ))} */}
-
-           {/* Loading state */}
-     
-
-        <div className="my-10">
-          <label className="mr-6 text-sm font-medium text-gray-700">
+        <label className="mr-6 text-sm font-medium text-gray-700">
             Commodity:
           </label>
           <select
@@ -382,35 +329,51 @@ function Comparison() {
               </option>
             ))}
           </select>
-        </div>
 
-        {/* Render a single BarChart based on the selected commodity */}
-        {selectedCommodity && chartData && chartData[selectedCommodity] && (
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-4">
-              {selectedCommodity} Data
-            </h2>
-            <BarChart
-              width={800}
-              height={400}
-              data={Object.values(chartData[selectedCommodity])}
-              margin={{ top: 5, right: 30, left: 50, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              {/* <XAxis
-                dataKey="market"
-                tickFormatter={(index) => cheapestMarketData.marketNames[index]}
-              /> */}
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {/* Assuming your data structure has keys like 'modal', 'min', 'max' */}
-              <Bar dataKey="modal" fill="#8884d8" name="Modal" />
-              <Bar dataKey="min" fill="#82ca9d" name="Min" />
-              <Bar dataKey="max" fill="#ff7300" name="Max" />
-            </BarChart>
+        
+        <button
+          onClick={fetchData}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+          disabled={!selectedDistrict || !selectedCommodity}
+        >
+          View 
+        </button>
+
+ 
+ {/* Render a single BarChart based on the selected commodity */}
+ {isLoadingData ? ( // Show loader only when isLoadingData is true
+        <div className="text-center mt-10">
+          <p>Loading data...</p>
+            <div className="flex justify-center items-center mt-4">
+            <BarLoader color="#4FD1C5" loading={isLoadingData} />
           </div>
-        )}
+        </div>
+      ) : (
+        selectedCommodity &&
+        chartData &&
+        chartData[selectedCommodity] && (
+          <div className="text-center">
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        {selectedCommodity} Data
+      </h2>
+      <BarChart
+        width={800}
+        height={400}
+        data={Object.values(chartData[selectedCommodity])}
+        margin={{ top: 5, right: 30, left: 50, bottom: 5 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="markets" /> 
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="modal" fill="#8884d8" name="Modal" />
+        <Bar dataKey="min" fill="#82ca9d" name="Min" />
+        <Bar dataKey="max" fill="#ff7300" name="Max" />
+      </BarChart>
+    </div>
+  )
+)}
 
 <div className="flex flex-wrap items-start mb-8 p-10">
   {/* Cheapest Market Price */}
@@ -441,10 +404,12 @@ function Comparison() {
       </div>
     </div>
   )}
+
+
 </div>
-      </div>
-    </div>
-  );
+</div>
+</div>
+);
 }
 
 export default Comparison;

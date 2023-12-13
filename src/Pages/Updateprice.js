@@ -140,14 +140,24 @@ const Updateprice = () => {
       )} */}
 
 {selectedDish === 'Pav Bhaji' && isLoading ? (
+          // <div className="text-center">
+          //   <BarLoader
+          //     css={loaderStyle}
+          //     size={150}
+          //     color={"#36D7B7"}
+          //   />
+          //   <p>Loading predictions...</p>
+          // </div>
           <div className="text-center">
+          <p>Loading predictions...</p>
+          <div className="flex justify-center items-center mt-4">
             <BarLoader
               css={loaderStyle}
               size={150}
               color={"#36D7B7"}
             />
-            <p>Loading predictions...</p>
-          </div>
+        </div>
+        </div>
         ) : selectedDish === 'Pav Bhaji' && predictions ? (
           <table className="table-auto w-full text-left whitespace-no-wrap">
            <thead>
