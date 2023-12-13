@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const PricePredictionForm = () => {
   const [formData, setFormData] = useState({
@@ -19,9 +20,9 @@ const PricePredictionForm = () => {
   // Define the options for the dropdowns
   const commodityOptions = [
     { value: "1", label: "Tomato" },
-    { value: "2", label: "Onion" },
-    { value: "3", label: "Potato" },
-    { value: "4", label: "Garlic" },
+    { value: "2", label: "Potato" },
+    { value: "3", label: "Onion" },
+   
     // Add more options as needed
   ];
 
@@ -244,9 +245,42 @@ const PricePredictionForm = () => {
     });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     // Send the selected field values to your Flask backend
+  //     const response = await fetch("http://127.0.0.1:5000/predict", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //       // Convert form data to JSON
+  //     });
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log(result);
+  //       console.log("Predicted Price:", result.modal);
+  //       console.log("Min Price:", result.min);
+  //       console.log("Max Price:", result.max);
+  //       setPredictedPrice(result.modal);
+  //       setminPrice(result.min);
+  //       setmaxPrice(result.max);
+  //       console.log(formData);
+  //     } else {
+  //       console.error("Failed to make the prediction request.");
+  //       console.log(formData);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData);
       // Send the selected field values to your Flask backend
       const response = await fetch("http://127.0.0.1:5000/predict", {
         method: "POST",
@@ -254,6 +288,7 @@ const PricePredictionForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        // mode: 'cors', // Add this line
         // Convert form data to JSON
       });
 
@@ -453,7 +488,7 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* Group */}
-                <div className="flex-1 ml-4">
+                {/* <div className="flex-1 ml-4">
                   <label
                     htmlFor="group_name"
                     className="block text-sm font-medium text-gray-700"
@@ -491,10 +526,10 @@ const PricePredictionForm = () => {
                       </svg>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Variety */}
-                <div className="flex-1 ml-4">
+                {/* <div className="flex-1 ml-4">
                   <label
                     htmlFor="variety_name"
                     className="block text-sm font-medium text-gray-700"
@@ -531,8 +566,8 @@ const PricePredictionForm = () => {
                         />
                       </svg>
                     </div>
-                  </div>
-                </div>
+                  </div> */}
+                {/* </div> */}
               </div>
 
               <div className="flex mb-4">
@@ -680,14 +715,14 @@ const PricePredictionForm = () => {
                         Market Prices Per Quintal for{" "}
                         {formData.Commodity
                           ? commodityOptions.find(
-                              (option) => option.value === formData.Commodity
-                            )?.label
+                            (option) => option.value === formData.Commodity
+                          )?.label
                           : "Commodity"}{" "}
                         in{" "}
                         {formData.state_name
                           ? stateOptions.find(
-                              (option) => option.value === formData.state_name
-                            )?.label
+                            (option) => option.value === formData.state_name
+                          )?.label
                           : "state_name"}
                       </h1>
                       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
@@ -699,7 +734,7 @@ const PricePredictionForm = () => {
                       <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
                         <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
                           <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {predictedPrice}
+                            {predictedPrice.toFixed(3)}
                           </h2>
                           <p class="leading-relaxed">Predicted Price</p>
                         </div>
@@ -707,7 +742,7 @@ const PricePredictionForm = () => {
                       <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
                         <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
                           <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {minPrice}
+                            {minPrice.toFixed(3)}
                           </h2>
                           <p class="leading-relaxed">Minimum Price</p>
                         </div>
@@ -715,7 +750,7 @@ const PricePredictionForm = () => {
                       <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
                         <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
                           <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {maxPrice}
+                            {maxPrice.toFixed(3)}
                           </h2>
                           <p class="leading-relaxed">Maximum Price</p>
                         </div>

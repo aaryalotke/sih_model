@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
-import joblib
 import pandas as pd
 import numpy as np
 from flask_cors import CORS
 from datetime import datetime, timedelta
+import joblib
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+
 
 app = Flask(__name__)
 cors = CORS(app, resources={
@@ -11,11 +14,21 @@ cors = CORS(app, resources={
     r"/notifs": {"origins": "http://localhost:3000"},
     r"/predict": {"origins": "http://localhost:3000"},
     r"/today": {"origins": "http://localhost:3000"},
-     r"/compare": {"origins": "http://localhost:3000"},
+    r"/compare": {"origins": "http://localhost:3000"},
+    # r"/train": {"origins": "http://localhost:3000"},
 })
 
-# Load your pre-trained machine learning model
+
+# Load pre-trained machine learning model
 model = joblib.load('random_forest_model_new.pkl')
+
+
+
+from xgboost import XGBRegressor
+from sklearn.ensemble import RandomForestRegressor
+
+
+
 
 @app.route('/chart', methods=['GET', 'POST'])
 def chart_predict():
@@ -152,43 +165,132 @@ def notifs_predict():
 
 
 
+# @app.route('/predict', methods=['GET', 'POST'])
+# def predict_price():
+#     try:
+#         # Handle the incoming data
+#         input_data = request.get_json()  # Assuming the data is sent as JSON
+#         print(input_data)
+        
+#         # Extract relevant features from the input data
+#         Commodity = input_data.get('Commodity')
+#         state_name = input_data.get('state_name')
+#         district_name = input_data.get('district_name')
+#         market_center_name = input_data.get('market_center_name')
+#         Variety = input_data.get('variety_name')
+#         group_name = input_data.get('group_name')
+#         Arrival = 118
+#         day = input_data.get('day')
+#         month = input_data.get('month')
+#         year = input_data.get('year')
+
+#         # Perform predictions using your model
+#         feature_values = [Commodity, state_name, district_name, market_center_name,Variety, group_name, Arrival, day, month, year]
+#         prediction = model.predict([feature_values])
+
+#         # Construct the response with the prediction result
+#         response = {
+#             'modal': prediction[0][0],
+#             'min': prediction[0][1],
+#             'max': prediction[0][2],
+#         }
+
+#         return jsonify(response)
+
+#     except Exception as e:
+#         # Handle exceptions, e.g., invalid input data
+#         error_response = {
+#             'error_message': str(e)
+#         }
+#         return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
+
 @app.route('/predict', methods=['GET', 'POST'])
 def predict_price():
-    try:
-        # Handle the incoming data
-        input_data = request.get_json()  # Assuming the data is sent as JSON
-        
-        # Extract relevant features from the input data
-        Commodity = input_data.get('Commodity')
-        state_name = input_data.get('state_name')
-        district_name = input_data.get('district_name')
-        market_center_name = input_data.get('market_center_name')
-        Variety = input_data.get('variety_name')
-        group_name = input_data.get('group_name')
-        Arrival = 118
-        day = input_data.get('day')
-        month = input_data.get('month')
-        year = input_data.get('year')
 
-        # Perform predictions using your model
-        feature_values = [Commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
-        prediction = model.predict([feature_values])
+    # Read dataset from a CSV file 
+    dataset_path = 'src/static/agmarket_dataset.csv'
+    dataset = pd.read_csv(dataset_path)
+    print(dataset)
+
+    # Retrieve data from the request (commodity, district, market, and training data)
+    print("entered loop")
+    data = request.get_json()
+
+    # Commodity = input_data.get('Commodity')
+    print(data)
+    print("yesss")
+    commodity = int(data['Commodity'])
+    district = int(data['district_name'])
+    market = int(data['market_center_name'])
+    day = int(data['day'])
+    month = int(data['month'])
+    year = int(data['year'])
+    # training_data = pd.DataFrame(data['training_data'])
+
+    # Filter the training data based on the selected commodity, district, and market
+    selected_data = dataset[(dataset['Commodity'] == int(commodity)) & 
+                                  (dataset['District'] == int(district)) & 
+                                  (dataset['Market'] == int(market))]
+     # Filter the dataset based on the selected commodity
+    # selected_data = dataset[dataset['Commodity'] == 1]
+    print("Unique Commodity values in the dataset:", dataset['Commodity'].unique())
+
+    print("Selected Commodity value:", commodity)
+
+    
+    
+
+
+    # selected_data = [(dataset['Commodity'] == commodity)]
+    print(selected_data)
+   
+
+     # Check if there is data to train the models
+    if selected_data.empty:
+        return jsonify({'error': 'No data available for the specified conditions'})
+
+    # Feature selection
+    selected_features = selected_data[[ 'Day', 'Month', 'Year']]
+    target = selected_data[['MODAL','MIN', 'MAX']]
+
+    # Train Random Forest model
+    rf_model = RandomForestRegressor()
+    rf_model.fit(selected_features, target)
+
+    # Train XGBoost model
+    xgb_reg = XGBRegressor(random_state=42)
+    xgb_reg.fit(selected_features, target)
+
+    # Save the trained models (you might want to use a more robust serialization method)
+    joblib.dump(rf_model, 'rf_model.joblib')
+    joblib.dump(xgb_reg, 'xgb_model.joblib')
+
+    # feature_values = [Commodity, state_name, district_name, market_center_name,Variety, group_name, Arrival, day, month, year]
+    input_data = pd.DataFrame({'Day': day, 'Month': month, 'Year': year} , index=[0])
+    # input_data = pd.DataFrame({'Day': day, 'Month': month, 'Year': year})
+
+    # input_data_2d = input_data.values.reshape(1, -1)
+    
+    rf_prediction = rf_model.predict(input_data)
+    print(rf_prediction)
+    xgb_prediction = xgb_reg.predict(input_data)
+    print(xgb_prediction)
 
         # Construct the response with the prediction result
-        response = {
-            'modal': prediction[0][0],
-            'min': prediction[0][1],
-            'max': prediction[0][2],
+    response = {
+            'modal': (rf_prediction[0][0] + xgb_prediction[0][0]) / 2,
+            'min': (rf_prediction[0][1] + xgb_prediction[0][1]) / 2,
+            'max': (rf_prediction[0][2] + xgb_prediction[0][2]) / 2,
+            
         }
+    return jsonify(response)
 
-        return jsonify(response)
 
-    except Exception as e:
-        # Handle exceptions, e.g., invalid input data
-        error_response = {
-            'error_message': str(e)
-        }
-        return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
+
+
+
+
+    # return jsonify({'message': 'Models trained and saved successfully'})
 
 @app.route('/today', methods=['GET','POST'])
 def today_price():

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "chart.js": "^4.4.0",
+    "cors": "^2.8.5",
     "firebase": "^10.4.0",
     "firebase-auth": "^0.1.2",
     "leaflet": "^1.9.4",
