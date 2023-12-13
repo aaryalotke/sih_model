@@ -12,6 +12,8 @@ import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import { BrowserRouter } from 'react-router-dom';
 import Landing from './Pages/landing';
+import Donations from './Pages/Donations/Donations';
+import ChatsPage from './Pages/ChatsPage/ChatsPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -30,6 +32,8 @@ root.render(
       <Route path="/contactus" element={<Contactus />} />
       <Route path="/aboutus" element={<Aboutus />} />
       <Route path="/home" element={<Callsidebar />} />
+      <Route path="/donation" element={<Donations />} />
+      <Route path="/chat" element={<ChatsPage />} />
     </Routes>
 
     {/* <App /> */}

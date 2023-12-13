@@ -1,0 +1,24 @@
+/* Using Tailwind CSS */
+
+#content::-webkit-scrollbar {
+    width: 0.5em;
+    padding-right: 0.5em;
+    background: transparent;
+  }
+  #content::-webkit-scrollbar-thumb {
+    background: #605CEB;
+    border-radius: 9999999px
+  }
+
+.ngo-list{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: space-evenly;
+}
+
+section{
+    background: rgb(80, 84, 94);
+}
+  
+  
