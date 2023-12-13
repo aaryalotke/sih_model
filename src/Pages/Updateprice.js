@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from "react";
+import { css } from "@emotion/react";
+import { BarLoader } from "react-spinners";
 import axios from "axios";
 
 const Updateprice = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
   
     const initialCommodityData = [
         { commodity: 'Onion', currentPrice: 15, predictedPrice: 0 },
@@ -11,8 +14,8 @@ const Updateprice = () => {
       ];
   // These fields are read-only
   const state = 'Maharashtra';
-  const district = 'Mumbai';
-  const market = 'Mumbai';
+  const district = 'Ahmednagar';
+  const market = 'Ahmednagar';
   const [selectedDish, setSelectedDish] = useState('');
   const [predictions, setPredictions] = useState({}); 
   const [commodityData, setCommodityData] = useState(initialCommodityData);
@@ -20,23 +23,26 @@ const Updateprice = () => {
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
         const response = await axios.get('http://localhost:5000/today');
     
         
             // setPredictions(receivedPredictions);
-            setShowTable(true); // Show the table after fetching data
+            // setShowTable(true); // Show the table after fetching data
             if (response.status === 200) {
                 const result = response.data; // Assuming the predictions are in response.data
         
                 // Set the predictions state with the data received from the API
                 setPredictions(result);
         
-                setShowTable(true); // Show the table after fetching data
+                // setShowTable(true); // Show the table after fetching data
               } else {
                 console.error('Failed to make the prediction request.');
               }
             }catch (error) {
         console.error('Error fetching today_price:', error);
+      }finally {
+        setIsLoading(false);
       }
   }
 
@@ -106,7 +112,7 @@ const Updateprice = () => {
       >
         Fetch Data
       </button> */}
-      {selectedDish === 'Pav Bhaji' &&  ( // Conditional rendering of the table
+      {/* {selectedDish === 'Pav Bhaji' &&  ( // Conditional rendering of the table
         <table class="table-auto w-full text-left whitespace-no-wrap">
           <thead>
             <tr>
@@ -117,28 +123,65 @@ const Updateprice = () => {
           </thead>
           <tbody>
             {initialCommodityData.map((item, index) => (
-            //   <tr key={index}>
-            //     <td class="px-4 py-3">{item.commodity}</td>
-            //     <td class="px-4 py-3">{item.currentPrice}</td>
-            //     <td class="px-4 py-3">{item.predictedPrice}</td>
-            //   </tr>
+            
 
             <tr key={index}>
             <td class="px-4 py-3">{item.commodity}</td>
             <td class="px-4 py-3">{item.currentPrice}</td>
             <td class="px-4 py-3">
-              {predictions[item.commodity] ? (predictions[item.commodity].modal/100 ) : ''}
-              {/* {item.predictedPrice} */}
+              {predictions[item.commodity] ? (predictions[item.commodity].modal / 100).toFixed(3) : ''}
+            
             </td>
           </tr>
 
             ))}
           </tbody>
         </table>
-      )}
+      )} */}
+
+{selectedDish === 'Pav Bhaji' && isLoading ? (
+          <div className="text-center">
+            <BarLoader
+              css={loaderStyle}
+              size={150}
+              color={"#36D7B7"}
+            />
+            <p>Loading predictions...</p>
+          </div>
+        ) : selectedDish === 'Pav Bhaji' && predictions ? (
+          <table className="table-auto w-full text-left whitespace-no-wrap">
+           <thead>
+            <tr>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Ingredients Used</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Your Price (per kg)</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Market Price (per kg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {initialCommodityData.map((item, index) => (
+            
+
+            <tr key={index}>
+            <td class="px-4 py-3">{item.commodity}</td>
+            <td class="px-4 py-3">{item.currentPrice}</td>
+            <td class="px-4 py-3">
+              {predictions[item.commodity] ? (predictions[item.commodity].modal / 100).toFixed(3) : ''}
+            
+            </td>
+          </tr>
+
+            ))}
+          </tbody>
+          </table>
+        ) : null}
     </div>
     </form>
   );
 };
+
+const loaderStyle = css`
+  display: block;
+  margin: 0 auto;
+`;
 
 export default Updateprice;
