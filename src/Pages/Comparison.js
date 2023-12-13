@@ -22,6 +22,11 @@ function Comparison() {
   const [selectedDistrict, setSelectedDistrict] = useState("1");
   const [selectedMarket, setSelectedMarket] = useState("1");
   const [selectedCommodity, setSelectedCommodity] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleTooltipToggle = () => {
+    setShowTooltip(!showTooltip);
+  };
 
   const commodities = [
     { value: 1, name: "Tomato" },
@@ -35,27 +40,36 @@ function Comparison() {
   );
   const years = ["2021", "2022", "2023", "2024"];
 
-  const stateOptions = [{ value: "1", label: "Maharashtra" }];
-
-  const districtOptions = [
-    { value: "6", label: "Jalgaon" },
-    { value: "2", label: "Sholapur" },
-    // Add other districts as needed
-  ];
-
   const marketMapping = {
     6: ["Jalgaon", "Bhusaval"],
     2: ["Solapur", "Akluj"],
+    1: ["Ahmednagar"],
+    5: ["Aurangabad"],
+    7: ["Chandrapur(Ganjwad)"],
+    10: ["Junnar"],
     // Add mappings for other districts as needed
   };
 
+  const stateOptions = [{ value: "1", label: "Maharashtra" }];
+
+  const districtOptions = [
+    { value: "1", label: "Ahmednagar" },
+    { value: "2", label: "Sholapur" },
+    { value: "5", label: "Aurangabad" },
+    { value: "6", label: "Jalgaon" },
+    { value: "7", label: "Chandrapur" },
+    { value: "10", label: "Pune" },
+  ];
+
   const marketOptions = [
-    { value: "11", label: "Jalgaon" },
-    { value: "6", label: "Bhusaval" },
-    { value: "2", label: "Akluj" },
-    { value: "37", label: "Solapur" },
- 
-    // Additional markets...
+    { value: "1", label: "Ahmednagar", district: "1" },
+    { value: "2", label: "Akluj", district: "2" },
+    { value: "5", label: "Aurangabad", district: "5" },
+    { value: "6", label: "Bhusaval", district: "6" },
+    { value: "8", label: "Chandrapur (Ganjwad)", district: "7" },
+    { value: "11", label: "Jalgaon", district: "6" },
+    { value: "12", label: "Junnar", district: "10" },
+    { value: "37", label: "Solapur", district: "2" },
   ];
 
   const getMarketValuesForDistrict = (districtValue) => {
@@ -89,8 +103,6 @@ function Comparison() {
       setLoading(false);
     }
   };
-
-
 
   const fetchData = async () => {
     try {
@@ -127,14 +139,11 @@ function Comparison() {
     }
   };
 
-
-
   const findCheapestMarket = () => {
     if (!selectedCommodity || !chartData || !chartData[selectedCommodity]) {
       return null;
     }
-    
-    
+
     const commodityData = chartData[selectedCommodity];
     let cheapestMarketId = null;
     let cheapestModalPrice = Infinity;
@@ -195,11 +204,8 @@ function Comparison() {
   // const currentPrice = fetchCurrent();
   // console.log(currentPrice); // Fetch predictions when the component mounts
 
-  
-
   useEffect(() => {
     fetchCurrentData();
-
   }, [
     selectedDay,
     selectedMonth,
@@ -207,9 +213,7 @@ function Comparison() {
     selectedCommodity,
     selectedState,
     selectedDistrict,
-    
   ]);
-
 
   useEffect(() => {
     const cheapestMarketData = findCheapestMarket();
@@ -273,48 +277,49 @@ function Comparison() {
           ))}
         </select>
 
-        <label className="mr-6 text-sm font-medium text-gray-700">Day :</label>
-        <select
-          value={selectedDay}
-          onChange={(e) => setSelectedDay(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-2 h-12 w-24 mr-7"
-        >
-          {days.map((day) => (
-            <option key={day} value={day}>
-              {day}
-            </option>
-          ))}
-        </select>
+        <div className="my-10 flex items-center space-x-4">
+          <label className="text-sm font-medium text-gray-700">Day:</label>
+          <select
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            className="border border-gray-300 rounded px-2 py-2 h-12 w-24"
+          >
+            {days.map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
 
-        <label className="mr-6 text-sm font-medium text-gray-700">
-          Month :
-        </label>
-        <select
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-2 h-12 w-32 mr-7"
-        >
-          {months.map((month) => (
-            <option key={month} value={month}>
-              {month}
-            </option>
-          ))}
-        </select>
+          <label className="text-sm font-medium text-gray-700">Month:</label>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="border border-gray-300 rounded px-2 py-2 h-12 w-32"
+          >
+            {months.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
 
-        <label className="mr-6 text-sm font-medium text-gray-700">Year :</label>
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-2 h-12 w-32 mr-7"
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+          <label className="text-sm font-medium text-gray-700">Year:</label>
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="border border-gray-300 rounded px-2 py-2 h-12 w-32"
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <label className="mr-6 text-sm font-medium text-gray-700">
+        <div className="my-10">
+          <label className="mr-6 text-sm font-medium text-gray-700">
             Commodity:
           </label>
           <select
@@ -329,6 +334,59 @@ function Comparison() {
               </option>
             ))}
           </select>
+        </div>
+        {/* <button
+          onClick={fetchData}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+        >
+          View
+        </button> */}
+
+        {/* <button
+          onClick={handleButtonClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+        >
+          Fetch Data
+        </button> */}
+        {/* {chartData &&
+          Object.keys(chartData).map((commodity) => (
+            <div key={commodity}>
+              <h2>{commodity}</h2>
+              <LineChart
+                width={800}
+                height={400}
+                data={Object.values(chartData[commodity])}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                 <XAxis dataKey="market" />
+
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="modal"
+                  name="Modal"
+                  stroke="#8884d8"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="min"
+                  name="Min"
+                  stroke="#82ca9d"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="max"
+                  name="Max"
+                  stroke="#ff7300"
+                />
+              </LineChart>
+            </div>
+          ))} */}
+
+        {/* Loading state */}
 
         
         <button
@@ -375,41 +433,50 @@ function Comparison() {
   )
 )}
 
-<div className="flex flex-wrap items-start mb-8 p-10">
-  {/* Cheapest Market Price */}
-  {cheapestMarketData && (
-    <div className="w-full sm:w-1/2 lg:w-1/4 mb-4 sm:mb-0 p-10">
-      <div className="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-        <h2 className="title-font font-medium text-3xl text-gray-900">
-          {cheapestMarketData.modalPrice.toFixed(3)}
-        </h2>
-        <p className="leading-relaxed">Cheapest Modal Price</p>
-        <p className="leading-relaxed">
-          Market: {cheapestMarketData.marketName} (
-          {cheapestMarketData.marketId})
-        </p>
+        <div className="flex flex-wrap items-start mb-8 p-10">
+          {/* Cheapest Market Price */}
+          {cheapestMarketData && (
+            <div className="w-full sm:w-1/2 lg:w-1/4 mb-4 sm:mb-0 p-10">
+              <div className="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                <h2 className="title-font font-medium text-3xl text-gray-900">
+                  {cheapestMarketData.modalPrice.toFixed(3)}
+                </h2>
+                <p className="leading-relaxed">Cheapest Modal Price</p>
+                <p className="leading-relaxed">
+                  Market: {cheapestMarketData.marketName} (
+                  {cheapestMarketData.marketId})
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Savings Percentage */}
+          {cheapestMarketData && (
+            <div className="w-full sm:w-1/2 lg:w-1/4 mt-5 p-5" onMouseEnter={handleTooltipToggle}
+            onMouseLeave={handleTooltipToggle}>
+              <div
+                className={`border-2 border-gray-200 px-4 py-9 rounded-lg shadow-md ${
+                  savingsPercentage >= 0 ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                <h2 className="title-font font-medium text-3xl">
+                  {savingsPercentage >= 0 ? "+" : ""}
+                  {savingsPercentage.toFixed(2)}%
+                </h2>
+                <p className="leading-relaxed">Savings Percentage</p>
+                {/* You can add additional information or styling here */}
+              </div>
+              {showTooltip && (
+              <div className="absolute bg-gray-800 text-white p-2 rounded mt-2">
+                potential savings when purchasing from the cheapest market compared to your current choice
+              </div>
+            )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  )}
-
-  {/* Savings Percentage */}
-  {cheapestMarketData && (
-    <div className="w-full sm:w-1/2 lg:w-1/4 mt-5 p-5">
-      <div className={`border-2 border-gray-200 px-4 py-9 rounded-lg shadow-md ${savingsPercentage >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-        <h2 className="title-font font-medium text-3xl">
-          {savingsPercentage >= 0 ? '+' : ''}{savingsPercentage.toFixed(2)}%
-        </h2>
-        <p className="leading-relaxed">Savings Percentage</p>
-        {/* You can add additional information or styling here */}
-      </div>
-    </div>
-  )}
-
-
-</div>
-</div>
-</div>
-);
+  );
 }
 
 export default Comparison;
