@@ -121,7 +121,7 @@ function Comparison() {
         }
       );
 
-
+      console.log(compareResponse.data);
       // Set the chart data state with the data received from the comparison API
       setChartData(compareResponse.data);
       console.log(chartData);

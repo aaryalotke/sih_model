@@ -298,6 +298,8 @@ function ChartOne() {
        
       });
 
+      console.log(response.data);
+
       setChartData(response.data.predictions);
       console.log(chartData);
     } catch (error) {
@@ -316,7 +318,7 @@ function ChartOne() {
         <header className="bg-gray-800 mb-12 p-4 text-white text-center rounded-lg lg:flex-grow">
           <h1 className="text-4xl font-semibold">Commodity Price Prediction</h1>
         </header>
-        <div className="my-4">
+        {/* <div className="my-4">
           <label className="mr-6  text-sm font-medium text-gray-700">Commodity :</label>
           <select
             value={selectedCommodity}
@@ -330,8 +332,8 @@ function ChartOne() {
               </option>
             ))}
           </select>
-        </div>
-        <div className="my-4">
+        </div> */}
+        {/* <div className="my-4">
       <label className="mr-6 text-sm font-medium text-gray-700">State :</label>
       <select
         value={selectedState}
@@ -373,7 +375,7 @@ function ChartOne() {
           </option>
         ))}
       </select>
-    </div>
+    </div> */}
 
         {/* State */}
         <div className="my-4">

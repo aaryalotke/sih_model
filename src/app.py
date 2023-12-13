@@ -27,16 +27,17 @@ model = joblib.load('random_forest_model_new.pkl')
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 
-
-
-
-@app.route('/chart', methods=['GET', 'POST'])
+@app.route('/chart', methods=['POST'])
 def chart_predict():
     try:
-        
-        # Get input data from the frontend
-        data = request.json
+        # Read dataset from a CSV file
+        dataset_path = 'src/static/agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+
+        # Retrieve data from the request (commodity, district, market, and training data)
+        data = request.get_json()
         print(data)
+        # Get input data from the frontend
         Commodity = int(data['commodity'])
         start_day = int(data['start_day'])
         start_month = int(data['start_month'])
@@ -47,7 +48,7 @@ def chart_predict():
         state = int(data.get('state'))  # Default value is 1, update as needed
         district = int(data.get('district'))  # Default value is 17, update as needed
         market = int(data.get('market'))  # Default value is 109, update as needed
-    
+
         # Create a start date and end date object
         start_date = datetime(start_year, start_month, start_day)
         end_date = datetime(end_year, end_month, end_day)
@@ -61,31 +62,47 @@ def chart_predict():
         # Loop through the date range and make predictions
         while start_date <= end_date:
             # Extract relevant features from the current date
-            # Modify these as needed to match your dataset
-            # state_name = 1
-            # district_name = 1
-            # market_center_name = 1
             Commodity = Commodity
-            # state_name = 1
-            # district_name = 17
-            # market_center_name = 109
-            Variety = 2
-            group_name = 1
-            Arrival = 118
             day = start_date.day
             month = start_date.month
             year = start_date.year
 
+            # Filter the training data based on the selected commodity, district, and market
+            selected_data = dataset[(dataset['Commodity'] == Commodity) &
+                                    (dataset['District'] == district_name) &
+                                    (dataset['Market'] == market_center_name)]
+
+            # Check if there is data to train the models
+            if selected_data.empty:
+                return jsonify({'error': 'No data available for the specified conditions'})
+
+            # Feature selection
+            selected_features = selected_data[['Day', 'Month', 'Year']]
+            target = selected_data[['MODAL', 'MIN', 'MAX']]
+
+            # Train Random Forest model
+            rf_model = RandomForestRegressor()
+            rf_model.fit(selected_features, target)
+
+            # Train XGBoost model
+            xgb_reg = XGBRegressor(random_state=42)
+            xgb_reg.fit(selected_features, target)
+
+            # Save the trained models (you might want to use a more robust serialization method)
+            joblib.dump(rf_model, 'rf_model.joblib')
+            joblib.dump(xgb_reg, 'xgb_model.joblib')
+
             # Perform predictions using your model
-            feature_values = [Commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
-            prediction = model.predict([feature_values])
+            feature_values = [day, month, year]
+            prediction_rf = rf_model.predict([feature_values])
+            prediction_xgb = xgb_reg.predict([feature_values])
 
             # Append the prediction to the list
             predictions.append({
                 'date': start_date.strftime('%d-%m-%Y'),
-                'modal': prediction[0][0],
-                'min': prediction[0][1],
-                'max': prediction[0][2]
+                'modal': (prediction_rf[0][0] + prediction_xgb[0][0]) / 2,
+                'min': (prediction_rf[0][1] + prediction_xgb[0][1]) / 2,
+                'max': (prediction_rf[0][2] + prediction_xgb[0][2]) / 2
             })
 
             # Increment the date by one day
@@ -101,6 +118,90 @@ def chart_predict():
             'error_message': str(e)
         }
         return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
+
+
+
+
+# @app.route('/chart', methods=['GET', 'POST'])
+# def chart_predict():
+#     try:
+
+#          # Read dataset from a CSV file 
+#         dataset_path = 'src/static/agmarket_dataset.csv'
+#         dataset = pd.read_csv(dataset_path)
+#         print(dataset)
+
+#         # Retrieve data from the request (commodity, district, market, and training data)
+#         print("entered loop")
+#         data = request.get_json()
+        
+#        # Get input data from the frontend
+#         data = request.json
+#         print(data)
+#         Commodity = int(data['commodity'])
+#         start_day = int(data['start_day'])
+#         start_month = int(data['start_month'])
+#         start_year = int(data['start_year'])
+#         end_day = int(data['end_day'])
+#         end_month = int(data['end_month'])
+#         end_year = int(data['end_year'])
+#         state = int(data.get('state'))  # Default value is 1, update as needed
+#         district = int(data.get('district'))  # Default value is 17, update as needed
+#         market = int(data.get('market'))  # Default value is 109, update as needed
+    
+#         # Create a start date and end date object
+#         start_date = datetime(start_year, start_month, start_day)
+#         end_date = datetime(end_year, end_month, end_day)
+#         state_name = state
+#         district_name = district
+#         market_center_name = market
+
+#         # Initialize an empty list to store predictions
+#         predictions = []
+
+#         # Loop through the date range and make predictions
+#         while start_date <= end_date:
+#             # Extract relevant features from the current date
+#             # Modify these as needed to match your dataset
+#             # state_name = 1
+#             # district_name = 1
+#             # market_center_name = 1
+#             Commodity = Commodity
+#             # state_name = 1
+#             # district_name = 17
+#             # market_center_name = 109
+#             Variety = 2
+#             group_name = 1
+#             Arrival = 118
+#             day = start_date.day
+#             month = start_date.month
+#             year = start_date.year
+
+#             # Perform predictions using your model
+#             feature_values = [Commodity, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
+#             prediction = model.predict([feature_values])
+
+#             # Append the prediction to the list
+#             predictions.append({
+#                 'date': start_date.strftime('%d-%m-%Y'),
+#                 'modal': prediction[0][0],
+#                 'min': prediction[0][1],
+#                 'max': prediction[0][2]
+#             })
+
+#             # Increment the date by one day
+#             start_date += timedelta(days=1)
+
+#         # Construct the response with predictions
+#         response = {'predictions': predictions}
+#         return jsonify(response)
+
+#     except Exception as e:
+#         # Handle exceptions
+#         error_response = {
+#             'error_message': str(e)
+#         }
+#         return jsonify(error_response), 400  # Return a 400 Bad Request status code for errors
 
 @app.route('/notifs', methods=['GET', 'POST'])
 def notifs_predict():
@@ -342,21 +443,18 @@ def today_price():
         }
         return jsonify(error_response), 400
     
-@app.route('/compare', methods=['GET','POST'])
+@app.route('/compare', methods=['POST'])
 def compare_price():
     try:
-        data = request.json
+        data = request.get_json()
         print(data)
         # Extract parameters from the request
-        state_name = data['state']
-        district_name = data['district']
-        day = data['day']
-        month = data['month']
-        year = data['year']
+        district_name = int(data['district'])
+        day = int(data['day'])
+        month = int(data['month'])
+        year = int(data['year'])
         market_values = data['markets']
-        Variety = 2
-        group_name = 1
-        Arrival = 118
+        
 
         # Sample commodities
         commodities = {
@@ -370,24 +468,57 @@ def compare_price():
 
         for commodity, commodity_value in commodities.items():
             # Assuming your model features are in the following order
-            feature_values = [commodity_value, state_name, district_name, None, Variety, group_name, Arrival, day, month, year]
+            feature_values = [day, month, year]
+
+            # Initialize a sub-dictionary for the current commodity
+            predictions[commodity] = {}
 
             # Loop through market values and make predictions
             for market_value in market_values:
                 # Update market center name for each iteration
-                feature_values[3] = market_value
+                # feature_values[3] = market_value
 
-                # Perform predictions using your model
-                prediction = model.predict([feature_values])
+                # Read dataset from a CSV file
+                dataset_path = 'src/static/agmarket_dataset.csv'
+                dataset = pd.read_csv(dataset_path)
 
-                # Store the prediction in the dictionary
-                predictions.setdefault(commodity, {})[market_value] = {
-                    'modal': prediction[0][0],
-                    'min': prediction[0][1],
-                    'max': prediction[0][2],
-                }
-            
-            print(predictions)
+                # Filter the training data based on the selected commodity, district, and market
+                selected_data = dataset[(dataset['Commodity'] == int(commodity_value)) &
+                                        (dataset['District'] == int(district_name)) &
+                                        (dataset['Market'] == int(market_value))]
+                print(commodity_value)
+                print(selected_data)
+                # Check if there is data to train the models
+                if selected_data.empty:
+                    predictions[commodity][market_value] = {'error': 'No data available for the specified conditions'}
+                else:
+                    # Feature selection
+                    selected_features = selected_data[['Day', 'Month', 'Year']]
+                    target = selected_data[['MODAL', 'MIN', 'MAX']]
+
+                    # Train Random Forest model
+                    rf_model = RandomForestRegressor()
+                    rf_model.fit(selected_features, target)
+
+                    # Train XGBoost model
+                    xgb_reg = XGBRegressor(random_state=42)
+                    xgb_reg.fit(selected_features, target)
+
+                    # Save the trained models (you might want to use a more robust serialization method)
+                    joblib.dump(rf_model, f'rf_model_{commodity}_{market_value}.joblib')
+                    joblib.dump(xgb_reg, f'xgb_model_{commodity}_{market_value}.joblib')
+
+                    # Perform predictions using your model
+                    prediction_rf = rf_model.predict([feature_values])
+                    prediction_xgb = xgb_reg.predict([feature_values])
+
+                    # Store the prediction in the dictionary
+                    predictions[commodity][market_value] = {
+                        'modal': (prediction_rf[0][0] + prediction_xgb[0][0]) / 2,
+                        'min': (prediction_rf[0][1] + prediction_xgb[0][1]) / 2,
+                        'max': (prediction_rf[0][2] + prediction_xgb[0][2]) / 2,
+                    }
+                    print(predictions)
 
         return jsonify(predictions)
 
@@ -397,6 +528,63 @@ def compare_price():
             'error_message': str(e)
         }
         return jsonify(error_response), 400
+
+    
+# @app.route('/compare', methods=['GET','POST'])
+# def compare_price():
+#     try:
+#         data = request.json
+#         print(data)
+#         # Extract parameters from the request
+#         state_name = data['state']
+#         district_name = data['district']
+#         day = data['day']
+#         month = data['month']
+#         year = data['year']
+#         market_values = data['markets']
+#         Variety = 2
+#         group_name = 1
+#         Arrival = 118
+
+#         # Sample commodities
+#         commodities = {
+#             'Onion': 2,
+#             'Tomato': 1,
+#             'Potato': 3
+#         }
+
+#         # Initialize an empty dictionary to store responses
+#         predictions = {}
+
+#         for commodity, commodity_value in commodities.items():
+#             # Assuming your model features are in the following order
+#             feature_values = [commodity_value, state_name, district_name, None, Variety, group_name, Arrival, day, month, year]
+
+#             # Loop through market values and make predictions
+#             for market_value in market_values:
+#                 # Update market center name for each iteration
+#                 feature_values[3] = market_value
+
+#                 # Perform predictions using your model
+#                 prediction = model.predict([feature_values])
+
+#                 # Store the prediction in the dictionary
+#                 predictions.setdefault(commodity, {})[market_value] = {
+#                     'modal': prediction[0][0],
+#                     'min': prediction[0][1],
+#                     'max': prediction[0][2],
+#                 }
+            
+#             print(predictions)
+
+#         return jsonify(predictions)
+
+#     except Exception as e:
+#         # Handle exceptions, e.g., invalid input data
+#         error_response = {
+#             'error_message': str(e)
+#         }
+#         return jsonify(error_response), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
