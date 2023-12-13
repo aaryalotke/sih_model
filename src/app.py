@@ -398,42 +398,66 @@ def today_price():
     try:
         current_date = datetime.now().date()
 
+         # Read dataset from a CSV file 
+        dataset_path = 'src/static/agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+        print(dataset)
+
         commodities = {
-            'Onion': 2,
             'Tomato': 1,
-            'Potato': 3
+            'Potato': 2,
+            'Onion': 3,
         }
 
         # Initialize an empty dictionary to store responses
         predictions = {}
         
-        state_name = 1
-        district_name = 17
-        market_center_name = 109
-        Variety = 2
-        group_name = 1
-        Arrival = 118
+        # state_name = 1
+        # district_name = 1
+        # market_center_name = 1
         day = current_date.day
         month = current_date.month
         year = current_date.year
 
-        # Loop through commodities and make predictions
         for commodity, commodity_value in commodities.items():
-            # Perform predictions using your model
-            feature_values = [commodity_value, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
-            prediction = model.predict([feature_values])
+            selected_data = dataset[(dataset['Commodity'] == commodity_value) & 
+                                      (dataset['District'] == 1) & 
+                                      (dataset['Market'] == 1)]
+            print(selected_data)
 
-            # Store the prediction in the dictionary
-            predictions[commodity] = {
-                'modal': prediction[0][0],
-                'min': prediction[0][1],
-                'max': prediction[0][2],
-            }
-           
-            print("predictions",predictions)
-            print("onion", predictions['Onion']['modal'])
-            # print("onion",predictions[2])
+            if not selected_data.empty:
+                # Feature selection
+                selected_features = selected_data[['Day', 'Month', 'Year']]
+                target = selected_data[['MODAL', 'MIN', 'MAX']]
 
+                # Train Random Forest model
+                rf_model = RandomForestRegressor()
+                rf_model.fit(selected_features, target)
+
+                # Train XGBoost model
+                xgb_reg = XGBRegressor(random_state=42)
+                xgb_reg.fit(selected_features, target)
+
+                # Save the trained models (you might want to use a more robust serialization method)
+                joblib.dump(rf_model, f'rf_model_{commodity}.joblib')
+                joblib.dump(xgb_reg, f'xgb_model_{commodity}.joblib')
+
+                # feature_values = [commodity_value, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
+                input_data = pd.DataFrame({'Day': [day], 'Month': [month], 'Year': [year]}, index=[0])
+
+                rf_prediction = rf_model.predict(input_data)
+                print(rf_prediction)
+                xgb_prediction = xgb_reg.predict(input_data)
+                print(xgb_prediction)
+
+                # Construct the response with the prediction result
+                predictions[commodity] = {
+                    'modal': (rf_prediction[0][0] + xgb_prediction[0][0]) / 2,
+                    'min': (rf_prediction[0][1] + xgb_prediction[0][1]) / 2,
+                    'max': (rf_prediction[0][2] + xgb_prediction[0][2]) / 2,
+                }
+
+        # Return predictions for all commodities
         return jsonify(predictions)
 
     except Exception as e:

@@ -2,5 +2,6 @@
 /node_modules
 random_forest_model.pkl
 random_forest_model_new.pkl
+*.joblib
 
 
