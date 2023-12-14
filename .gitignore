@@ -4,4 +4,7 @@ random_forest_model.pkl
 random_forest_model_new.pkl
 *.joblib
 
+package-lock.json
+package.json
+
 

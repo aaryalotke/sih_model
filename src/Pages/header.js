@@ -38,6 +38,7 @@ function Header() {
          
           <a className='p-2 hover:bg-indigo-400 cursor-pointer  rounded'><Link to="/aboutus" class="nav-link active">About Us</Link> </a> 
           <a className='p-2 hover:bg-indigo-400 cursor-pointer   rounded'><Link to="/contactus" class="nav-link active">Contact Us</Link> </a> 
+          <a className='p-2 hover:bg-indigo-400 cursor-pointer   rounded'><Link to="/donation" class="nav-link active">Donation</Link> </a> 
          
         </nav>
         <div className="md:ml-auto md:mr-0 mt-4 md:mt-0">

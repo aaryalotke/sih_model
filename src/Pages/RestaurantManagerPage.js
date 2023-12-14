@@ -1,8 +1,50 @@
 // import Navbar from './Navbar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IngredientPriceInput from './IngredientPriceInput';
 
 const RestaurantManagerPage = () => {
+
+  // State to store the fetched data
+  const [data, setData] = useState(null);
+  // State to handle loading state
+  const [loading, setLoading] = useState(true);
+  // State to handle error state
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Function to fetch data using the Fetch API
+    const fetchData = async () => {
+      try {
+        // Set loading to true while data is being fetched
+        setLoading(true);
+        
+        // Fetch data from the specified URL
+        const response = await fetch('https://api.example.com/data');
+        
+        // Check if the response is successful (status code 2xx)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        // Parse the JSON data
+        const result = await response.json();
+        
+        // Set the fetched data in the state
+        setData(result);
+        // Set loading to false once data is fetched
+        setLoading(false);
+      } catch (error) {
+        // Set the error state if there is an issue with the fetch
+        setError(error);
+        // Set loading to false in case of an error
+        setLoading(false);
+      }
+    };
+
+    // Call the fetchData function when the component mounts
+    fetchData();
+  }, []); // The empty dependency array ensures that useEffect runs only once, similar to componentDidMount
+
   const [dishes, setDishes] = useState([]);
   const [sellingPrices, setSellingPrices] = useState({});
 
