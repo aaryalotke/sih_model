@@ -17,7 +17,7 @@ const Donations = () => {
                     </button>
             </div>
             <div className="column-left">
-            <h1>Connect with restraunts</h1>
+            <h1>Connect with Restaurants</h1>
                 <p>
                 Chat with the NGO's for donation requirements and contribute to the society.
 
