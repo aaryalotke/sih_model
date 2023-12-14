@@ -9,6 +9,7 @@ import Dashboard from './dashboard';
 import NotificationsPage from './notifications';
 import InventoryManagement from './inventory';
 import Comparison from './Comparison';
+import Collaborate from './Collaborate';
 
 
 function Callsidebar() {
@@ -37,6 +38,7 @@ function Callsidebar() {
         {activeTab === 'profile' && <Profile/>}
         {activeTab === 'comparison' && <Comparison/>}
         {activeTab === 'updateprice' && <Updateprice/>}
+        {activeTab === 'Collaborate' && <Collaborate/>}
       </div>
     </div>
   );
