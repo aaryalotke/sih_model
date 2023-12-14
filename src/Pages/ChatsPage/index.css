@@ -1,24 +1,73 @@
 /* Using Tailwind CSS */
+.chat-select {
+  background-color: #222831; 
+  padding: 20px; 
+}
+
+.App {
+  background-color: #222831; 
+  padding: 20px; 
+}
+
+.sign-out {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.sign-out button {
+  background-color: #E2703A; 
+  color: #FFFFFF; 
+  padding: 10px 15px; 
+  font-size: 16px; 
+  border: none; 
+  cursor: pointer;
+  border-radius: 5px; 
+}
+
+.sign-out button:hover {
+  background-color: #D45C26; 
+}
 
 #content::-webkit-scrollbar {
-    width: 0.5em;
-    padding-right: 0.5em;
-    background: transparent;
-  }
-  #content::-webkit-scrollbar-thumb {
-    background: #605CEB;
-    border-radius: 9999999px
-  }
+  width: 0.5em;
+  padding-right: 0.5em;
+  background: transparent;
+}
 
-.ngo-list{
+#content::-webkit-scrollbar-thumb {
+  background: #605CEB;
+  border-radius: 9999999px;
+}
+
+.ngo-list {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  align-content: space-evenly;
+  justify-content: center; /* Align cards in the center */
+  gap: 4; /* Adjust the gap between cards */
 }
 
-section{
-    background: rgb(80, 84, 94);
+section {
+  background: transparent;
 }
-  
-  
+
+/* Apply light color background to cards */
+.max-w-sm {
+  background-color: #E0C097; /* Light color for the card background */
+  border-radius: 0.375rem; /* Add border-radius to the cards */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 4; /* Adjust margin for spacing between cards */
+}
+
+.max-w-sm p {
+  margin-bottom: 2; /* Adjust margin for spacing within cards */
+}
+
+.max-w-sm button {
+  background: #605CEB; /* Light color for the button background */
+  color: #fff; /* White text for the button */
+}
+
+.max-w-sm button:hover {
+  background: #4c4bb1; /* Darken the background color on hover */
+}

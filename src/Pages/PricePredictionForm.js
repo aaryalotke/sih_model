@@ -491,6 +491,7 @@ const PricePredictionForm = () => {
               </div>
 
               <button
+                id="ok"
                 type="submit"
                 className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8 "
               >

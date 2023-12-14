@@ -1,5 +1,6 @@
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import "./index.css";
 
 import Cookies from "universal-cookie";
 
@@ -14,9 +15,9 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
   };
 
   return (
-    <div className="App">
+    <div className="App h-screen">
       <div className="app-header">
-        <h1> Chat App </h1>
+    
       </div>
 
       <div className="app-container">{children}</div>

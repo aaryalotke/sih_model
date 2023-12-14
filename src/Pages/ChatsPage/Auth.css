@@ -1,0 +1,38 @@
+.Auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #222831;
+    
+  }
+  
+  .card {
+    background-color: #E0C097;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 250px;
+  }
+  
+  .card h2 {
+    margin-bottom: 10px;
+    font-size: 35px;
+  }
+  
+  .card p {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  
+  .card button {
+    border: none;
+    outline: none;
+    background: #3b5998;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
