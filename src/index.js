@@ -14,6 +14,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Landing from './Pages/landing';
 import Donations from './Pages/Donations/Donations';
 import ChatsPage from './Pages/ChatsPage/ChatsPage';
+import TopDish from './Pages/Top Dish/TopDish';
+import ShowDish from './Pages/ShowDishPage/ShowDish';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -34,6 +36,8 @@ root.render(
       <Route path="/home" element={<Callsidebar />} />
       <Route path="/donation" element={<Donations />} />
       <Route path="/chat" element={<ChatsPage />} />
+      <Route path="/topdish" element={<TopDish />} />
+      <Route path="/showdish" element={<ShowDish />} />
     </Routes>
 
     {/* <App /> */}
