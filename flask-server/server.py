@@ -23,6 +23,9 @@ import holidays
 
 import plotly.express as px
 
+import joblib
+from xgboost import XGBRegressor
+
 cred = credentials.Certificate("./permissions.json")
 
 firebase_admin.initialize_app(cred)
@@ -211,6 +214,360 @@ def top_dish():
     return {"document1": json_data_future_df_for_all_dishes, "document2": json_data_next_day_df}
 
 
+
+@app.route('/chart', methods=['POST'])
+def chart_predict():
+    try:
+        # Read dataset from a CSV file
+        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+
+        # Retrieve data from the request (commodity, district, market, and training data)
+        data = request.get_json()
+        print(data)
+        # Get input data from the frontend
+        Commodity = int(data['commodity'])
+        start_day = int(data['start_day'])
+        start_month = int(data['start_month'])
+        start_year = int(data['start_year'])
+        end_day = int(data['end_day'])
+        end_month = int(data['end_month'])
+        end_year = int(data['end_year'])
+        state = int(data.get('state'))  # Default value is 1, update as needed
+        district = int(data.get('district'))  # Default value is 17, update as needed
+        market = int(data.get('market'))  # Default value is 109, update as needed
+
+        # Create a start date and end date object
+        start_date = datetime(start_year, start_month, start_day)
+        end_date = datetime(end_year, end_month, end_day)
+        state_name = state
+        district_name = district
+        market_center_name = market
+
+        # Initialize an empty list to store predictions
+        predictions = []
+
+        # Loop through the date range and make predictions
+        while start_date <= end_date:
+            # Extract relevant features from the current date
+            Commodity = Commodity
+            day = start_date.day
+            month = start_date.month
+            year = start_date.year
+
+            # Filter the training data based on the selected commodity, district, and market
+            selected_data = dataset[(dataset['Commodity'] == Commodity) &
+                                    (dataset['District'] == district_name) &
+                                    (dataset['Market'] == market_center_name)]
+
+            # Check if there is data to train the models
+            if selected_data.empty:
+                return jsonify({'error': 'No data available for the specified conditions'})
+
+            # Feature selection
+            selected_features = selected_data[['Day', 'Month', 'Year']]
+            target = selected_data[['MODAL', 'MIN', 'MAX']]
+
+            # Train Random Forest model
+            rf_model = RandomForestRegressor()
+            rf_model.fit(selected_features, target)
+
+            # Train XGBoost model
+            xgb_reg = XGBRegressor(random_state=42)
+            xgb_reg.fit(selected_features, target)
+
+            # Save the trained models (you might want to use a more robust serialization method)
+            joblib.dump(rf_model, 'rf_model.joblib')
+            joblib.dump(xgb_reg, 'xgb_model.joblib')
+
+            # Perform predictions using your model
+            feature_values = [day, month, year]
+            prediction_rf = rf_model.predict([feature_values])
+            prediction_xgb = xgb_reg.predict([feature_values])
+
+            # Append the prediction to the list
+            predictions.append({
+                'date': start_date.strftime('%d-%m-%Y'),
+                'modal': (prediction_rf[0][0] + prediction_xgb[0][0]) / 2,
+                'min': (prediction_rf[0][1] + prediction_xgb[0][1]) / 2,
+                'max': (prediction_rf[0][2] + prediction_xgb[0][2]) / 2
+            })
+
+            # Increment the date by one day
+            start_date += timedelta(days=1)
+
+        # Construct the response with predictions
+        response = {'predictions': predictions}
+        return jsonify(response)
+
+    except Exception as e:
+        # Handle exceptions
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400
+
+@app.route('/notifs', methods=['GET', 'POST'])
+def notifs_predict():
+    try:
+        # Read dataset from a CSV file 
+        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+        print(dataset)
+        # Calculate the end date as 10 days from the current date
+        current_date = datetime.now().date()
+        end_date = current_date + timedelta(days=3)
+
+        # Initialize an empty list to store predictions
+        predictions = []
+
+        # Loop through commodities 1 to 3
+        for commodity in range(1, 4):  # Assumes 1 is tomatoes, 2 is onions, 3 is potatoes
+            commodity_predictions = []
+
+            # Reset the current_date for each commodity
+            current_date = datetime.now().date()
+
+            # Loop through the date range and make predictions
+            while current_date <= end_date:
+                # Extract relevant features from the current date
+                # Modify these as needed to match your dataset
+                state_name = 1
+                district_name = 1
+                market_center_name = 1
+                day = current_date.day
+                month = current_date.month
+                year = current_date.year
+
+                # Filter the training data based on the selected commodity, district, and market
+                selected_data = dataset[(dataset['Commodity'] == int(commodity)) & 
+                                  (dataset['District'] == int(district_name)) & 
+                                  (dataset['Market'] == int(market_center_name))]
+
+                # Perform predictions using your model
+                feature_values = [day, month, year]
+
+                print(selected_data)
+   
+
+                # Check if there is data to train the models
+                if selected_data.empty:
+                    return jsonify({'error': 'No data available for the specified conditions'})
+
+                # Feature selection
+                selected_features = selected_data[[ 'Day', 'Month', 'Year']]
+                target = selected_data[['MODAL','MIN', 'MAX']]
+
+                # Train Random Forest model
+                rf_model = RandomForestRegressor()
+                rf_model.fit(selected_features, target)
+
+                # Train XGBoost model
+                xgb_reg = XGBRegressor(random_state=42)
+                xgb_reg.fit(selected_features, target)
+
+                # Save the trained models (you might want to use a more robust serialization method)
+                joblib.dump(rf_model, 'rf_model.joblib')
+                joblib.dump(xgb_reg, 'xgb_model.joblib')
+
+                prediction_rf = rf_model.predict([feature_values])
+                prediction_xgb = xgb_reg.predict([feature_values])
+
+                # Store the prediction in the dictionary
+                commodity_predictions.append ({
+                    'date': current_date.strftime('%d-%m-%Y'),
+                    'modal': (prediction_rf[0][0] + prediction_xgb[0][0]) / 2,
+                    'min': (prediction_rf[0][1] + prediction_xgb[0][1]) / 2,
+                    'max': (prediction_rf[0][2] + prediction_xgb[0][2]) / 2,
+                    'commodity': commodity
+                })
+                print(commodity_predictions)
+
+               
+
+                # # Append the prediction to the list
+                # commodity_predictions.append({
+                #     'date': current_date.strftime('%d-%m-%Y'),
+                #     'modal': prediction[0][0],
+                #     'min': prediction[0][1],
+                #     'max': prediction[0][2],
+                #     'commodity': commodity
+                # })
+
+                # Increment the date by one day
+                current_date += timedelta(days=1)
+
+            # Append the commodity predictions to the all_predictions list
+            predictions.extend(commodity_predictions)
+
+        # Construct the response with all predictions
+        response = {'predictions': predictions}
+        return jsonify(response)
+    except Exception as e:
+        # Handle exceptions
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400 
+
+@app.route('/today', methods=['GET','POST'])
+def today_price():
+    try:
+        current_date = datetime.now().date()
+
+         # Read dataset from a CSV file 
+        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+        print(dataset)
+
+        commodities = {
+            'Tomato': 1,
+            'Potato': 2,
+            'Onion': 3,
+        }
+
+        # Initialize an empty dictionary to store responses
+        predictions = {}
+        
+        # state_name = 1
+        # district_name = 1
+        # market_center_name = 1
+        day = current_date.day
+        month = current_date.month
+        year = current_date.year
+
+        for commodity, commodity_value in commodities.items():
+            selected_data = dataset[(dataset['Commodity'] == commodity_value) & 
+                                      (dataset['District'] == 1) & 
+                                      (dataset['Market'] == 1)]
+            print(selected_data)
+
+            if not selected_data.empty:
+                # Feature selection
+                selected_features = selected_data[['Day', 'Month', 'Year']]
+                target = selected_data[['MODAL', 'MIN', 'MAX']]
+
+                # Train Random Forest model
+                rf_model = RandomForestRegressor()
+                rf_model.fit(selected_features, target)
+
+                # Train XGBoost model
+                xgb_reg = XGBRegressor(random_state=42)
+                xgb_reg.fit(selected_features, target)
+
+                # Save the trained models (you might want to use a more robust serialization method)
+                joblib.dump(rf_model, f'rf_model_{commodity}.joblib')
+                joblib.dump(xgb_reg, f'xgb_model_{commodity}.joblib')
+
+                # feature_values = [commodity_value, state_name, district_name, market_center_name, Variety, group_name, Arrival, day, month, year]
+                input_data = pd.DataFrame({'Day': [day], 'Month': [month], 'Year': [year]}, index=[0])
+
+                rf_prediction = rf_model.predict(input_data)
+                print(rf_prediction)
+                xgb_prediction = xgb_reg.predict(input_data)
+                print(xgb_prediction)
+
+                # Construct the response with the prediction result
+                predictions[commodity] = {
+                    'modal': (rf_prediction[0][0] + xgb_prediction[0][0]) / 2,
+                    'min': (rf_prediction[0][1] + xgb_prediction[0][1]) / 2,
+                    'max': (rf_prediction[0][2] + xgb_prediction[0][2]) / 2,
+                }
+
+        # Return predictions for all commodities
+        return jsonify(predictions)
+
+    except Exception as e:
+        # Handle exceptions, e.g., invalid input data
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400
+
+@app.route('/compare', methods=['POST'])
+def compare_price():
+    try:
+         # Read dataset from a CSV file
+        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+        data = request.get_json()
+        print(data)
+        # Extract parameters from the request
+        district_name = int(data['district'])
+        day = int(data['day'])
+        month = int(data['month'])
+        year = int(data['year'])
+        market_values = data['markets']
+        
+
+        # Sample commodities
+        commodities = {
+            'Onion': 2,
+            'Tomato': 1,
+            'Potato': 3
+        }
+
+        # Initialize an empty dictionary to store responses
+        predictions = {}
+
+        for commodity, commodity_value in commodities.items():
+            # Assuming your model features are in the following order
+            feature_values = [day, month, year]
+
+            # Initialize a sub-dictionary for the current commodity
+            predictions[commodity] = {}
+
+            # Loop through market values and make predictions
+            for market_value in market_values:
+                # Update market center name for each iteration
+                # feature_values[3] = market_value
+
+                # Filter the training data based on the selected commodity, district, and market
+                selected_data = dataset[(dataset['Commodity'] == int(commodity_value)) &
+                                        (dataset['District'] == int(district_name)) &
+                                        (dataset['Market'] == int(market_value))]
+                print(commodity_value)
+                print(selected_data)
+                # Check if there is data to train the models
+                if selected_data.empty:
+                    predictions[commodity][market_value] = {'error': 'No data available for the specified conditions'}
+                else:
+                    # Feature selection
+                    selected_features = selected_data[['Day', 'Month', 'Year']]
+                    target = selected_data[['MODAL', 'MIN', 'MAX']]
+
+                    # Train Random Forest model
+                    rf_model = RandomForestRegressor()
+                    rf_model.fit(selected_features, target)
+
+                    # Train XGBoost model
+                    xgb_reg = XGBRegressor(random_state=42)
+                    xgb_reg.fit(selected_features, target)
+
+                    # Save the trained models (you might want to use a more robust serialization method)
+                    joblib.dump(rf_model, f'rf_model_{commodity}_{market_value}.joblib')
+                    joblib.dump(xgb_reg, f'xgb_model_{commodity}_{market_value}.joblib')
+
+                    # Perform predictions using your model
+                    prediction_rf = rf_model.predict([feature_values])
+                    prediction_xgb = xgb_reg.predict([feature_values])
+
+                    # Store the prediction in the dictionary
+                    predictions[commodity][market_value] = {
+                        'modal': (prediction_rf[0][0] + prediction_xgb[0][0]) / 2,
+                        'min': (prediction_rf[0][1] + prediction_xgb[0][1]) / 2,
+                        'max': (prediction_rf[0][2] + prediction_xgb[0][2]) / 2,
+                    }
+                    print(predictions)
+
+        return jsonify(predictions)
+
+    except Exception as e:
+        # Handle exceptions, e.g., invalid input data
+        error_response = {
+            'error_message': str(e)
+        }
+        return jsonify(error_response), 400
 
 if __name__ == "__main__":
     app.run(debug=True)
