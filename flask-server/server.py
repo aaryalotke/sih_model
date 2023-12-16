@@ -132,8 +132,10 @@ def top_dish():
         dishID_value = dish_1_data.at[dish_1_data.index[1], 'DishID']
 
         all_transactions = [transaction for date in all_dates for transaction in generate_transactions(date, vegetarian_value, price_value, dishID_value)]
-        future_X = pd.DataFrame(columns=['Date','DishID', 'Vegetarian', 'Price', 'DayOfWeek', 'Occasion'])
-        future_X = future_X.append(all_transactions, ignore_index=True)
+        # all_transactions_df = pd.DataFrame([all_transactions])
+        # future_X = pd.DataFrame(columns=['Date','DishID', 'Vegetarian', 'Price', 'DayOfWeek', 'Occasion'])
+        future_X = pd.DataFrame(all_transactions, columns=['Date', 'DishID', 'Vegetarian', 'Price', 'DayOfWeek', 'Occasion'])
+        # future_X = pd.concat([future_X, all_transactions_df], ignore_index=True)
 
         future_X.set_index('Date', inplace=True)
 
@@ -193,11 +195,15 @@ def top_dish():
         total_quant = future_results_df_ensemble_gbr["Predicted"].sum()
 
         add_dish_in_total_pred = {"DishID": i, "Total Quantity Sales": total_quant}
+        add_dish_in_total_pred = pd.DataFrame([add_dish_in_total_pred])
 
         add_dish_in_next_day = {"DishID": i, "Quantity Sales": next_day_sales}
+        add_dish_in_next_day = pd.DataFrame([add_dish_in_next_day])
 
-        future_df_for_all_dishes = future_df_for_all_dishes.append(add_dish_in_total_pred, ignore_index=True)
-        next_day_df = next_day_df.append(add_dish_in_next_day, ignore_index=True)
+        # future_df_for_all_dishes = future_df_for_all_dishes.append(add_dish_in_total_pred, ignore_index=True)
+        future_df_for_all_dishes = pd.concat([future_df_for_all_dishes, add_dish_in_total_pred], ignore_index=True)
+        # next_day_df = next_day_df.append(add_dish_in_next_day, ignore_index=True)
+        next_day_df = pd.concat([next_day_df, add_dish_in_next_day], ignore_index=True)
         
         json_data_future_df_for_all_dishes = future_df_for_all_dishes.to_json(orient='records')
         json_data_next_day_df = next_day_df.to_json(orient='records')
