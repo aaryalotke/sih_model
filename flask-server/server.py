@@ -33,7 +33,7 @@ firebase_admin.initialize_app(cred)
 app = Flask(__name__)
 cors = CORS(app)
 
-df = pd.read_csv("flask-server\\food_sales2.csv")
+df = pd.read_csv("D:\\sihhhh\\sih_model\\flask-server\\food_sales2.csv")
 df = df.dropna()
 
 all_dish_id = df['DishID'].unique()
