@@ -26,14 +26,14 @@ import plotly.express as px
 import joblib
 from xgboost import XGBRegressor
 
-cred = credentials.Certificate("./permissions.json")
+cred = credentials.Certificate("flask-server\\permissions.json")
 
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
 cors = CORS(app)
 
-df = pd.read_csv("food_sales2.csv")
+df = pd.read_csv("flask-server\\food_sales2.csv")
 df = df.dropna()
 
 all_dish_id = df['DishID'].unique()
@@ -215,11 +215,11 @@ def top_dish():
 
 
 
-@app.route('/chart', methods=['POST'])
+@app.route('/chart', methods=['GET', 'POST'])
 def chart_predict():
     try:
         # Read dataset from a CSV file
-        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset_path = 'src\\static\\agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
 
         # Retrieve data from the request (commodity, district, market, and training data)
@@ -306,12 +306,87 @@ def chart_predict():
             'error_message': str(e)
         }
         return jsonify(error_response), 400
+    
+@app.route('/predict', methods=['GET', 'POST'])
+def predict_price():
+
+    try:
+        # Read dataset from a CSV file 
+        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset = pd.read_csv(dataset_path)
+        print(dataset)
+
+        # Retrieve data from the request (commodity, district, market, and training data)
+        data = request.get_json()
+
+        commodity = int(data['Commodity'])
+        district = int(data['district_name'])
+        market = int(data['market_center_name'])
+        day = int(data['day'])
+        month = int(data['month'])
+        year = int(data['year'])
+        # training_data = pd.DataFrame(data['training_data'])
+
+        # Filter the training data based on the selected commodity, district, and market
+        selected_data = dataset[(dataset['Commodity'] == int(commodity)) & 
+                                    (dataset['District'] == int(district)) & 
+                                    (dataset['Market'] == int(market))]
+        
+        print("Unique Commodity values in the dataset:", dataset['Commodity'].unique())
+
+        print("Selected Commodity value:", commodity)
+
+        print(selected_data)
+    
+
+        # Check if there is data to train the models
+        if selected_data.empty:
+            return jsonify({'error': 'No data available for the specified conditions'})
+
+        # Feature selection
+        selected_features = selected_data[[ 'Day', 'Month', 'Year']]
+        target = selected_data[['MODAL','MIN', 'MAX']]
+
+        # Train Random Forest model
+        rf_model = RandomForestRegressor()
+        rf_model.fit(selected_features, target)
+
+        # Train XGBoost model
+        xgb_reg = XGBRegressor(random_state=42)
+        xgb_reg.fit(selected_features, target)
+
+        # Save the trained models (you might want to use a more robust serialization method)
+        joblib.dump(rf_model, 'rf_model.joblib')
+        joblib.dump(xgb_reg, 'xgb_model.joblib')
+
+        # feature_values = [Commodity, state_name, district_name, market_center_name,Variety, group_name, Arrival, day, month, year]
+        input_data = pd.DataFrame({'Day': day, 'Month': month, 'Year': year} , index=[0])
+        
+        rf_prediction = rf_model.predict(input_data)
+        print(rf_prediction)
+        xgb_prediction = xgb_reg.predict(input_data)
+        print(xgb_prediction)
+
+            # Construct the response with the prediction result
+        response = {
+                'modal': (rf_prediction[0][0] + xgb_prediction[0][0]) / 2,
+                'min': (rf_prediction[0][1] + xgb_prediction[0][1]) / 2,
+                'max': (rf_prediction[0][2] + xgb_prediction[0][2]) / 2,
+                
+            }
+        return jsonify(response)
+    except Exception as e:
+            # Handle exceptions
+            error_response = {
+                'error_message': str(e)
+            }
+            return jsonify(error_response), 400 
 
 @app.route('/notifs', methods=['GET', 'POST'])
 def notifs_predict():
     try:
         # Read dataset from a CSV file 
-        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset_path = 'src\\static\\agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
         # Calculate the end date as 10 days from the current date
@@ -416,7 +491,7 @@ def today_price():
         current_date = datetime.now().date()
 
          # Read dataset from a CSV file 
-        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset_path = 'src\\static\\agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
 
@@ -488,7 +563,7 @@ def today_price():
 def compare_price():
     try:
          # Read dataset from a CSV file
-        dataset_path = './../src/static/agmarket_dataset.csv'
+        dataset_path = 'src\\static\\agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         data = request.get_json()
         print(data)

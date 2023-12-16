@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { css } from "@emotion/react";
+import { BarLoader } from "react-spinners";
+import axios from "axios";
 import Header from "./header";
 import {
   LineChart,
@@ -9,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import axios from "axios";
+
 
 function ChartOne() {
   // const [startDay, setStartDay] = useState("1"); // Default start day
@@ -18,6 +21,7 @@ function ChartOne() {
   // const [endDay, setEndDay] = useState("1"); // Default end day
   // const [endMonth, setEndMonth] = useState("01"); // Default end month
   // const [endYear, setEndYear] = useState("2023"); // Default end year
+  const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState(null);
 
   const [selectedState, setSelectedState] = useState("1"); // Default selected state
@@ -169,7 +173,9 @@ function ChartOne() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/chart", {
+      setLoading(true); 
+      setChartData(null);
+      const response = await axios.post("http://127.0.0.1:5000/chart", {
         start_day: startDay,
         start_month: startMonth,
         start_year: startYear,
@@ -188,10 +194,13 @@ function ChartOne() {
       console.log(chartData);
     } catch (error) {
       console.error("Error:", error);
+    }finally {
+      setLoading(false); // Set loading to false when data fetching is completed
     }
   };
 
   useEffect(() => {
+    setChartData(null);
     fetchData();
   }, [
     startDay,
@@ -229,49 +238,6 @@ function ChartOne() {
             ))}
           </select>
         </div>
-        {/* <div className="my-4">
-      <label className="mr-6 text-sm font-medium text-gray-700">State :</label>
-      <select
-        value={selectedState}
-        onChange={(e) => setSelectedState(e.target.value)}
-        className="border border-gray-300 rounded px-2 py-2 h-12 w-96 mr-7"
-      >
-        <option value="">Select a state</option>
-        {stateOptions.map((state) => (
-          <option key={state.value} value={state.value}>
-            {state.label}
-          </option>
-        ))}
-      </select>
-
-      <label className="mr-6 text-sm font-medium text-gray-700">District :</label>
-      <select
-        value={selectedDistrict}
-        onChange={(e) => setSelectedDistrict(e.target.value)}
-        className="border border-gray-300 rounded px-2 py-2 h-12 w-96 mr-7"
-      >
-        <option value="">Select a district</option>
-        {districtOptions.map((district) => (
-          <option key={district.value} value={district.value}>
-            {district.label}
-          </option>
-        ))}
-      </select>
-
-      <label className="mr-6 text-sm font-medium text-gray-700">Market :</label>
-      <select
-        value={selectedMarket}
-        onChange={(e) => setSelectedMarket(e.target.value)}
-        className="border border-gray-300 rounded px-2 py-2 h-12 w-96 mr-7"
-      >
-        <option value="">Select a market</option>
-        {marketOptions.map((market) => (
-          <option key={market.value} value={market.value}>
-            {market.label}
-          </option>
-        ))}
-      </select>
-    </div> */}
 
         {/* State */}
         <div className="my-4">
@@ -412,47 +378,65 @@ function ChartOne() {
             ))}
           </select>
         </div>
-        <button
-          onClick={fetchData}
-          className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8 "
-        >
-          Predict
-        </button>
-        {chartData ? (
-          <div className="md:w-1/2">
-            <h2 className="text-xl font-bold mb-12 ">
-              Predictions for the Date Range
-            </h2>
-            <LineChart width={600} height={300} data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="modal"
-                name="Modal Price"
-                stroke="rgba(75, 192, 192, 1)"
-              />
-              <Line
-                type="monotone"
-                dataKey="min"
-                name="Min Price"
-                stroke="rgba(255, 99, 132, 1)"
-              />
-              <Line
-                type="monotone"
-                dataKey="max"
-                name="Max Price"
-                stroke="rgba(54, 162, 235, 1)"
-              />
-            </LineChart>
-          </div>
-        ) : null}
+        
+
+<button
+  onClick={fetchData}
+  className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8"
+  disabled={!selectedDistrict || !selectedCommodity}
+>
+  Predict
+</button>
+
+{/* Render loading bar and chart based on the loading state */}
+{loading ? (
+  <div className="text-center">
+    <p>Loading predictions...</p>
+    <div className="flex justify-center items-center mt-4">
+      <BarLoader css={loaderStyle} size={150} color={"#36D7B7"} />
+    </div>
+  </div>
+):(
+  selectedCommodity &&
+
+chartData &&(
+  <div className="md:w-1/2">
+    <h2 className="text-xl font-bold mb-12">Predictions for the Date Range</h2>
+    <LineChart width={600} height={300} data={chartData}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="date" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line
+        type="monotone"
+        dataKey="modal"
+        name="Modal Price"
+        stroke="rgba(75, 192, 192, 1)"
+      />
+      <Line
+        type="monotone"
+        dataKey="min"
+        name="Min Price"
+        stroke="rgba(255, 99, 132, 1)"
+      />
+      <Line
+        type="monotone"
+        dataKey="max"
+        name="Max Price"
+        stroke="rgba(54, 162, 235, 1)"
+      />
+    </LineChart>
+  </div>
+) )} 
+
       </div>
     </div>
   );
-}
+};
+const loaderStyle = css`
+  display: block;
+  margin: 0 auto;
+`;
 
 export default ChartOne;
