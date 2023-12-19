@@ -26,12 +26,14 @@ import plotly.express as px
 import joblib
 from xgboost import XGBRegressor
 
+
 import requests
 from bs4 import BeautifulSoup
 import pytz
 import time
 
-cred = credentials.Certificate("./permissions.json")
+cred = credentials.Certificate("flask-server\\permissions.json")
+
 
 firebase_admin.initialize_app(cred)
 
@@ -115,6 +117,46 @@ def create_product():
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/add-collaboration/', methods=['POST'])
+def add_collaboration():
+    try:
+        # Assuming the request body is in JSON format
+        req_data = request.get_json()
+
+        # Add a new document to the 'collaborations' collection
+        db.collection('collaborations').document().set({
+            'restaurantName': req_data['restaurantName'],
+            'collaborationDuration': req_data['collaborationDuration'],
+            'collaborationDetails': req_data['collaborationDetails'],
+            'contactPerson': req_data['contactPerson'],
+            'contactEmail': req_data['contactEmail'],
+        })
+
+        return jsonify({'message': 'Collaboration details added successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/get-collaborations/', methods=['GET'])
+def get_collaborations():
+    try:
+        # Reference to the "collaborations" collection in Firebase
+        collaborations_ref = db.collection('collaborations')
+
+        # Fetch all documents from the collection
+        collaborations = collaborations_ref.get()
+
+        # Extract data from documents
+        data = []
+        for doc in collaborations:
+            data.append({**doc.to_dict(), 'id': doc.id})
+
+        return jsonify(data), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
     
 
 
