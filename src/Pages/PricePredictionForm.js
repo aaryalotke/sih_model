@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { css } from "@emotion/react";
+import { BarLoader } from "react-spinners";
 
 const PricePredictionForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const PricePredictionForm = () => {
     month: "1",
     year: 2023, // Set the default year to the current year
   });
+  const [isLoadingPrediction, setIsLoadingPrediction] = useState(false);
   const [predictedPrice, setPredictedPrice] = useState(null); // State to store predicted price
   const [minPrice, setminPrice] = useState(null); // State to store predicted price
   const [maxPrice, setmaxPrice] = useState(null); // State to store predicted price
@@ -145,6 +148,7 @@ const PricePredictionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoadingPrediction(true);
       console.log(formData);
       // Send the selected field values to your Flask backend
       const response = await fetch("http://127.0.0.1:5000/predict", {
@@ -173,6 +177,8 @@ const PricePredictionForm = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    }finally {
+      setIsLoadingPrediction(false); // Set loading to false when the request is complete
     }
   };
 
@@ -497,10 +503,21 @@ const PricePredictionForm = () => {
               >
                 Predict
               </button>
-              {/* Display the predicted price */}
-              {predictedPrice !== null && (
-                <section class="text-gray-600 body-font">
-                  <div class="container px-5 py-24 mx-auto">
+              
+              {isLoadingPrediction ? (
+  <div className="text-center">
+  <p>Loading predictions...</p>
+  <div className="flex justify-center items-center mt-4">
+    <BarLoader
+      css={loaderStyle}
+      size={150}
+      color={"#36D7B7"}
+    />
+  </div>
+</div>
+) : predictedPrice !== null && (
+  <section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
                     <div class="flex flex-col text-center w-full mb-20">
                       <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
                         Market Prices Per Quintal for{" "}
@@ -548,8 +565,8 @@ const PricePredictionForm = () => {
                       </div>
                     </div>
                   </div>
-                </section>
-              )}
+  </section>
+)}
             </div>
           </div>
         </div>
@@ -557,5 +574,10 @@ const PricePredictionForm = () => {
     </form>
   );
 };
+
+const loaderStyle = css`
+  display: block;
+  margin: 0 auto;
+`;
 
 export default PricePredictionForm;

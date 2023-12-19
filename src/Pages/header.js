@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { auth } from "../firebase";
 import { AuthErrorCodes, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import GoogleTranslateWidget from "../Components/GoogleTranslateWidget";
 
 function Header() {
 
@@ -39,7 +40,7 @@ function Header() {
           <a className='p-2 hover:bg-indigo-400 cursor-pointer  rounded'><Link to="/aboutus" class="nav-link active">About Us</Link> </a> 
           <a className='p-2 hover:bg-indigo-400 cursor-pointer   rounded'><Link to="/contactus" class="nav-link active">Contact Us</Link> </a> 
           <a className='p-2 hover:bg-indigo-400 cursor-pointer   rounded'><Link to="/donation" class="nav-link active">Donation</Link> </a> 
-         
+          <GoogleTranslateWidget/>
         </nav>
         <div className="md:ml-auto md:mr-0 mt-4 md:mt-0">
           <button className="inline-flex text-white items-center bg-gray-800 border-0 mr-6 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base" onClick={handleLogout}>
