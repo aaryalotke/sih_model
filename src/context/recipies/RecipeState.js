@@ -3,7 +3,8 @@ import recipeContext from "./recipeContext";
 import { useState } from "react";
 const RecipeState = (props) => {
   // const host= "http://localhost:5000" ;
-  const host = "http://localhost:5000/fir-crud-restapi-8f473/us-central1/app";
+  // const host = "http://localhost:5000/fir-crud-restapi-8f473/us-central1/app";
+  const host = "http://127.0.0.1:5000/";
   const recipiesInitial = [];
 
   const [recipies, setRecipies] = useState(recipiesInitial);
@@ -11,7 +12,7 @@ const RecipeState = (props) => {
   //get all notes
   const getRecipies = async () => {
     // console.log('adding a new note');
-    const response = await fetch(`${host}/api/get-recipies/`, {
+    const response = await fetch(`${host}/api/read/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,34 +25,29 @@ const RecipeState = (props) => {
 
   // Add a note
   const addRecipe = async (
-    name,
-    ingredient_list,
-    price_list,
-    quantity_list,
-    cost_price,
-    selling_price,
-    num_of_dishes
+    newRecipe
   ) => {
-    console.log("Name:", name);
-    console.log("List of Ingredients:", ingredient_list);
-    console.log("Price List:", price_list);
-    console.log("Quantity List:", quantity_list);
-    console.log("Cost Price:", cost_price);
-    console.log("Selling Price:", selling_price);
-    console.log("Number of Dishes:", num_of_dishes);
-    const response = await fetch(`${host}/api/add-recipe/`, {
+    // console.log("Name:", name);
+    // console.log("List of Ingredients:", ingredient_list);
+    // console.log("Price List:", price_list);
+    // console.log("Quantity List:", quantity_list);
+    // console.log("Cost Price:", cost_price);
+    // console.log("Selling Price:", selling_price);
+    // console.log("Number of Dishes:", num_of_dishes);
+    const response = await fetch(`${host}/add-recipe/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        ingredient_list,
-        price_list,
-        quantity_list,
-        cost_price,
-        selling_price,
-        num_of_dishes,
+        "name":newRecipe.name,
+        "ingredient_list": newRecipe.ingredient_list,
+        "price_list": newRecipe.price_list,
+        "quantity_list": newRecipe.quantity_list,
+        "cost_price": newRecipe.cost_price,
+        "selling_price": newRecipe.selling_price,
+        "num_of_dishes": newRecipe.num_of_dishes,
+        "is_veg": newRecipe.is_veg
       }),
     });
     const recipe = await response.json();

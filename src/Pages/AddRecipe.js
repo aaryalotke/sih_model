@@ -7,12 +7,15 @@ const AddRecipe = () => {
   const context = useContext(recipeContext);
     const {addRecipe} = context;
 
-    const [recipe, setRecipe] = useState({name:"",ingredient_list:[],price_list:[],quantity_list:[],cost_price:"",selling_price:"", num_of_dishes:""});
+    const [recipe, setRecipe] = useState({name:"",ingredient_list:[],price_list:[],quantity_list:[],cost_price:"",selling_price:"", num_of_dishes:"", is_veg:"no"});
+    const [ingredientSets, setIngredientSets] = useState([{ ingredient: '', quantity: '' }]);
 
+    const addIngredientSet = () => {
+      setIngredientSets([...ingredientSets, { ingredient: '', quantity: '' }]);
+    };
     const handleClick = (e)=>{
         e.preventDefault();
 
-        console.log("ingSSSS",ingredientSets);
         let firstItemsArray = [];
         let secondItemsArray = [];
         let priceItemsArray = [];
@@ -32,9 +35,9 @@ const AddRecipe = () => {
         secondItemsArray.push(1);
         priceItemsArray.push(otherExpenses);
         costPrice = 0;
-        for (let index = 0; index < priceItemsArray.length; index++) {
-          costPrice += priceItemsArray[index];
-        }
+        // for (let index = 0; index < priceItemsArray.length; index++) {
+        //   costPrice += priceItemsArray[index];
+        // }
         const jsObj = {
           "name": recipe.name,
           "ingredient_list": firstItemsArray,
@@ -42,7 +45,8 @@ const AddRecipe = () => {
           "quantity_list": secondItemsArray,
           "cost_price": costPrice,
           "selling_price": recipe.selling_price,
-          "num_of_dishes": recipe.num_of_dishes
+          "num_of_dishes": recipe.num_of_dishes,
+          "is_veg": recipe.is_veg
         }
         
         setRecipe(jsObj);
@@ -54,30 +58,27 @@ const AddRecipe = () => {
           recipe.quantity_list,
           recipe.cost_price,
           recipe.selling_price,
-          recipe.num_of_dishes
+          recipe.num_of_dishes,
+          recipe.is_veg
         );
 
-        // addRecipe(recipe.name, recipe.ingredient_list,recipe.price_list, recipe.quantity_list, recipe.cost_price,recipe.selling_price, recipe.num_of_dishes);
-        setRecipe({name:"",ingredient_list:[],price_list:[],quantity_list:[],cost_price:"", selling_price: "", num_of_dishes:""})
+        addRecipe(recipe.name, recipe.ingredient_list,recipe.price_list, recipe.quantity_list, recipe.cost_price,recipe.selling_price, recipe.num_of_dishes, recipe.is_veg);
+        // setRecipe({name:"",ingredient_list:[],price_list:[],quantity_list:[],cost_price:"", selling_price: "", num_of_dishes:"", is_veg:""})
+        addRecipe(recipe);
       }
       const [otherExpenses, setOtherExpenses] = useState(0);
     const onChange = (e)=>{
 
-        if(e.target.name === "other-expense"){
+        if( e.target.name === "other-expense"){
           setOtherExpenses(e.target.value);
         }
         else{
-
           setRecipe({...recipe,[e.target.name]:e.target.value});
         }
 
     }
 
-    const [ingredientSets, setIngredientSets] = useState([{ ingredient: '', quantity: '' }]);
 
-    const addIngredientSet = () => {
-      setIngredientSets([...ingredientSets, { ingredient: '', quantity: '' }]);
-    };
   
     const handleInputChange = (setIndex, key, value) => {
       const updatedIngredientSets = [...ingredientSets];
@@ -89,8 +90,8 @@ const AddRecipe = () => {
   //     <div style={{margin: "30px", borderRadius: "40px",padding: "20px"}}>      
   //     <form style={{background:"orange", width: "400px"}}>
   // <div  className="form-group">
-  //   <label htmlFor="title">Title</label>
-  //   <input value={recipe.name} onChange={onChange} id="title" name="title" type="text" className="form-control"  aria-describedby="emailHelp"  />
+  //   <label htmlFor="title">Title</label>onChange
+  //   <input value={recipe.name} ={onChange} id="title" name="title" type="text" className="form-control"  aria-describedby="emailHelp"  />
   // </div>
   // <div className="form-group">
   //   <label htmlFor="description">Description</label>
@@ -119,7 +120,6 @@ const AddRecipe = () => {
             <input onChange={onChange} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="pav bhaji" required />
         </div>
 
-
         <div className="mt-4">
       {ingredientSets.map((ingredientSet, setIndex) => (
         <div key={setIndex} className="flex space-x-2 mb-2">
@@ -143,7 +143,10 @@ const AddRecipe = () => {
         Add Ingredients
       </button>
     </div>
-
+    <div>
+            <label htmlFor="is_veg" className=" mb-2 text-sm font-medium text-gray-900 dark:text-white">is it veg?</label>
+            <input onChange={onChange} type="checkbox" style={{margin: '10px', width: '20px', height: '20px', paddingBottom:'0'}} name="is_veg" id="is_veg"  />
+        </div>
     <div>
         <label htmlFor='other-expense' className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter other expenses</label>
         <input  onChange={onChange} name='other-expense' id='other-expense' type="text"   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required />
