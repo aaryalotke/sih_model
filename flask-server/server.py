@@ -40,7 +40,7 @@ firebase_admin.initialize_app(cred)
 app = Flask(__name__)
 cors = CORS(app)
 
-df = pd.read_csv("./food_sales2.csv")
+df = pd.read_csv("flask-server\\food_sales2.csv")
 df = df.dropna()
 
 all_dish_id = df['DishID'].unique()
@@ -117,6 +117,8 @@ def create_product():
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
+    
+
     
 @app.route('/add-collaboration/', methods=['POST'])
 def add_collaboration():
