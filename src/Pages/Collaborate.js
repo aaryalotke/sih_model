@@ -20,30 +20,42 @@ function Collaborate() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Collaboration Data:', formData);
-
-        //**************** Store data in Firebase*****************************
-        // const database = firebase.database();
-        // const collaborationRef = database.ref("collaborations");
-
-        // collaborationRef.push(formData);
-
-        setIsDetailsSubmitted(true);
-
-        // Reset the form after 3 seconds
-        setTimeout(() => {
-            setIsDetailsSubmitted(false);
-            setFormData({
-                restaurantName: "",
-                collaborationDuration: "",
-                collaborationDetails: "",
-                contactPerson: "",
-                contactEmail: "",
+    
+        try {
+            const response = await fetch('/add-collaboration/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
             });
-        }, 2000);
+    
+            if (response.ok) {
+                console.log('Collaboration data submitted successfully');
+                setIsDetailsSubmitted(true);
+    
+                // Reset the form after 3 seconds
+                setTimeout(() => {
+                    setIsDetailsSubmitted(false);
+                    setFormData({
+                        restaurantName: "",
+                        collaborationDuration: "",
+                        collaborationDetails: "",
+                        contactPerson: "",
+                        contactEmail: "",
+                    });
+                }, 2000);
+            } else {
+                console.error('Failed to submit collaboration data');
+            }
+        } catch (error) {
+            console.error('Error submitting collaboration data:', error);
+        }
     };
+    
 
     // Handle the click event for showing CollaborationList
     const handleShowCollaborationList = () => {
@@ -94,7 +106,7 @@ function Collaborate() {
             ) : showCollaborationList ? (
                 <CollaborationList onBackButtonClick={handleBackButtonClick} />
             ) : (
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+                <form onSubmit={handleSubmit}className="bg-white p-6 rounded-lg shadow-md">
 
                     <div className="grid grid-cols-2 gap-4">
                         {/* Restaurant Name */}

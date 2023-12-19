@@ -26,7 +26,7 @@ import plotly.express as px
 import joblib
 from xgboost import XGBRegressor
 
-cred = credentials.Certificate("./permissions.json")
+cred = credentials.Certificate("flask-server\\permissions.json")
 
 firebase_admin.initialize_app(cred)
 
@@ -107,6 +107,26 @@ def create_product():
         })
 
         return jsonify({'message': 'Product created successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/add-collaboration/', methods=['POST'])
+def add_collaboration():
+    try:
+        # Assuming the request body is in JSON format
+        req_data = request.get_json()
+
+        # Add a new document to the 'collaborations' collection
+        db.collection('collaborations').document().set({
+            'restaurantName': req_data['restaurantName'],
+            'collaborationDuration': req_data['collaborationDuration'],
+            'collaborationDetails': req_data['collaborationDetails'],
+            'contactPerson': req_data['contactPerson'],
+            'contactEmail': req_data['contactEmail'],
+        })
+
+        return jsonify({'message': 'Collaboration details added successfully'}), 200
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
