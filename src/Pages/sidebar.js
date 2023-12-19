@@ -13,9 +13,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     { id: 'commodityPrediction', label: 'Commodity Prediction' },
     { id: 'Inventory', label: 'Inventory' },
     { id: 'messages', label: 'Alerts' },
-   
-  
-    
+    { id: 'DailySales', label: 'DailySales' }
     
 
   ];

@@ -9,6 +9,7 @@ import Dashboard from './dashboard';
 import NotificationsPage from './notifications';
 import InventoryManagement from './inventory';
 import Comparison from './Comparison';
+import DailySales from './DailySales';
 
 
 function Callsidebar() {
@@ -25,6 +26,7 @@ function Callsidebar() {
         {activeTab === 'DailyPricePrediction' && <PricePredictionForm/>}
         
         {activeTab === 'messages' && <NotificationsPage/>}
+        {activeTab === 'DailySales' && <DailySales/>}
         {activeTab === 'settings' && (
           <div>
             <h1 className="text-3xl font-semibold">Settings</h1>
