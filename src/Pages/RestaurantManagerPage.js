@@ -1,8 +1,6 @@
 import React, {useContext,useEffect,useRef,useState} from 'react'
 import recipeContext from '../context/recipies/recipeContext';
 import DishCard from './DishCard';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import {  useNavigate } from 'react-router-dom';
 import AddRecipe from './AddRecipe';
 

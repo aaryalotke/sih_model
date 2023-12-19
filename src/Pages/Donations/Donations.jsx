@@ -10,7 +10,7 @@ const Donations = () => {
             <div className="column-left">
                 <h1>Connect with NGO</h1>
                 <p>
-                    Chat with the restraunts in your area to check for the available donations
+                    Chat with the restaurants in your area to check for the available donations
                 </p>
                 <button id='donation'>
                 <Link to="/chat" >Chat with restaurants</Link>
