@@ -9,8 +9,8 @@ const PricePredictionForm = () => {
     state_name: "1",
     district_name: "1",
     market_center_name: "1",
-    day: "1",
-    month: "1",
+    day: "19",
+    month: "12",
     year: 2023, // Set the default year to the current year
   });
   const [isLoadingPrediction, setIsLoadingPrediction] = useState(false);
