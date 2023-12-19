@@ -75,7 +75,7 @@ const InventoryManagement = () => {
       const unitsOfMeasurement = ["kg", "bunch", "piece", "liter", "gram"]; // Add your units of measurement
       const name = ["Tomato","Onion","Potato"]
     
-      const handleAddCommodity = () => {
+      const handleAddCommodity = async () => {
         const newCommodityWithId = {
           ...newCommodity,
           id: data.length + 1, // Incremental ID
@@ -85,6 +85,26 @@ const InventoryManagement = () => {
           unitCost: parseFloat(newCommodity.unitCost),
           lastUpdated: new Date().toLocaleDateString(),
         };
+
+        try {
+            const response = await fetch('/add-inventory/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(newCommodityWithId),
+            });
+        
+            if (response.ok) {
+              console.log('Inventory data submitted successfully');
+              // Add any additional logic you need after successful submission
+            } else {
+              console.error('Failed to submit inventory data');
+            }
+          } catch (error) {
+            console.error('Error submitting inventory data:', error);
+          }
+        
     
         setData([...data, newCommodityWithId]);
     
