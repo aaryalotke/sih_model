@@ -38,7 +38,7 @@ function Comparison() {
   const months = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0")
   );
-  const years = ["2021", "2022", "2023", "2024"];
+  const years = ["2022", "2023", "2024"];
 
   const marketMapping = {
     6: ["Jalgaon", "Bhusaval"],
