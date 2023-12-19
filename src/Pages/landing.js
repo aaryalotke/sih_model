@@ -54,8 +54,8 @@ function Landing() {
           </div>
 
           <div className="w-[20rem] h-[7rem] p-4 m-5">
-            <h2>Easy Integration</h2>
-            <h2>Integrate seamlessly with your existing systems.</h2>
+            <h2>Reachout to other restraunts</h2>
+            <h2>Collaborate with other restraunts to host your unique dishes to the world around.</h2>
           </div>
         </div>
     </div>

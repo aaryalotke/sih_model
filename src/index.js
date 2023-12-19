@@ -14,11 +14,16 @@ import { BrowserRouter } from 'react-router-dom';
 import Landing from './Pages/landing';
 import Donations from './Pages/Donations/Donations';
 import ChatsPage from './Pages/ChatsPage/ChatsPage';
+import RecipeState from './context/recipies/RecipeState';
+import DailySales from './Pages/DailySales';
 import TopDish from './Pages/Top Dish/TopDish';
 import ShowDish from './Pages/ShowDishPage/ShowDish';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
+  <RecipeState>
+
   <Router>
     <Header />
 
@@ -36,19 +41,21 @@ root.render(
       <Route path="/home" element={<Callsidebar />} />
       <Route path="/donation" element={<Donations />} />
       <Route path="/chat" element={<ChatsPage />} />
+      <Route path="/DailySales" element={<DailySales/>}/>
       <Route path="/topdish" element={<TopDish />} />
       <Route path="/showdish" element={<ShowDish />} />
     </Routes>
 
     {/* <App /> */}
   </Router>
-  // <React.StrictMode>
+  {/* // <React.StrictMode>
 
   //   <BrowserRouter>
   //    <Header/>
   //   <App />
   //   </BrowserRouter>
-  // </React.StrictMode>
+  // </React.StrictMode> */}
+        </RecipeState>
 );
 
 reportWebVitals();

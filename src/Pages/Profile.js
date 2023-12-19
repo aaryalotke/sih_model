@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import FixedCost from './FixedCost';
 
 const Profile = () => {
   const [restaurantData, setRestaurantData] = useState({
@@ -23,6 +24,7 @@ const Profile = () => {
       <section className="text-gray-600 body-font relative">
         <div className="container px-5 py-4 mx-auto flex sm:flex-nowrap flex-wrap">
           <div className="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
+
             <iframe
               width="100%"
               height="100%"
@@ -36,7 +38,8 @@ const Profile = () => {
                 restaurantData.location
               )}&output=embed`}
               style={{ marginRight: spacing + 'em' }}
-            ></iframe>
+              ></iframe>
+
             <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md">
               <div className="lg:w-1/2 px-6">
                 <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs">
@@ -55,6 +58,8 @@ const Profile = () => {
                   PHONE
                 </h2>
                 <p className="leading-relaxed">{restaurantData.phone}</p>
+
+
               </div>
             </div>
           </div>
@@ -74,6 +79,7 @@ const Profile = () => {
                     className="text-gray-800 font-semibold w-full border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
+                
                 <div className="mb-4">
                   <h3 className="text-gray-600 text-sm">Location</h3>
                   <input
