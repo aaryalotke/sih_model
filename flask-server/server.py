@@ -131,6 +131,26 @@ def add_collaboration():
         print(e)
         return jsonify({'error': str(e)}), 500
     
+@app.route('/get-collaborations/', methods=['GET'])
+def get_collaborations():
+    try:
+        # Reference to the "collaborations" collection in Firebase
+        collaborations_ref = db.collection('collaborations')
+
+        # Fetch all documents from the collection
+        collaborations = collaborations_ref.get()
+
+        # Extract data from documents
+        data = []
+        for doc in collaborations:
+            data.append({**doc.to_dict(), 'id': doc.id})
+
+        return jsonify(data), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
+    
 
 
 
