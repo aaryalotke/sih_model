@@ -36,7 +36,7 @@ const CollaborationList = ({ onBackButtonClick }) => {
 
             <ul>
                 <p className="mt-12">list:</p>
-                {collaborations.map((collaboration, index) => (
+                {/* {collaborations.map((collaboration, index) => (
                     <li key={index}>
                         <strong>Restaurant Name:</strong> {collaboration.restaurantName}<br />
                         <strong>Collaboration Duration:</strong> {collaboration.collaborationDuration}<br />
@@ -45,7 +45,7 @@ const CollaborationList = ({ onBackButtonClick }) => {
                         <strong>Contact Email:</strong> {collaboration.contactEmail}<br />
                         <hr />
                     </li>
-                ))}
+                ))} */}
             </ul>
         </div>
     );
