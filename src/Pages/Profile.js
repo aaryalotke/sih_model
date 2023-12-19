@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FixedCost from './FixedCost';
+import FixedMonthly from '../Components/FixedMonthly';
 
 const Profile = () => {
   const [restaurantData, setRestaurantData] = useState({
@@ -111,6 +112,8 @@ const Profile = () => {
                   />
                 </div>
               </div>
+
+              <FixedMonthly/>
               <div className="bg-gray-100 p-4 flex justify-end">
                 <button className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600">
                   Edit Profile
