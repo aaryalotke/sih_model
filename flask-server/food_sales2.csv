@@ -3649,3 +3649,5 @@ Date,DishID,Vegetarian,Price,QuantitySold,DayOfWeek,Occasion
 31-12-2022,8,Yes,450,20,Saturday,None
 31-12-2022,9,No,500,29,Saturday,None
 31-12-2022,10,Yes,550,15,Saturday,None
+20-12-2023,2,Yes,30,2,Wednesday,None
+20-12-2023,1,No,30,2,Wednesday,None
