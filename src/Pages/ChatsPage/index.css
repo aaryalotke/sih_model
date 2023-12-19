@@ -53,7 +53,7 @@ section {
 
 /* Apply light color background to cards */
 .max-w-sm {
-  background-color: #E0C097; /* Light color for the card background */
+  /* background-color: #E0C097; Light color for the card background */
   border-radius: 0.375rem; /* Add border-radius to the cards */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin: 4; /* Adjust margin for spacing between cards */

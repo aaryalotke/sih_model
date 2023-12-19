@@ -50,7 +50,7 @@ const onChange = (e)=>{
     <h2 className='my-3'>List of recipies</h2>
     <div style={{width: '18rem'}} className='row-sm'>
         <div  className="container row-sm">
-        {recipies.length===0 && 'no notes to display'}
+        {recipies.length===0 && 'no recipies to display'}
         </div>
     {recipies.map((recipe, addRecipe)=>{
       console.log("homepage" ,recipe)

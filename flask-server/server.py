@@ -26,14 +26,14 @@ import plotly.express as px
 import joblib
 from xgboost import XGBRegressor
 
-cred = credentials.Certificate("flask-server\\permissions.json")
+cred = credentials.Certificate("./permissions.json")
 
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
 cors = CORS(app)
 
-df = pd.read_csv("D:\\sihhhh\\sih_model\\flask-server\\food_sales2.csv")
+df = pd.read_csv("./food_sales2.csv")
 df = df.dropna()
 
 all_dish_id = df['DishID'].unique()
@@ -71,6 +71,73 @@ date_range = pd.date_range(start_date, end_date)
 all_dates = generate_dates(start_date, end_date)
 
 next_day_date = datetime.strptime('02-01-2023', '%d-%m-%Y').strftime('%Y-%m-%d')
+
+
+def get_next_id(collection_name):
+    # Query the collection to find the maximum ID
+    docs = db.collection(collection_name).stream()
+    max_id = 0
+
+    for doc in docs:
+        current_id = int(doc.id)
+        if current_id > max_id:
+            max_id = current_id
+
+    return max_id + 1
+
+@app.route('/add-recipe/', methods=['POST'])
+def create_product():
+    try:
+        # Assuming the request body is in JSON format
+        req_data = request.get_json()
+
+        # Generate the next ID for the 'products' collection
+        next_id = get_next_id('recipies')
+
+        # Add a new document to the 'products' collection with the generated ID
+        db.collection('recipies').document(str(next_id)).set({
+            'name': req_data['name'],
+            'ingredient_list': req_data['ingredient_list'],
+            'price_list': req_data['price_list'],
+            'quantity_list': req_data['quantity_list'],
+            'cost_price': req_data['cost_price'],
+            'selling_price': req_data['selling_price'],
+            'num_of_dishes': req_data['num_of_dishes'],
+            'is_veg': req_data['is_veg']
+        })
+
+        return jsonify({'message': 'Product created successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+
+
+
+@app.route('/add-fixed-expense/', methods=['POST'])
+def add_fixed_expense():
+    try:
+        # Assuming the request body is in JSON format
+        req_data = request.get_json()
+
+        # Generate the next ID for the 'products' collection
+        next_id = get_next_id('restaurants')
+
+        # Add a new document to the 'products' collection with the generated ID
+        db.collection('restaurants').document(str(next_id)).set({
+            'rent': req_data['rent'],
+            'employeeSalaries': req_data['employeeSalaries'],
+            'utilities': req_data['utilities'],
+            'desiredProfitPercentage': req_data['desiredProfitPercentage'],
+            'total_exp': req_data['total_exp'],
+            'expected_fluctuation': req_data['expected_fluctuation']
+        })
+
+        return jsonify({'message': 'Product created successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
 
 
 @app.route("/dishes/update/<int:dishId>")
@@ -114,11 +181,88 @@ def delete(dishId):
     return jsonify({"success": True}), 200
 
 
+
+@app.route('/api/read/', methods=['GET'])
+def read_products():
+    try:
+        query = db.collection('recipies')
+        response = []
+
+        docs = query.stream()
+
+        for doc in docs:
+            selected_item = {
+                'id': doc.id,
+                'name': doc.to_dict()['name'],
+                'ingredient_list': doc.to_dict()['ingredient_list'],
+                'price_list': doc.to_dict()['price_list'],
+                'quantity_list': doc.to_dict()['quantity_list'],
+                'cost_price': doc.to_dict()['cost_price'],
+                'selling_price': doc.to_dict()['selling_price'],
+                'num_of_dishes': doc.to_dict()['num_of_dishes'],
+                'is_veg': doc.to_dict().get('is_veg', None),
+            }
+            response.append(selected_item)
+
+        return jsonify(response), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/save-selected-data', methods=['POST'])
+def save_selected_data():
+    try:
+        req_data = request.get_json()
+
+        # Assuming your Firebase collection is named 'selectedDishes'
+        selected_dishes_ref = db.collection('selectedDishes')
+
+        # Loop through the array and add each object to the collection
+        for item in req_data:
+            selected_dishes_ref.add({
+                'name': item['name'],
+                'cost_price': item['cost_price'],
+                'selling_price': item['selling_price'],
+                'quantity': item['quantity'],
+            })
+
+        return jsonify({'message': 'Data saved successfully'}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/read-fixed-exp/', methods=['GET'])
+def read_fixed_exp():
+    try:
+        query = db.collection('restaurants')
+
+        docs = query.stream()
+        val = 0
+        for doc in docs:
+            if(int(doc.id) > int(val)):
+                val = doc.id
+                selected_item = {
+                    'rent': doc.to_dict().get('rent', None),
+                    'employeeSalaries': doc.to_dict().get('employeeSalaries', None),
+                    'utilities': doc.to_dict().get('utilities', None),
+                    'desiredProfitPercentage': doc.to_dict().get('desiredProfitPercentage', None),
+                    'total_exp': doc.to_dict().get('total_exp', None),
+                    'expected_fluctuation': doc.to_dict().get('expected_fluctuation', None)
+                }
+                response = selected_item
+
+        return response, 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
 @app.route("/dishes/alldishes")
 def all_dish():
     all_dish_data = []
-    
-    for doc_snapshot in dishes.stream():
+    recipies = db.collection("recipies")
+    for doc_snapshot in recipies.stream():
         doc_data = doc_snapshot.to_dict()
         all_dish_data.append(doc_data)
     

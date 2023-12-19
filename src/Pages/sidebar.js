@@ -4,18 +4,17 @@ import React from 'react';
 
 function Sidebar({ activeTab, setActiveTab }) {
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard' },
     { id: 'profile', label: 'Profile' },
     { id: 'adddish', label: 'Add Dish' },
+    { id: 'DailySales', label: 'DailySales' },
+    { id: 'topDish', label: 'Top Dish' },
     { id: 'updateprice', label: 'Today\'s Market Price' },
     { id: 'DailyPricePrediction', label: 'Real Time Analysis' },
     { id: 'comparison', label: 'Comparison' },
     { id: 'commodityPrediction', label: 'Commodity Prediction' },
     { id: 'Inventory', label: 'Inventory' },
     { id: 'messages', label: 'Alerts' },
-    { id: 'DailySales', label: 'DailySales' }
     { id: 'Collaborate', label: 'Collaborate' },
-    { id: 'topDish', label: 'Top Dish' },
     
 
   ];
