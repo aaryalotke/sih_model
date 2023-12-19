@@ -14,6 +14,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     { id: 'Inventory', label: 'Inventory' },
     { id: 'messages', label: 'Alerts' },
     { id: 'Collaborate', label: 'Collaborate' },
+    { id: 'topDish', label: 'Top Dish' },
    
   
     
