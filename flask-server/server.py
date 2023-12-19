@@ -31,6 +31,10 @@ from bs4 import BeautifulSoup
 import pytz
 import time
 
+from pandasai import SmartDataframe
+import pandas as pd
+from pandasai.llm import OpenAI
+
 cred = credentials.Certificate("./permissions.json")
 
 firebase_admin.initialize_app(cred)
@@ -648,6 +652,22 @@ def compare_price():
             'error_message': str(e)
         }
         return jsonify(error_response), 400
-    
+
+@app.route("/openai", methods = ['GET', 'POST'])
+def openai():
+    df = pd.read_csv('./past_month_data.csv')
+    llm = OpenAI(
+        api_token="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",
+        temperature=0.7
+    )
+    sdf = SmartDataframe(df,config={"llm":llm})
+    result = sdf.chat('suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences')
+    no_of_unique_dish = df["dish_name"].nunique()
+    top_5_rows = result.head(no_of_unique_dish)
+    coupons = top_5_rows[["dish_name", "coupon"]]
+    coupon_json_data = coupons.to_json(orient='records')
+    print(coupon_json_data)
+    return coupon_json_data, 200
+
 if __name__ == "__main__":
     app.run(debug=True)
