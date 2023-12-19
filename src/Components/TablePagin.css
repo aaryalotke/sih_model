@@ -1,0 +1,64 @@
+.table-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+table th, table td {
+    text-align: center;
+    padding: 6px 0;
+}
+
+table tr:nth-child(even) {
+    background-color: #e4e3e3
+}
+
+th {
+    background: #333;
+    color: #fff;
+}
+
+.pagination {
+    display: flex;
+    margin-top: 10px;
+}
+
+.pagination span{
+    padding: 10px;
+    cursor: pointer;
+}
+
+.pagination li:hover {
+    cursor: pointer;
+}
+
+.header_wrap {
+    padding: 30px 20px;
+}
+
+.num_rows {
+    width: 20%;
+    float: left;
+}
+
+.tb_search {
+    width: 19%;
+    float: right;
+}
+
+.pagination-container {
+    width: 70%;
+    float: left;
+}
+
+.rows_count {
+    width: 20%;
+    float: right;
+    text-align: right;
+    color: #999;
+}
+
+.table {
+    display: table;
+    width: 96%;
+    margin: auto;
+}
