@@ -132,6 +132,27 @@ def add_collaboration():
         return jsonify({'error': str(e)}), 500
     
 
+@app.route('/add-inventory/', methods=['POST'])
+def add_inventory():
+    try:
+        # Assuming the request body is in JSON format
+        req_data = request.get_json()
+
+        # Add a new document to the 'collaborations' collection
+        db.collection('inventory').document().set({
+            'restaurantName': req_data['restaurantName'],
+            'collaborationDuration': req_data['collaborationDuration'],
+            'collaborationDetails': req_data['collaborationDetails'],
+            'contactPerson': req_data['contactPerson'],
+            'contactEmail': req_data['contactEmail'],
+        })
+
+        return jsonify({'message': 'Collaboration details added successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+
 
 
 @app.route('/add-fixed-expense/', methods=['POST'])
