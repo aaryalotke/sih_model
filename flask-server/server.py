@@ -217,13 +217,18 @@ def save_selected_data():
         # Assuming your Firebase collection is named 'selectedDishes'
         selected_dishes_ref = db.collection('selectedDishes')
 
-        # Loop through the array and add each object to the collection
+        # Get the current date in DD-MM-YY format
+        current_date = datetime.now().strftime('%d-%m-%y')
+
+        # Loop through the array and add each object to the collection with the current date
         for item in req_data:
             selected_dishes_ref.add({
                 'name': item['name'],
                 'cost_price': item['cost_price'],
                 'selling_price': item['selling_price'],
                 'quantity': item['quantity'],
+                'id': (item['id']+1),
+                'date_added': current_date
             })
 
         return jsonify({'message': 'Data saved successfully'}), 200
@@ -232,6 +237,32 @@ def save_selected_data():
         print(e)
         return jsonify({'error': str(e)}), 500
 
+@app.route('/get-all-selected-dishes/', methods=['GET'])
+def get_all_selected_dishes():
+    try:
+        # Assuming your Firebase collection is named 'selectedDishes'
+        selected_dishes_ref = db.collection('selectedDishes')
+
+        # Retrieve all documents from the 'selectedDishes' collection
+        selected_dishes = selected_dishes_ref.stream()
+
+        # Convert Firestore documents to a list of dictionaries
+        selected_dishes_list = []
+        for doc in selected_dishes:
+            selected_dishes_list.append({
+                'id': doc.id,
+                'name': doc.to_dict()['name'],
+                'cost_price': doc.to_dict()['cost_price'],
+                'selling_price': doc.to_dict()['selling_price'],
+                'quantity': doc.to_dict()['quantity'],
+                'date_added': doc.to_dict()['date_added'],
+            })
+
+        return jsonify({'selected_dishes': selected_dishes_list}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/read-fixed-exp/', methods=['GET'])
 def read_fixed_exp():
