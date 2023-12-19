@@ -1,0 +1,17 @@
+.goog-te-gadget span {
+    display: none;
+}
+
+.goog-te-gadget{
+    height: 30px;
+    overflow: hidden;
+}
+
+.goog-te-gadget .goog-te-combo {
+    margin: 5px 0px 5px 20px;
+    font-size: 1.3em;
+    font-weight: 500;
+    border: 1px solid;
+    padding: 2px;
+    border-radius: 5px;
+}

@@ -10,6 +10,8 @@ import NotificationsPage from './notifications';
 import InventoryManagement from './inventory';
 import Comparison from './Comparison';
 import DailySales from './DailySales';
+import Collaborate from './Collaborate';
+import TopDish from './Top Dish/TopDish';
 
 
 function Callsidebar() {
@@ -39,6 +41,8 @@ function Callsidebar() {
         {activeTab === 'profile' && <Profile/>}
         {activeTab === 'comparison' && <Comparison/>}
         {activeTab === 'updateprice' && <Updateprice/>}
+        {activeTab === 'Collaborate' && <Collaborate/>}
+        {activeTab === 'topDish' && <TopDish/>}
       </div>
     </div>
   );
