@@ -18,6 +18,7 @@ import RecipeState from './context/recipies/RecipeState';
 import DailySales from './Pages/DailySales';
 import TopDish from './Pages/Top Dish/TopDish';
 import ShowDish from './Pages/ShowDishPage/ShowDish';
+import Coupon from './Components/Coupon';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -44,6 +45,7 @@ root.render(
       <Route path="/DailySales" element={<DailySales/>}/>
       <Route path="/topdish" element={<TopDish />} />
       <Route path="/showdish" element={<ShowDish />} />
+      <Route path="/couponcard" element={<Coupon />} />
     </Routes>
 
     {/* <App /> */}

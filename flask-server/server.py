@@ -26,14 +26,21 @@ import plotly.express as px
 import joblib
 from xgboost import XGBRegressor
 
+
+import requests
+from bs4 import BeautifulSoup
+import pytz
+import time
+
 cred = credentials.Certificate("flask-server\\permissions.json")
+
 
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
 cors = CORS(app)
 
-df = pd.read_csv("flask-server\\food_sales2.csv")
+df = pd.read_csv("./food_sales2.csv")
 df = df.dropna()
 
 all_dish_id = df['DishID'].unique()
@@ -257,13 +264,18 @@ def save_selected_data():
         # Assuming your Firebase collection is named 'selectedDishes'
         selected_dishes_ref = db.collection('selectedDishes')
 
-        # Loop through the array and add each object to the collection
+        # Get the current date in DD-MM-YY format
+        current_date = datetime.now().strftime('%d-%m-%y')
+
+        # Loop through the array and add each object to the collection with the current date
         for item in req_data:
             selected_dishes_ref.add({
                 'name': item['name'],
                 'cost_price': item['cost_price'],
                 'selling_price': item['selling_price'],
                 'quantity': item['quantity'],
+                'id': (item['id']+1),
+                'date_added': current_date
             })
 
         return jsonify({'message': 'Data saved successfully'}), 200
@@ -272,6 +284,32 @@ def save_selected_data():
         print(e)
         return jsonify({'error': str(e)}), 500
 
+@app.route('/get-all-selected-dishes/', methods=['GET'])
+def get_all_selected_dishes():
+    try:
+        # Assuming your Firebase collection is named 'selectedDishes'
+        selected_dishes_ref = db.collection('selectedDishes')
+
+        # Retrieve all documents from the 'selectedDishes' collection
+        selected_dishes = selected_dishes_ref.stream()
+
+        # Convert Firestore documents to a list of dictionaries
+        selected_dishes_list = []
+        for doc in selected_dishes:
+            selected_dishes_list.append({
+                'id': doc.id,
+                'name': doc.to_dict()['name'],
+                'cost_price': doc.to_dict()['cost_price'],
+                'selling_price': doc.to_dict()['selling_price'],
+                'quantity': doc.to_dict()['quantity'],
+                'date_added': doc.to_dict()['date_added'],
+            })
+
+        return jsonify({'selected_dishes': selected_dishes_list}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/read-fixed-exp/', methods=['GET'])
 def read_fixed_exp():
@@ -403,7 +441,7 @@ def top_dish():
 def chart_predict():
     try:
         # Read dataset from a CSV file
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
 
         # Retrieve data from the request (commodity, district, market, and training data)
@@ -496,7 +534,7 @@ def predict_price():
 
     try:
         # Read dataset from a CSV file 
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
 
@@ -570,7 +608,7 @@ def predict_price():
 def notifs_predict():
     try:
         # Read dataset from a CSV file 
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
         # Calculate the end date as 10 days from the current date
@@ -675,7 +713,7 @@ def today_price():
         current_date = datetime.now().date()
 
          # Read dataset from a CSV file 
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
 
@@ -747,7 +785,7 @@ def today_price():
 def compare_price():
     try:
          # Read dataset from a CSV file
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         data = request.get_json()
         print(data)
@@ -827,6 +865,6 @@ def compare_price():
             'error_message': str(e)
         }
         return jsonify(error_response), 400
-
+    
 if __name__ == "__main__":
     app.run(debug=True)

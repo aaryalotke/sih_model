@@ -9,13 +9,16 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
   
   const sendData = () => {
     // Create an array to store the selected data
+    console.log("dish", selectedDishes);
     const selectedData = selectedDishes
       .filter((dish) => dish.isChecked) // Filter only the selected dishes
       .map((dish, index) => ({
         name: dishes[index].name,
         cost_price: dishes[index].cost_price,
         selling_price: dishes[index].selling_price,
-        quantity: dish.quantity || 0, // Use 0 if quantity is not set
+        quantity: dish.quantity || 0,
+        is_veg: dish.is_veg, 
+        id: index// Use 0 if quantity is not set
       }));
 
     console.log("selectedData",selectedData);
