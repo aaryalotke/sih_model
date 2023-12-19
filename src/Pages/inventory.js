@@ -62,7 +62,6 @@ const InventoryManagement = () => {
     ]);
 
     const [newCommodity, setNewCommodity] = useState({
-        id: '',
         name: '',
         category: '',
         unitOfMeasurement: '',
@@ -70,66 +69,53 @@ const InventoryManagement = () => {
         minStockThreshold: '',
         reorderQuantity: '',
         unitCost: '',
-    });
-
-    const calculateTotalCost = (item) => {
-        // Check if unitCost is a valid number
-        if (!isNaN(item.unitCost)) {
-            return (item.currentStock * parseFloat(item.unitCost)).toFixed(2);
-        } else {
-            return 'N/A';
-        }
-    };
-
-    const handleAddCommodity = () => {
+      });
+    
+      const categories = ["Vegetable", "Fruit", "Grain", "Dairy", "Protein"]; // Add your categories
+      const unitsOfMeasurement = ["kg", "bunch", "piece", "liter", "gram"]; // Add your units of measurement
+      const name = ["Tomato","Onion","Potato"]
+    
+      const handleAddCommodity = () => {
         const newCommodityWithId = {
-            ...newCommodity,
-            id: data.length + 1,
-            currentStock: parseInt(newCommodity.currentStock, 10), // Parse to integer
-            minStockThreshold: parseInt(newCommodity.minStockThreshold, 10), // Parse to integer
-            reorderQuantity: parseInt(newCommodity.reorderQuantity, 10), // Parse to integer
-            unitCost: parseFloat(newCommodity.unitCost), // Parse to float
-            lastUpdated: new Date().toLocaleDateString(),
+          ...newCommodity,
+          id: data.length + 1, // Incremental ID
+          currentStock: parseInt(newCommodity.currentStock, 10),
+          minStockThreshold: parseInt(newCommodity.minStockThreshold, 10),
+          reorderQuantity: parseInt(newCommodity.reorderQuantity, 10),
+          unitCost: parseFloat(newCommodity.unitCost),
+          lastUpdated: new Date().toLocaleDateString(),
         };
-
+    
         setData([...data, newCommodityWithId]);
-
+    
         setNewCommodity({
-            id: '',
-            name: '',
-            category: '',
-            unitOfMeasurement: '',
-            currentStock: '',
-            minStockThreshold: '',
-            reorderQuantity: '',
-            unitCost: '',
+          name: '',
+          category: '',
+          unitOfMeasurement: '',
+          currentStock: '',
+          minStockThreshold: '',
+          reorderQuantity: '',
+          unitCost: '',
         });
-    };
-
-    const [totalReorderItems, setTotalReorderItems] = useState(0);
-    const [totalOutOfStock, setTotalOutOfStock] = useState(0);
-    const [totalStockCost, setTotalStockCost] = useState(0);
-
-    useEffect(() => {
+      };
+    
+      const [totalReorderItems, setTotalReorderItems] = useState(0);
+      const [totalOutOfStock, setTotalOutOfStock] = useState(0);
+      const [totalStockCost, setTotalStockCost] = useState(0);
+    
+      useEffect(() => {
         // Calculate summary values here
         const totalReorderItems = data.filter((item) => item.currentStock < item.minStockThreshold).length;
         const totalOutOfStock = data.filter((item) => item.currentStock === 0).length;
         const totalStockCost = data.reduce((acc, item) => {
-            const cost = parseFloat(item.unitCost) * item.currentStock;
-            return isNaN(cost) ? acc : acc + cost;
+          const cost = parseFloat(item.unitCost) * item.currentStock;
+          return isNaN(cost) ? acc : acc + cost;
         }, 0);
-
+    
         setTotalReorderItems(totalReorderItems);
         setTotalOutOfStock(totalOutOfStock);
-        console.log("Out of Stock:", totalOutOfStock);
-        console.log("Re order", totalReorderItems);
-        console.log('Total Stock Cost Before:', totalStockCost.toFixed(2));
         setTotalStockCost(totalStockCost.toFixed(2));
-        console.log('Total Stock Cost After:', totalStockCost.toFixed(2));
-        // You can set these values in state or display them directly in the summary divs
-
-
-    }, [data]);
+      }, [data]);
 
     return (
         <div>
@@ -138,71 +124,74 @@ const InventoryManagement = () => {
         <h1 className="text-4xl font-semibold">Inventory</h1>
       </header>
 
-                {/* Commodity Input Form */}
-                <div className="mb-4 md:flex md:flex-wrap md:space-x-4">
-                    <input
-                        type="text"
-                        placeholder="Commodity ID"
-                        className="border rounded-lg p-2 mr-2 "
-                        value={newCommodity.id}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, id: e.target.value })}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Commodity Name"
-                        className="border rounded-lg p-2 mr-2"
-                        value={newCommodity.name}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, name: e.target.value })}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Category"
-                        className="border rounded-lg p-2 mr-2"
-                        value={newCommodity.category}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, category: e.target.value })}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Unit of Measurement"
-                        className="border rounded-lg p-2 mr-2"
-                        value={newCommodity.unitOfMeasurement}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, unitOfMeasurement: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Current Stock"
-                        className="border rounded-lg p-2 mr-2"
-                        value={newCommodity.currentStock}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, currentStock: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Min Stock Threshold"
-                        className="border rounded-lg p-2 mr-2 mt-2"
-                        value={newCommodity.minStockThreshold}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, minStockThreshold: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Reorder Quantity"
-                        className="border rounded-lg p-2 mr-2 mt-2"
-                        value={newCommodity.reorderQuantity}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, reorderQuantity: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Unit Cost"
-                        className="border rounded-lg p-2 mr-2 mt-2"
-                        value={newCommodity.unitCost}
-                        onChange={(e) => setNewCommodity({ ...newCommodity, unitCost: e.target.value })}
-                    />
-                    <button
-                        onClick={handleAddCommodity}
-                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer mt-2"
-                    >
-                        Add Commodity
-                    </button>
-                </div>
+         {/* Commodity Input Form */}
+      <div className="mb-4 md:flex md:flex-wrap md:space-x-4">
+        <select
+          value={newCommodity.name}
+          onChange={(e) => setNewCommodity({ ...newCommodity, name: e.target.value })}
+          className="border rounded-lg p-2 mr-2"
+        >
+          <option value="" disabled>Select Commodity Name</option>
+          {name.map((name) => (
+            <option key={name} value={name}>{name}</option>
+          ))}
+        </select>
+        <select
+          value={newCommodity.category}
+          onChange={(e) => setNewCommodity({ ...newCommodity, category: e.target.value })}
+          className="border rounded-lg p-2 mr-2"
+        >
+          <option value="" disabled>Select Category</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>{category}</option>
+          ))}
+        </select>
+        <select
+          value={newCommodity.unitOfMeasurement}
+          onChange={(e) => setNewCommodity({ ...newCommodity, unitOfMeasurement: e.target.value })}
+          className="border rounded-lg p-2 mr-2"
+        >
+          <option value="" disabled>Select Unit of Measurement</option>
+          {unitsOfMeasurement.map((unit) => (
+            <option key={unit} value={unit}>{unit}</option>
+          ))}
+        </select>
+        <input
+          type="number"
+          placeholder="Current Stock"
+          className="border rounded-lg p-2 mr-2"
+          value={newCommodity.currentStock}
+          onChange={(e) => setNewCommodity({ ...newCommodity, currentStock: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Min Stock Threshold"
+          className="border rounded-lg p-2 mr-2 mt-2"
+          value={newCommodity.minStockThreshold}
+          onChange={(e) => setNewCommodity({ ...newCommodity, minStockThreshold: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Reorder Quantity"
+          className="border rounded-lg p-2 mr-2 mt-2"
+          value={newCommodity.reorderQuantity}
+          onChange={(e) => setNewCommodity({ ...newCommodity, reorderQuantity: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Unit Cost"
+          className="border rounded-lg p-2 mr-2 mt-2"
+          value={newCommodity.unitCost}
+          onChange={(e) => setNewCommodity({ ...newCommodity, unitCost: e.target.value })}
+        />
+        <button
+          onClick={handleAddCommodity}
+          className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer mt-2"
+        >
+          Add Commodity
+        </button>
+      </div>
+  
 
 
                 {/* Summary Divs */}
