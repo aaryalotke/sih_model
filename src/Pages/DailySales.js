@@ -127,7 +127,7 @@ const DailySales = () => {
             <Coupon
               key={index}
               dishName={coupon.dish_name}
-              couponText={coupon.coupon}
+              couponText={coupon.offer}
             />
           ))}
         </div>
