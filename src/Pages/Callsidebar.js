@@ -15,7 +15,7 @@ import TopDish from './Top Dish/TopDish';
 
 
 function Callsidebar() {
-       const [activeTab, setActiveTab] = useState('dashboard');
+       const [activeTab, setActiveTab] = useState('profile');
    return (
     <div className="flex min-h-screen min-w-screen bg-gray-200">
       
@@ -23,8 +23,7 @@ function Callsidebar() {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content */}
-      <div className="flex-1 p-10">
-        {activeTab === 'dashboard' && <Dashboard/>}
+      <div className="flex-1 p-10" style={{overflowY: "auto", height: "100%"}}>
         {activeTab === 'DailyPricePrediction' && <PricePredictionForm/>}
         
         {activeTab === 'messages' && <NotificationsPage/>}
