@@ -998,7 +998,7 @@ def openai():
         api_token="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",
         temperature=0.7
     )
-    sdf = SmartDataframe(df,config={"llm":llm})
+    sdf = SmartDataframe(df,config={"llm":llm,"enforce_privacy":True})
     result = sdf.chat('suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset')
     print(result)
     no_of_unique_dish = df["dish_name"].nunique()

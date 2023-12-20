@@ -3746,3 +3746,573 @@ result = {'type': 'dataframe', 'value': dfs[0]}
 2023-12-20 14:36:52 [INFO] Executed in: 1.201876163482666s
 2023-12-20 14:36:52 [INFO] Executing Step 6: ResultParsing
 2023-12-20 14:36:52 [INFO] 127.0.0.1 - - [20/Dec/2023 14:36:52] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:07:56 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:07:58 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:07:58 [INFO] Prompt ID: efdefef5-1b78-4778-8768-af71de5c99fa
+2023-12-20 15:07:58 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:07:58 [INFO] Using cached response
+2023-12-20 15:07:58 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:07:58 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:07:58 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:07:58 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:07:58 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:07:58 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:07:58 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:07:58 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:07:58 [INFO] Executed in: 2.297830581665039s
+2023-12-20 15:07:58 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:07:58 [INFO] 127.0.0.1 - - [20/Dec/2023 15:07:58] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:11:05 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:05] "OPTIONS /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:05 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:05] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:15 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:15] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:15 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:15] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:11:15 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:11:15 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:11:15 [INFO] Prompt ID: 2d13ad0b-79f6-42d3-bc1b-b3fea351f885
+2023-12-20 15:11:15 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:11:15 [INFO] Using cached response
+2023-12-20 15:11:15 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:11:15 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:11:15 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:11:15 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:11:15 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:11:15 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:11:15 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:11:15 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:11:15 [INFO] Executed in: 0.08414006233215332s
+2023-12-20 15:11:15 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:11:15 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:15] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:11:26 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:26] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 15:11:36 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:36] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:36 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:36] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:11:36 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:11:36 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:11:36 [INFO] Prompt ID: f1d206fc-7af1-4eac-b7f0-0209ccca0e34
+2023-12-20 15:11:36 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:11:36 [INFO] Using cached response
+2023-12-20 15:11:36 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:11:36 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:11:36 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:11:36 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:11:36 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:11:36 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:11:36 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:11:36 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:11:36 [INFO] Executed in: 0.07635259628295898s
+2023-12-20 15:11:36 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:11:36 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:36] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:11:43 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:43] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:43 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:43] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:11:44 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:11:44 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:11:44 [INFO] Prompt ID: 88c87001-20f5-4406-b6da-cc88f742998a
+2023-12-20 15:11:44 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:11:44 [INFO] Using cached response
+2023-12-20 15:11:44 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:11:44 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:11:44 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:11:44 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:11:44 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:11:44 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:11:44 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:11:44 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:11:44 [INFO] Executed in: 0.15781497955322266s
+2023-12-20 15:11:44 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:11:44 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:44] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:11:46 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:46] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 15:11:49 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:11:49 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:11:49 [INFO] Prompt ID: 1af9a5c3-664d-4308-833c-71a66b71fb4a
+2023-12-20 15:11:49 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:11:49 [INFO] Using cached response
+2023-12-20 15:11:49 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:11:49 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:11:49 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:11:49 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:11:49 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:11:49 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:11:49 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:49] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:49 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:11:49 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:49] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:11:49 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:11:49 [INFO] Executed in: 0.20400142669677734s
+2023-12-20 15:11:50 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:11:50 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:50] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:11:50 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:50] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 15:11:51 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:51] "OPTIONS /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:51 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:51] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:58 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:58] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:11:58 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:58] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:11:58 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:11:58 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:11:58 [INFO] Prompt ID: 81366655-e6ea-4670-8b24-5893b60ce0ac
+2023-12-20 15:11:58 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:11:58 [INFO] Using cached response
+2023-12-20 15:11:58 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:11:58 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:11:58 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:11:58 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:11:58 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:11:58 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:11:58 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:11:58 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:11:58 [INFO] Executed in: 0.07355356216430664s
+2023-12-20 15:11:58 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:11:58 [INFO] 127.0.0.1 - - [20/Dec/2023 15:11:58] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:13:04 [INFO] 127.0.0.1 - - [20/Dec/2023 15:13:04] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 15:14:06 [INFO] 127.0.0.1 - - [20/Dec/2023 15:14:06] "OPTIONS /chart HTTP/1.1" 200 -
+2023-12-20 15:14:06 [INFO] 127.0.0.1 - - [20/Dec/2023 15:14:06] "[31m[1mPOST /chart HTTP/1.1[0m" 400 -
+2023-12-20 15:14:54 [INFO]  * Detected change in 'C:\\Users\\bhowm\\OneDrive\\Desktop\\SIH\\ByteBistro\\sih_model\\flask-server\\server.py', reloading
+2023-12-20 15:16:33 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:16:34 [INFO] 127.0.0.1 - - [20/Dec/2023 15:16:34] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:16:34 [INFO] 127.0.0.1 - - [20/Dec/2023 15:16:34] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:16:34 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:16:34 [INFO] Prompt ID: a94987e1-72af-4ff9-a485-0789d35544f0
+2023-12-20 15:16:34 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:16:34 [INFO] Using cached response
+2023-12-20 15:16:34 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:16:34 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:16:34 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:16:34 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:16:34 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:16:34 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:16:34 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:16:34 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:16:34 [INFO] Executed in: 0.8687155246734619s
+2023-12-20 15:16:34 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:16:34 [INFO] 127.0.0.1 - - [20/Dec/2023 15:16:34] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:18:25 [INFO] 127.0.0.1 - - [20/Dec/2023 15:18:25] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:18:25 [INFO] 127.0.0.1 - - [20/Dec/2023 15:18:25] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:18:26 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:18:26 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:18:26 [INFO] Prompt ID: 6e69cae6-062b-4d4f-bce9-bcc309f81f61
+2023-12-20 15:18:26 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:18:26 [INFO] Using cached response
+2023-12-20 15:18:26 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:18:26 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:18:26 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:18:26 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:18:26 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:18:26 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:18:26 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:18:26 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:18:26 [INFO] Executed in: 0.06935930252075195s
+2023-12-20 15:18:26 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:18:26 [INFO] 127.0.0.1 - - [20/Dec/2023 15:18:26] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:18:49 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:18:49 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:18:49 [INFO] Prompt ID: a94df1d0-a46d-4143-944a-57a562f466bf
+2023-12-20 15:18:49 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:18:49 [INFO] Using cached response
+2023-12-20 15:18:49 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:18:49 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:18:49 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:18:49 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:18:49 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:18:49 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:18:49 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:18:49 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:18:49 [INFO] 127.0.0.1 - - [20/Dec/2023 15:18:49] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:18:49 [INFO] 127.0.0.1 - - [20/Dec/2023 15:18:49] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:18:49 [INFO] Executed in: 0.08419394493103027s
+2023-12-20 15:18:49 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:18:49 [INFO] 127.0.0.1 - - [20/Dec/2023 15:18:49] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:28:27 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:28:27 [INFO] 127.0.0.1 - - [20/Dec/2023 15:28:27] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:28:27 [INFO] 127.0.0.1 - - [20/Dec/2023 15:28:27] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:28:29 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:28:29 [INFO] Prompt ID: 29d0e9b2-f7b7-4731-a063-3dd55c6d9253
+2023-12-20 15:28:29 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:28:29 [INFO] Using cached response
+2023-12-20 15:28:29 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:28:29 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:28:29 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:28:29 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:28:29 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:28:29 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:28:29 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:28:29 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:28:29 [INFO] Executed in: 1.8529176712036133s
+2023-12-20 15:28:29 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:28:29 [INFO] 127.0.0.1 - - [20/Dec/2023 15:28:29] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:28:31 [INFO] 127.0.0.1 - - [20/Dec/2023 15:28:31] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 15:29:43 [INFO] 127.0.0.1 - - [20/Dec/2023 15:29:43] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 15:29:43 [INFO] 127.0.0.1 - - [20/Dec/2023 15:29:43] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 15:29:43 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:29:43 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:29:43 [INFO] Prompt ID: 0a5a1899-2c3a-4a52-91e6-c89870128154
+2023-12-20 15:29:43 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:29:43 [INFO] Using cached response
+2023-12-20 15:29:43 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:29:43 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:29:43 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:29:43 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:29:43 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:29:43 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:29:43 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:29:43 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:29:43 [INFO] Executed in: 0.0709998607635498s
+2023-12-20 15:29:43 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:29:43 [INFO] 127.0.0.1 - - [20/Dec/2023 15:29:43] "GET /openai HTTP/1.1" 200 -
+2023-12-20 15:32:15 [INFO]  * Detected change in 'C:\\Users\\bhowm\\OneDrive\\Desktop\\SIH\\ByteBistro\\sih_model\\flask-server\\ag_market_data_append.py', reloading
+2023-12-20 15:52:30 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\helpers\\logger.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\smart_datalake\\__init__.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\smart_dataframe\\__init__.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\flask\\app.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\werkzeug\\debug\\__init__.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\werkzeug\\serving.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\http\\server.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\socketserver.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\threading.py', reloading
+2023-12-20 15:52:31 [INFO] Running PandasAI with openai LLM...
+2023-12-20 15:52:31 [INFO] Prompt ID: 89801265-cdd6-40d4-b2f9-5a2f6006123c
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\helpers\\output_types\\__init__.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\helpers\\viz_library_types\\__init__.py', reloading
+2023-12-20 15:52:31 [INFO] Executing Step 0: CacheLookup
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\pipelines\\pipeline.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\pipelines\\smart_datalake_chat\\generate_smart_datalake_pipeline.py', reloading
+2023-12-20 15:52:31 [INFO] Using cached response
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\pipelines\\smart_datalake_chat\\cache_lookup.py', reloading
+2023-12-20 15:52:31 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 15:52:31 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 15:52:31 [INFO] Executing Step 3: CachePopulation
+2023-12-20 15:52:31 [INFO] Executing Step 4: CodeExecution
+2023-12-20 15:52:31 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\helpers\\save_chart.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\helpers\\code_manager.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\helpers\\query_exec_tracker.py', reloading
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\pipelines\\smart_datalake_chat\\code_execution.py', reloading
+2023-12-20 15:52:31 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 15:52:31 [INFO] Executing Step 5: ResultValidation
+2023-12-20 15:52:31 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 15:52:31 [INFO]  * Detected change in 'C:\\Users\\bhowm\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pandasai\\pipelines\\smart_datalake_chat\\result_validation.py', reloading
+2023-12-20 15:52:31 [INFO] Executed in: 1.2003200054168701s
+2023-12-20 15:52:31 [INFO] Executing Step 6: ResultParsing
+2023-12-20 15:52:31 [INFO] 127.0.0.1 - - [20/Dec/2023 15:52:31] "GET /openai HTTP/1.1" 200 -
+2023-12-20 16:24:21 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 16:24:21 [INFO] Running PandasAI with openai LLM...
+2023-12-20 16:24:21 [INFO] Prompt ID: 24e665a0-cdbf-4eca-a398-7f4a07931abc
+2023-12-20 16:24:21 [INFO] Executing Step 0: CacheLookup
+2023-12-20 16:24:21 [INFO] Using cached response
+2023-12-20 16:24:22 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 16:24:22 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 16:24:22 [INFO] Executing Step 3: CachePopulation
+2023-12-20 16:24:22 [INFO] Executing Step 4: CodeExecution
+2023-12-20 16:24:22 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 16:24:22 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 16:24:22 [INFO] Executing Step 5: ResultValidation
+2023-12-20 16:24:22 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 16:24:22 [INFO] Executed in: 0.8502089977264404s
+2023-12-20 16:24:22 [INFO] Executing Step 6: ResultParsing
+2023-12-20 16:24:22 [INFO] 127.0.0.1 - - [20/Dec/2023 16:24:22] "GET /openai HTTP/1.1" 200 -
+2023-12-20 16:24:47 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset
+2023-12-20 16:24:47 [INFO] Running PandasAI with openai LLM...
+2023-12-20 16:24:47 [INFO] Prompt ID: 99f8c668-3c9d-4699-b5c8-054998999f9e
+2023-12-20 16:24:47 [INFO] Executing Step 0: CacheLookup
+2023-12-20 16:24:47 [INFO] Using cached response
+2023-12-20 16:24:47 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 16:24:47 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 16:24:47 [INFO] Executing Step 3: CachePopulation
+2023-12-20 16:24:47 [INFO] Executing Step 4: CodeExecution
+2023-12-20 16:24:47 [INFO] Saving charts to C:\Users\bhowm\OneDrive\Desktop\SIH\ByteBistro\sih_model\exports\charts\temp_chart.png
+2023-12-20 16:24:47 [INFO] 
+Code running:
+```
+coupons = {'10OFF': 0.1, '20OFF': 0.2, '30OFF': 0.3, '40OFF': 0.4, '50OFF': 0.5}
+dfs[0]['new_sellingPrice'] = dfs[0]['sellingPrice'] * (1 - coupons['10OFF'])
+dfs[0]['offer'] = dfs[0].apply(lambda row: f"Apply 10% off coupon to get selling price {row['new_sellingPrice']} for dish {row['dish_name']}." if row['new_sellingPrice'] > row['costPrice'] else 'No offer available for this dish.', axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 16:24:47 [INFO] Executing Step 5: ResultValidation
+2023-12-20 16:24:47 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  ...  order_date  new_sellingPrice                                              offer
+0          1  pav bhaji        73  ...  19-11-2023             128.7                  No offer available for this dish.
+1          2  medu vada        69  ...  19-11-2023             114.3                  No offer available for this dish.
+2          3     samosa        26  ...  19-11-2023             119.7  Apply 10% off coupon to get selling price 119....
+3          4    biryani        78  ...  19-11-2023             121.5                  No offer available for this dish.
+4          5      thali        47  ...  19-11-2023             122.4  Apply 10% off coupon to get selling price 122....
+..       ...        ...       ...  ...         ...               ...                                                ...
+145        1  pav bhaji        40  ...  18-12-2023             128.7  Apply 10% off coupon to get selling price 128....
+146        2  medu vada        85  ...  18-12-2023             114.3                  No offer available for this dish.
+147        3     samosa        77  ...  18-12-2023             119.7  Apply 10% off coupon to get selling price 119....
+148        4    biryani        39  ...  18-12-2023             121.5  Apply 10% off coupon to get selling price 121....
+149        5      thali        51  ...  18-12-2023             122.4  Apply 10% off coupon to get selling price 122....
+
+[150 rows x 8 columns]}
+2023-12-20 16:24:47 [INFO] Executed in: 0.07454204559326172s
+2023-12-20 16:24:47 [INFO] Executing Step 6: ResultParsing
+2023-12-20 16:24:47 [INFO] 127.0.0.1 - - [20/Dec/2023 16:24:47] "GET /openai HTTP/1.1" 200 -
+2023-12-20 16:24:48 [INFO] 127.0.0.1 - - [20/Dec/2023 16:24:48] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 16:24:48 [INFO] 127.0.0.1 - - [20/Dec/2023 16:24:48] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 16:25:15 [INFO] 127.0.0.1 - - [20/Dec/2023 16:25:15] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 16:25:32 [INFO] 127.0.0.1 - - [20/Dec/2023 16:25:32] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 16:27:33 [INFO] 127.0.0.1 - - [20/Dec/2023 16:27:33] "OPTIONS /chart HTTP/1.1" 200 -
+2023-12-20 16:27:33 [INFO] 127.0.0.1 - - [20/Dec/2023 16:27:33] "[31m[1mPOST /chart HTTP/1.1[0m" 400 -
+2023-12-20 16:34:01 [INFO] 127.0.0.1 - - [20/Dec/2023 16:34:01] "GET /today HTTP/1.1" 200 -
+2023-12-20 16:41:24 [INFO] 127.0.0.1 - - [20/Dec/2023 16:41:24] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 16:46:19 [INFO] 127.0.0.1 - - [20/Dec/2023 16:46:19] "GET /today HTTP/1.1" 200 -
+2023-12-20 16:46:19 [INFO] 127.0.0.1 - - [20/Dec/2023 16:46:19] "OPTIONS /chart HTTP/1.1" 200 -
+2023-12-20 16:46:19 [INFO] 127.0.0.1 - - [20/Dec/2023 16:46:19] "[31m[1mPOST /chart HTTP/1.1[0m" 400 -
+2023-12-20 16:46:44 [INFO] 127.0.0.1 - - [20/Dec/2023 16:46:44] "[31m[1mPOST /notifs HTTP/1.1[0m" 400 -
+2023-12-20 16:46:45 [INFO] 127.0.0.1 - - [20/Dec/2023 16:46:45] "OPTIONS /chart HTTP/1.1" 200 -
+2023-12-20 16:46:46 [INFO] 127.0.0.1 - - [20/Dec/2023 16:46:46] "[31m[1mPOST /chart HTTP/1.1[0m" 400 -

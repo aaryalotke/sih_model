@@ -177,7 +177,7 @@ const PricePredictionForm = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-    }finally {
+    } finally {
       setIsLoadingPrediction(false); // Set loading to false when the request is complete
     }
   };
@@ -193,7 +193,14 @@ const PricePredictionForm = () => {
             {/* Dashboard Cards or Widgets */}
             <div className=" p-4 rounded-lg ">
               {/* Card Content Here */}
-              <div className="flex mb-4">
+              <div
+                className="mb-4"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: "10px 18px"
+                }}
+              >
                 {/* Commodity */}
                 <div className="flex-1">
                   <label
@@ -202,7 +209,7 @@ const PricePredictionForm = () => {
                   >
                     Commodity:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-72">
                     <select
                       id="Commodity"
                       name="Commodity"
@@ -236,14 +243,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* State */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1">
                   <label
                     htmlFor="state_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     State:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block  w-72">
                     <select
                       id="state_name"
                       name="state_name"
@@ -277,14 +284,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* District */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1">
                   <label
                     htmlFor="district_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     District:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block  w-72">
                     <select
                       id="district_name"
                       name="district_name"
@@ -329,14 +336,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* Market */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1">
                   <label
                     htmlFor="market_center_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Market:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block  w-72">
                     <select
                       id="market_center_name"
                       name="market_center_name"
@@ -370,7 +377,7 @@ const PricePredictionForm = () => {
                 </div>
               </div>
 
-              <div className="flex mb-4">
+              <div className="mb-4" style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)"}}>
                 {/* day */}
                 <div className="flex-1">
                   <label
@@ -379,7 +386,7 @@ const PricePredictionForm = () => {
                   >
                     Day:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-44">
                     <select
                       id="day"
                       name="day"
@@ -414,14 +421,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* month */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1 ">
                   <label
                     htmlFor="month"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Month:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-44">
                     <select
                       id="month"
                       name="month"
@@ -455,14 +462,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* year */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1 ">
                   <label
                     htmlFor="year"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Year:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-44">
                     <select
                       id="year"
                       name="year"
@@ -499,74 +506,72 @@ const PricePredictionForm = () => {
               <button
                 id="ok"
                 type="submit"
-                className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8 "
+                className="bg-[#272635] text-white font-medium text-lg rounded-md px-4 py-2 hover:bg-[#000] h-10 w-40 my-8 "
               >
                 Predict
               </button>
-              
+
               {isLoadingPrediction ? (
-  <div className="text-center">
-  <p>Loading predictions...</p>
-  <div className="flex justify-center items-center mt-4">
-    <BarLoader
-      css={loaderStyle}
-      size={150}
-      color={"#36D7B7"}
-    />
-  </div>
-</div>
-) : predictedPrice !== null && (
-  <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
-                    <div class="flex flex-col text-center w-full mb-20">
-                      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
-                        Market Prices Per Quintal for{" "}
-                        {formData.Commodity
-                          ? commodityOptions.find(
-                              (option) => option.value === formData.Commodity
-                            )?.label
-                          : "Commodity"}{" "}
-                        in{" "}
-                        {formData.state_name
-                          ? stateOptions.find(
-                              (option) => option.value === formData.state_name
-                            )?.label
-                          : "state_name"}
-                      </h1>
-                      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-                        Explore the market prices for a specific commodity in a
-                        particular market center.
-                      </p>
-                    </div>
-                    <div class="flex flex-wrap -m-4 text-center">
-                      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
-                        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-                          <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {predictedPrice.toFixed(3)}
-                          </h2>
-                          <p class="leading-relaxed">Predicted Price</p>
-                        </div>
-                      </div>
-                      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
-                        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-                          <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {minPrice.toFixed(3)}
-                          </h2>
-                          <p class="leading-relaxed">Minimum Price</p>
-                        </div>
-                      </div>
-                      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
-                        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-                          <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {maxPrice.toFixed(3)}
-                          </h2>
-                          <p class="leading-relaxed">Maximum Price</p>
-                        </div>
-                      </div>
-                    </div>
+                <div className="text-center">
+                  <p>Loading predictions...</p>
+                  <div className="flex justify-center items-center mt-4">
+                    <BarLoader css={loaderStyle} size={150} color={"#36D7B7"} />
                   </div>
-  </section>
-)}
+                </div>
+              ) : (
+                predictedPrice !== null && (
+                  <section class="text-gray-600 body-font">
+                    <div class="container px-5 py-24 mx-auto">
+                      <div class="flex flex-col text-center w-full mb-20">
+                        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+                          Market Prices Per Quintal for{" "}
+                          {formData.Commodity
+                            ? commodityOptions.find(
+                                (option) => option.value === formData.Commodity
+                              )?.label
+                            : "Commodity"}{" "}
+                          in{" "}
+                          {formData.state_name
+                            ? stateOptions.find(
+                                (option) => option.value === formData.state_name
+                              )?.label
+                            : "state_name"}
+                        </h1>
+                        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                          Explore the market prices for a specific commodity in
+                          a particular market center.
+                        </p>
+                      </div>
+                      <div class="flex flex-wrap -m-4 text-center">
+                        <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+                          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                            <h2 class="title-font font-medium text-3xl text-gray-900">
+                              {predictedPrice.toFixed(3)}
+                            </h2>
+                            <p class="leading-relaxed">Predicted Price</p>
+                          </div>
+                        </div>
+                        <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+                          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                            <h2 class="title-font font-medium text-3xl text-gray-900">
+                              {minPrice.toFixed(3)}
+                            </h2>
+                            <p class="leading-relaxed">Minimum Price</p>
+                          </div>
+                        </div>
+                        <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+                          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                            <h2 class="title-font font-medium text-3xl text-gray-900">
+                              {maxPrice.toFixed(3)}
+                            </h2>
+                            <p class="leading-relaxed">Maximum Price</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                )
+              )}
             </div>
           </div>
         </div>
