@@ -2615,3 +2615,5 @@ result = {'type': 'dataframe', 'value': dfs[0]}
 2023-12-20 11:29:11 [INFO] 127.0.0.1 - - [20/Dec/2023 11:29:11] "GET //api/read/ HTTP/1.1" 200 -
 2023-12-20 11:41:51 [INFO] 127.0.0.1 - - [20/Dec/2023 11:41:51] "OPTIONS //api/read/ HTTP/1.1" 200 -
 2023-12-20 11:41:51 [INFO] 127.0.0.1 - - [20/Dec/2023 11:41:51] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 14:17:11 [INFO] 127.0.0.1 - - [20/Dec/2023 14:17:11] "[33mGET /assets/resto_bg.jpg HTTP/1.1[0m" 404 -
+2023-12-20 14:17:14 [INFO] 127.0.0.1 - - [20/Dec/2023 14:17:14] "[33mGET /assets/resto_bg.jpg HTTP/1.1[0m" 404 -
