@@ -221,7 +221,7 @@ function ChartOne() {
         <header className="bg-gray-800 mb-12 p-4 text-white text-center rounded-lg lg:flex-grow">
           <h1 className="text-4xl font-semibold">Commodity Price Prediction</h1>
         </header>
-        <div className="my-4">
+        <div className="my-4" style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", width: "60%"}}>
           <label className="mr-6  text-sm font-medium text-gray-700">
             Commodity :
           </label>
@@ -240,7 +240,7 @@ function ChartOne() {
         </div>
 
         {/* State */}
-        <div className="my-4">
+        <div className="my-4" style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", width: "60%"}}>
           <label className="mr-6  text-sm font-medium text-gray-700">
             State :
           </label>
@@ -259,7 +259,7 @@ function ChartOne() {
         </div>
 
         {/* District */}
-        <div className="my-4">
+        <div className="my-4" style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", width: "60%"}}>
           <label className="mr-6  text-sm font-medium text-gray-700">
             District :
           </label>
@@ -278,7 +278,7 @@ function ChartOne() {
         </div>
 
         {/* Market */}
-        <div className="my-4">
+        <div className="my-4" style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", width: "60%"}}>
           <label className="mr-6  text-sm font-medium text-gray-700">
             Market :
           </label>
@@ -296,14 +296,14 @@ function ChartOne() {
           </select>
         </div>
 
-        <div className="my-4">
+        <div className="my-4" style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", width: "60%"}}>
           <label className="mr-6  text-sm font-medium text-gray-700">
             Start Date :
           </label>
           <select
             value={startDay}
             onChange={(e) => setStartDay(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mx-4 h-12 w-20" // Increased padding and height
+            className="border border-gray-300 rounded px-3 py-2 h-12 w-20" // Increased padding and height
           >
             <option value="">30</option>
             {dayOptions.map((day) => (
@@ -315,7 +315,7 @@ function ChartOne() {
           <select
             value={startMonth}
             onChange={(e) => setStartMonth(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mx-4 h-12 w-24" // Increased padding and height
+            className="border border-gray-300 rounded pl-3 py-2 h-12 w-24" // Increased padding and height
           >
             <option value="">11</option>
             {monthOptions.map((month) => (
@@ -327,7 +327,7 @@ function ChartOne() {
           <select
             value={startYear}
             onChange={(e) => setStartYear(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mx-4 h-12 w-24" // Increased padding and height
+            className="border border-gray-300 rounded pl-3 py-2 h-12 w-24" // Increased padding and height
           >
             <option value="">2023</option>
             {yearOptions.map((year) => (
@@ -337,14 +337,14 @@ function ChartOne() {
             ))}
           </select>
         </div>
-        <div className="my-4">
+        <div className="my-4" style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", width: "60%"}}>
           <label className="mr-6  text-sm font-medium text-gray-700">
             End Date :{" "}
           </label>
           <select
             value={endDay}
             onChange={(e) => setEndDay(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mx-4 h-12 w-20 " // Increased padding and height
+            className="border border-gray-300 rounded px-3 py-2 h-12 w-20 " // Increased padding and height
           >
             <option value="">30</option>
             {dayOptions.map((day) => (
@@ -356,7 +356,7 @@ function ChartOne() {
           <select
             value={endMonth}
             onChange={(e) => setEndMonth(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mx-4 h-12 w-24" // Increased padding and height
+            className="border border-gray-300 rounded px-3 py-2 h-12 w-24" // Increased padding and height
           >
             <option value="">12</option>
             {monthOptions.map((month) => (
@@ -368,7 +368,7 @@ function ChartOne() {
           <select
             value={endYear}
             onChange={(e) => setEndYear(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mx-4 h-12 w-24" // Increased padding and height
+            className="border border-gray-300 rounded px-3 py-2 h-12 w-24" // Increased padding and height
           >
             <option value="">2023</option>
             {yearOptions.map((year) => (
@@ -382,7 +382,7 @@ function ChartOne() {
 
 <button
   onClick={fetchData}
-  className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8"
+  className="bg-[#272635] text-white font-medium text-lg rounded-md px-4 py-2 hover:bg-[#000] h-10 w-40 my-8 "
   disabled={!selectedDistrict || !selectedCommodity}
 >
   Predict

@@ -391,7 +391,7 @@ function Comparison() {
         
         <button
           onClick={fetchData}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+          className="bg-[#272635] text-white font-medium text-lg rounded-md px-4 py-2 hover:bg-[#000] h-10 w-40 my-8 "
           disabled={!selectedDistrict || !selectedCommodity}
         >
           View 
