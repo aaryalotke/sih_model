@@ -14,21 +14,20 @@ function Sidebar({ activeTab, setActiveTab }) {
     { id: 'commodityPrediction', label: 'Commodity Prediction' },
     { id: 'Inventory', label: 'Inventory' },
     { id: 'messages', label: 'Alerts' },
-    { id: 'DailySales', label: 'DailySales' },
     { id: 'Collaborate', label: 'Collaborate' },
   ];
 
   return (
-    <div className="w-1/5 bg-gray-800 rounded-lg h-100 py-8">
+    <div className="w-1/5 bg-[#000000] rounded-lg h-100 py-8 px-4 min-w-1/5" style={{position: "sticky", top: "0", left: "0"}}>
       <ul className="space-y-2 h-20">
         {tabs.map((tab) => (
           <li key={tab.id}>
             <button
               className={`${
                 activeTab === tab.id
-                  ? 'bg-indigo-500 text-white'
-                  : 'bg-gray-700 text-gray-400'
-              } w-full h-12 py-2 px-4 rounded-lg transition duration-300 hover:bg-indigo-500 hover:text-white`}
+                  ? 'bg-[#b1e5f2] text-[#272635]'
+                  : 'bg-[#272635] text-[#fff]'
+              } w-full h-12 py-2 px-4 rounded-lg transition duration-300 hover:bg-[#b1e5f2] hover:text-[#272635]`}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}

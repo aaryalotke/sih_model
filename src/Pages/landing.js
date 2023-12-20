@@ -5,7 +5,7 @@ function Landing() {
 
   return (
     <>
-      <div className="relative bg-[#000000] m-0 pt-3 w-screen h-screen flex justify-center">
+      <div className="relative bg-[#000000] pt-3 px-7 h-screen flex justify-center">
         
 
         <div className="text-center leading-[45rem]">
@@ -24,7 +24,7 @@ function Landing() {
         </div>
    </div>
    {/* //Features */}
-   <div className=" bg-[#272635] w-screen h-[35rem] p-[6rem] text-[#B1E5F2]">
+   <div className=" bg-[#272635] h-[35rem] p-[6rem] text-[#B1E5F2]">
         <h2 className="font-unica text-5xl">Revolutionalize your profits!</h2>
 
         <div className="grid grid-cols-3 justify-center mt-[1rem] font-worksans text-lg overflow-hidden p-9">
