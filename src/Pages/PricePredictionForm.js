@@ -177,7 +177,7 @@ const PricePredictionForm = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-    }finally {
+    } finally {
       setIsLoadingPrediction(false); // Set loading to false when the request is complete
     }
   };
@@ -503,70 +503,68 @@ const PricePredictionForm = () => {
               >
                 Predict
               </button>
-              
+
               {isLoadingPrediction ? (
-  <div className="text-center">
-  <p>Loading predictions...</p>
-  <div className="flex justify-center items-center mt-4">
-    <BarLoader
-      css={loaderStyle}
-      size={150}
-      color={"#36D7B7"}
-    />
-  </div>
-</div>
-) : predictedPrice !== null && (
-  <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
-                    <div class="flex flex-col text-center w-full mb-20">
-                      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
-                        Market Prices Per Quintal for{" "}
-                        {formData.Commodity
-                          ? commodityOptions.find(
-                              (option) => option.value === formData.Commodity
-                            )?.label
-                          : "Commodity"}{" "}
-                        in{" "}
-                        {formData.state_name
-                          ? stateOptions.find(
-                              (option) => option.value === formData.state_name
-                            )?.label
-                          : "state_name"}
-                      </h1>
-                      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-                        Explore the market prices for a specific commodity in a
-                        particular market center.
-                      </p>
-                    </div>
-                    <div class="flex flex-wrap -m-4 text-center">
-                      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
-                        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-                          <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {predictedPrice.toFixed(3)}
-                          </h2>
-                          <p class="leading-relaxed">Predicted Price</p>
-                        </div>
-                      </div>
-                      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
-                        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-                          <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {minPrice.toFixed(3)}
-                          </h2>
-                          <p class="leading-relaxed">Minimum Price</p>
-                        </div>
-                      </div>
-                      <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
-                        <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
-                          <h2 class="title-font font-medium text-3xl text-gray-900">
-                            {maxPrice.toFixed(3)}
-                          </h2>
-                          <p class="leading-relaxed">Maximum Price</p>
-                        </div>
-                      </div>
-                    </div>
+                <div className="text-center">
+                  <p>Loading predictions...</p>
+                  <div className="flex justify-center items-center mt-4">
+                    <BarLoader css={loaderStyle} size={150} color={"#36D7B7"} />
                   </div>
-  </section>
-)}
+                </div>
+              ) : (
+                predictedPrice !== null && (
+                  <section class="text-gray-600 body-font">
+                    <div class="container px-5 py-24 mx-auto">
+                      <div class="flex flex-col text-center w-full mb-20">
+                        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+                          Market Prices Per Quintal for{" "}
+                          {formData.Commodity
+                            ? commodityOptions.find(
+                                (option) => option.value === formData.Commodity
+                              )?.label
+                            : "Commodity"}{" "}
+                          in{" "}
+                          {formData.state_name
+                            ? stateOptions.find(
+                                (option) => option.value === formData.state_name
+                              )?.label
+                            : "state_name"}
+                        </h1>
+                        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                          Explore the market prices for a specific commodity in
+                          a particular market center.
+                        </p>
+                      </div>
+                      <div class="flex flex-wrap -m-4 text-center">
+                        <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+                          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                            <h2 class="title-font font-medium text-3xl text-gray-900">
+                              {predictedPrice.toFixed(3)}
+                            </h2>
+                            <p class="leading-relaxed">Predicted Price</p>
+                          </div>
+                        </div>
+                        <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+                          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                            <h2 class="title-font font-medium text-3xl text-gray-900">
+                              {minPrice.toFixed(3)}
+                            </h2>
+                            <p class="leading-relaxed">Minimum Price</p>
+                          </div>
+                        </div>
+                        <div class="p-4 md:w-1/3 sm:w-1/2 w-full">
+                          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg shadow-md">
+                            <h2 class="title-font font-medium text-3xl text-gray-900">
+                              {maxPrice.toFixed(3)}
+                            </h2>
+                            <p class="leading-relaxed">Maximum Price</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                )
+              )}
             </div>
           </div>
         </div>
