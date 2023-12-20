@@ -10,7 +10,10 @@ function Landing() {
 
   return (
     <>
+
       <div className="relative bg-[#000000] m-0 pt-3 w-screen h-screen flex justify-center">
+
+   
         <div className="text-center leading-[45rem]">
           <h1 className="font-unica text-[#CECECE] text-[12rem] z-20 relative">
             BYTEBISTRO
@@ -26,9 +29,12 @@ function Landing() {
           <p className="pr-[2rem] pl-[2rem]">Pricing</p>
           <p className="pl-[2rem]">Team</p>
         </div>
-      </div>
-      {/* //Features */}
-      <div className=" bg-[#272635] w-screen h-[35rem] p-[6rem] text-[#B1E5F2]">
+
+
+   </div>
+   {/* //Features */}
+   <div className=" bg-[#272635] h-[35rem] p-[6rem] text-[#B1E5F2]">
+
         <h2 className="font-unica text-5xl">Revolutionalize your profits!</h2>
 
         <div className="grid grid-cols-3 justify-center mt-[1rem] font-worksans text-lg overflow-hidden p-9">

@@ -37,7 +37,7 @@ const ProfitEstimator = ({ totalCostPrice, totalSellingPrice, calculateProfit,pr
   }, [fetchedFixedMonthlyCost, setFixedMonthlyCost]);
 
   return (
-    <div  className="w-1/2 p-4 bg-teal-500 text-emerald rounded-md flex justify-center items-center">
+    <div  className="p-4 bg-teal-500 text-emerald rounded-md flex justify-center items-center mt-10">
             <div  style={{width:'90%'}} className="lg:w-2/3 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full">
               <h2 className="text-gray-900 text-lg text-center font-medium title-font mb-5">Profit Estimator</h2>
               <div className="mb-4">

@@ -1,64 +1,12 @@
-// import React, { useState, useEffect } from "react";
-// // import firebase from "firebase/app";
-// // import "firebase/database";
-
-// const CollaborationList = ({ onBackButtonClick }) => {
-//     const [collaborations, setCollaborations] = useState([]);
-
-//     useEffect(() => {
-//         // Fetch data from Firebase
-//         // const database = firebase.database();
-//         // const collaborationRef = database.ref("collaborations");
-
-//         // collaborationRef.on("value", (snapshot) => {
-//         //   const collaborationsData = snapshot.val();
-//         //   if (collaborationsData) {
-//         //     const collaborationsArray = Object.values(collaborationsData);
-//         //     setCollaborations(collaborationsArray);
-//         //   }
-//         // });
-
-//         // // Cleanup listener on component unmount
-//         // return () => collaborationRef.off("value");
-//     }, []);
-
-//     return (
-//         <div className="bg-white p-6 rounded-lg shadow-md">
-//             <div className="flex items-center justify-between mb-6">
-//                 <h2 className="text-4xl font-semibold mb-6">Collaborating Restaurants</h2>
-//                 <button
-//                     onClick={onBackButtonClick}
-//                     className="bg-gray-500 text-white font-medium text-lg rounded-md px-4 py-2 hover:bg-gray-600 focus:outline-none focus:ring focus:border-blue-300 mt-4"
-//                 >
-//                     Back to form
-//                 </button>
-//             </div>
-
-//             <ul>
-//                 <p className="mt-12">list:</p>
-//                 {collaborations.map((collaboration, index) => (
-//                     <li key={index}>
-//                         <strong>Restaurant Name:</strong> {collaboration.restaurantName}<br />
-//                         <strong>Collaboration Duration:</strong> {collaboration.collaborationDuration}<br />
-//                         <strong>Collaboration Details:</strong> {collaboration.collaborationDetails}<br />
-//                         <strong>Contact Person:</strong> {collaboration.contactPerson}<br />
-//                         <strong>Contact Email:</strong> {collaboration.contactEmail}<br />
-//                         <hr />
-//                     </li>
-//                 ))}
-//             </ul>
-
-//         </div>
-//     );
-// };
-
-// export default CollaborationList;
-
 import React, { useState, useEffect } from "react";
 import logo from "./../cutlery.png";
+// import firebase from "firebase/app";
+// import "firebase/firestore";
+
 
 
 const CollaborationList = ({ onBackButtonClick }) => {
+
   const [collaborations, setCollaborations] = useState([
     {
       id: 1,
@@ -97,8 +45,11 @@ const CollaborationList = ({ onBackButtonClick }) => {
     },
   ]);
 
-  const handleConnectClick = () => {
-    const contactEmail = "aaryalotke@gmail.com";
+
+
+
+  const handleConnectClick = (contactEmail) => {
+    // const contactEmail = "aaryalotke@gmail.com";
     const subject = "Collaboration Inquiry";
     const body = `Hello,\n\nI am interested in collaborating with your restaurant. Let's discuss further details.\n\nBest regards,`;
 
@@ -109,7 +60,11 @@ const CollaborationList = ({ onBackButtonClick }) => {
   };
 
   useEffect(() => {
-    // Fetch collaborations or perform any other necessary actions
+    // Fetch data from the new Flask endpoint
+    fetch('/get-collaborations/')
+      .then(response => response.json())
+      .then(data => setCollaborations(data))
+      .catch(error => console.error('Error fetching collaborations:', error));
   }, []);
 
   return (
@@ -126,9 +81,9 @@ const CollaborationList = ({ onBackButtonClick }) => {
         </button>
       </div>
 
-      {collaborations.map((restaurant) => (
+      {collaborations.map((collaboration) => (
         <div
-          key={restaurant.id}
+          key={collaboration.id}
           className="mb-4 p-4 bg-gray-100 rounded-lg flex items-center"
         >
           <div className="mr-4">
@@ -137,15 +92,15 @@ const CollaborationList = ({ onBackButtonClick }) => {
 
           {/* Restaurant Information */}
           <div>
-            <h3 className="text-lg font-semibold">{restaurant.name}</h3>
-            <p>Collaboration Duration: {restaurant.duration}</p>
-            <p>Contact Person: {restaurant.contactPerson}</p>
-            <p>Contact Email: {restaurant.contactEmail}</p>
+            <h3 className="text-lg font-semibold">{collaboration.restaurantName}</h3>
+            <p>Collaboration Duration: {collaboration.collaborationDuration}</p>
+            <p>Contact Person: {collaboration.contactPerson}</p>
+            <p>Contact Email: {collaboration.contactEmail}</p>
           </div>
 
           {/* Connect Button */}
           <button
-            onClick={() => handleConnectClick(restaurant.contactEmail)}
+            onClick={() => handleConnectClick(collaboration.contactEmail)}
             className="ml-auto bg-blue-500 text-white font-medium text-sm rounded-md px-3 py-1 hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
           >
             Connect

@@ -61,7 +61,7 @@ const FixedMonthly = () => {
           Fixed Costs Incurred per Month
         </h2>
 
-        <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
+        <form className="max-w-sm mx-auto" onSubmit={handleSubmit} style={{boxShadow: "none"}}>
           {/* Rent Input */}
           <div className="mb-5">
             <label
@@ -174,7 +174,7 @@ const FixedMonthly = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+            className="border-2 border-[#272635] font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" style={{background: "none", color: "#272635"}}
           >
             Save Monthly Details
           </button>

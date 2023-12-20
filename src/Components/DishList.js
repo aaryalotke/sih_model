@@ -17,8 +17,8 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
         cost_price: dishes[index].cost_price,
         selling_price: dishes[index].selling_price,
         quantity: dish.quantity || 0,
-        is_veg: dish.is_veg, 
-        id: index// Use 0 if quantity is not set
+        is_veg: dish.is_veg,
+        id: dishes[index].id// Use 0 if quantity is not set
       }));
 
     console.log("selectedData",selectedData);
@@ -58,7 +58,7 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
     setSelectedData(updatedData);
   };
   return (
-    <div className="w-1/2 p-4 overflow-y-auto h-96 bg-gray-100 shadow-md rounded-md">
+    <div className="p-4 h-96 bg-gray-100 shadow-md rounded-md" style={{overflowY: "auto"}}>
 
             <table className="w-full border-collapse border">
               <thead>

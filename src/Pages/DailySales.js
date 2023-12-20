@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import DishList from '../Components/DishList';
-import ProfitEstimator from '../Components/ProfitEstimator';
-
+import React, { useState, useEffect } from "react";
+import DishList from "../Components/DishList";
+import ProfitEstimator from "../Components/ProfitEstimator";
+import Coupon from "../Components/Coupon";
 
 const DailySales = () => {
   const [selectedDishes, setSelectedDishes] = useState([]);
@@ -13,14 +13,14 @@ const DailySales = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/read/'); // Replace with your actual API endpoint
+        const response = await fetch("http://127.0.0.1:5000/api/read/"); // Replace with your actual API endpoint
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setSelectedDishes(data);
       } catch (error) {
-        console.error('Error fetching data:', error.message);
+        console.error("Error fetching data:", error.message);
       }
     };
 
@@ -31,7 +31,7 @@ const DailySales = () => {
     const updatedDishes = [...selectedDishes];
     updatedDishes[index].isChecked = !updatedDishes[index].isChecked;
     setSelectedDishes(updatedDishes);
-    console.log('Selected Dishes:', updatedDishes);
+    console.log("Selected Dishes:", updatedDishes);
   };
 
   const handleQuantityChange = (index, quantity) => {
@@ -85,10 +85,26 @@ const DailySales = () => {
     calculateSellingPrice();
   }, [selectedDishes]);
 
+  const [couponsData, setCouponsData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/openai")
+      .then((response) => response.json())
+      .then((data) => setCouponsData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
   return (
     <div>
-      <section>
-        <div className="flex">
+      <section
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
+          height: "100%",
+        }}
+      >
+        <div style={{ width: "55%" }}>
           {/* Dish List */}
           <DishList
             dishes={selectedDishes}
@@ -105,6 +121,15 @@ const DailySales = () => {
             fixedMonthlyCost={fixedMonthlyCost}
             profitPercentage={profitPercentage}
           />
+        </div>
+        <div style={{ width: "40%" }}>
+          {couponsData.map((coupon, index) => (
+            <Coupon
+              key={index}
+              dishName={coupon.dish_name}
+              couponText={coupon.offer}
+            />
+          ))}
         </div>
       </section>
     </div>

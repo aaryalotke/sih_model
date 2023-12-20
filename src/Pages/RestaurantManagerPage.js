@@ -45,8 +45,8 @@ const onChange = (e)=>{
     <div className='row'>
     <AddRecipe className='col-sm'/>
    
-    <h2 className='my-3'>List of recipies</h2>
-    <div style={{width: '18rem'}} className='row-sm'>
+    <h2 className='my-3 ml-2 font-bold text-2xl'>List of recipies</h2>
+    <div style={{width: '18rem', display: "flex"}} className='row-sm'>
         <div  className="container row-sm">
         {recipies.length===0 && 'no recipies to display'}
         </div>
