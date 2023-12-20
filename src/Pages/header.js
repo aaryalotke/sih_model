@@ -44,7 +44,7 @@ function Header() {
         </nav>
         <div className="md:ml-auto md:mr-0 mt-4 md:mt-0">
           <button className="inline-flex text-white items-center bg-gray-800 border-0 mr-6 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base" onClick={handleLogout}>
-            Exit
+            Sign out
             <svg
               fill="none"
               stroke="currentColor"
