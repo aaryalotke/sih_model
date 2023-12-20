@@ -13,6 +13,7 @@ import Login from './Pages/Login';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Routes from './Routes';
 import Landing from './Pages/landing';
+import HeroPage from './Pages/Threejs/HeroPage';
 
 
 
@@ -22,7 +23,7 @@ function App() {
 
   return (
       
-<Landing/>
+  <HeroPage/>
       
   );
 }
