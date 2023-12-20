@@ -144,8 +144,8 @@ const AddRecipe = () => {
       </button>
     </div>
     <div>
-            <label htmlFor="is_veg" className=" mb-2 text-sm font-medium text-gray-900 dark:text-white">is it veg?</label>
-            <input onChange={onChange} type="checkbox" style={{margin: '10px', width: '20px', height: '20px', paddingBottom:'0'}} name="is_veg" id="is_veg"  />
+          <label htmlFor="is_veg" className=" mb-2 text-sm font-medium text-gray-900 dark:text-white">is it veg?</label>
+          <input onChange={onChange} type="checkbox" style={{margin: '10px', width: '20px', height: '20px', paddingBottom:'0'}} name="is_veg" id="is_veg"  />
         </div>
     <div>
         <label htmlFor='other-expense' className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter other expenses</label>

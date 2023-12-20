@@ -275,7 +275,7 @@ def save_selected_data():
                 'cost_price': item['cost_price'],
                 'selling_price': item['selling_price'],
                 'quantity': item['quantity'],
-                'id': (item['id']+1),
+                'id': item['id'],
                 'date_added': current_date
             })
 
@@ -285,7 +285,65 @@ def save_selected_data():
         print(e)
         return jsonify({'error': str(e)}), 500
 
-@app.route('/get-all-selected-dishes', methods=['GET'])
+# get all the inventory items
+@app.route('/get-inventory', methods=['GET'])
+def get_inventory():
+    try:
+        # Assuming your Firebase collection is named 'inventory'
+        inventory_ref = db.collection('inventory')
+
+        # Get all documents from the 'inventory' collection
+        inventory_data = inventory_ref.stream()
+
+        # Convert data to a list of dictionaries
+        inventory_list = []
+        for doc in inventory_data:
+            item_data = doc.to_dict()
+            item_data['id'] = doc.id  # Include the document ID
+            inventory_list.append(item_data)
+
+        return jsonify({'inventory': inventory_list}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500   
+
+
+ 
+# send inventory items
+@app.route('/save-inventory', methods=['POST'])
+def save_inventory():
+    try:
+        req_data = request.get_json()
+
+        # Assuming your Firebase collection is named 'selectedDishes'
+        selected_dishes_ref = db.collection('inventory')
+
+        # Get the current date in DD-MM-YY format
+        current_date = datetime.now().strftime('%d-%m-%Y')
+
+        # Loop through the array and add each object to the collection with the current date
+        for item in req_data:
+            selected_dishes_ref.add({
+                'commodity_id': item['commodity_id'],
+                'name': item['name'],
+                'category': item['category'],
+                'unitOfMeasurement': item['unitOfMeasurement'],
+                'currentStock': item['currentStock'],
+                'minStockThreshold': item['minStockThreshold'],
+                'reorderQuantity': item['reorderQuantity'],
+                'unitCost': item['unitCost'],
+                'date_added': current_date
+            })
+
+        return jsonify({'message': 'Data saved successfully'}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/get-all-selected-dishes/', methods=['GET'])
 def get_all_selected_dishes():
     try:
         # Assuming your Firebase collection is named 'selectedDishes'
