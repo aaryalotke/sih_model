@@ -14,4 +14,7 @@ Start the development.
 --Run the following steps.
   
   -npm i </br>
-  -npm run start
+  -npm run start </br>
+  
+These steps will set up the necessary dependencies and launch the development environment.</br>
+Feel free to explore and contribute to Byte Bistro's mission of revolutionizing the restaurant industry with data-driven dynamic pricing and real-time insights! 🚀📊
