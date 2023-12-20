@@ -1,24 +1,30 @@
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth, GoogleAuthProvider} from 'firebase/auth'
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCfUEDExvbVE-QpqgWVE5kZCblzHsfTuKQ",
-  authDomain: "chatapp-64627.firebaseapp.com",
-  projectId: "chatapp-64627",
-  storageBucket: "chatapp-64627.appspot.com",
-  messagingSenderId: "519369387737",
-  appId: "1:519369387737:web:65894da7767cb3ea4918c8"
+  apiKey: "AIzaSyDEctRQhs4JZg6Fh4XjgIZpRhYT_H-UYKk",
+  authDomain: "restaurant-auth-c7ca9.firebaseapp.com",
+  projectId: "restaurant-auth-c7ca9",
+  storageBucket: "restaurant-auth-c7ca9.appspot.com",
+  messagingSenderId: "1072968252296",
+  appId: "1:1072968252296:web:d284fe8ee9e9328beb583d",
+  measurementId: "G-B947YD2JEC",
 };
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app)
+const analytics = getAnalytics(app);
+
+// Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getFirestore(app);
