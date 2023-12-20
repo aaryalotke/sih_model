@@ -2376,3 +2376,242 @@ result = {'type': 'dataframe', 'value': dfs[0]}
 2023-12-20 08:49:48 [INFO] Executed in: 1.2418568134307861s
 2023-12-20 08:49:48 [INFO] Executing Step 6: ResultParsing
 2023-12-20 08:49:48 [INFO] 127.0.0.1 - - [20/Dec/2023 08:49:48] "GET /openai HTTP/1.1" 200 -
+2023-12-20 09:31:13 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences
+2023-12-20 09:31:20 [INFO] 127.0.0.1 - - [20/Dec/2023 09:31:20] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 09:31:20 [INFO] Running PandasAI with openai LLM...
+2023-12-20 09:31:20 [INFO] Prompt ID: bd52950f-b14c-4039-b261-6c55fcf59dcf
+2023-12-20 09:31:20 [INFO] Executing Step 0: CacheLookup
+2023-12-20 09:31:20 [INFO] Using cached response
+2023-12-20 09:31:20 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 09:31:20 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 09:31:20 [INFO] Executing Step 3: CachePopulation
+2023-12-20 09:31:21 [INFO] Executing Step 4: CodeExecution
+2023-12-20 09:31:21 [INFO] Saving charts to C:\Users\HP\OneDrive\Desktop\SIH\Frontend\sih_model\flask-server\exports\charts\temp_chart.png
+2023-12-20 09:31:21 [INFO] 
+Code running:
+```
+dfs[0]['offer'] = dfs[0]['sellingPrice'] - dfs[0]['costPrice']
+dfs[0]['coupon'] = dfs[0].apply(lambda x: f"Get {x['offer']} off on {x['dish_name']}." if x['offer'] > 0 else f"No offer available on {x['dish_name']}.", axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 09:31:21 [INFO] Executing Step 5: ResultValidation
+2023-12-20 09:31:21 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  sellingPrice  costPrice  order_date  offer                            coupon
+0          1  pav bhaji        73           143        133  19-11-2023     10          Get 10 off on pav bhaji.
+1          2  medu vada        69           127        115  19-11-2023     12          Get 12 off on medu vada.
+2          3     samosa        26           133        118  19-11-2023     15             Get 15 off on samosa.
+3          4    biryani        78           135        126  19-11-2023      9             Get 9 off on biryani.
+4          5      thali        47           136        121  19-11-2023     15              Get 15 off on thali.
+..       ...        ...       ...           ...        ...         ...    ...                               ...
+145        1  pav bhaji        40           143         94  18-12-2023     49          Get 49 off on pav bhaji.
+146        2  medu vada        85           127        132  18-12-2023     -5  No offer available on medu vada.
+147        3     samosa        77           133        105  18-12-2023     28             Get 28 off on samosa.
+148        4    biryani        39           135         93  18-12-2023     42            Get 42 off on biryani.
+149        5      thali        51           136        114  18-12-2023     22              Get 22 off on thali.
+
+[150 rows x 8 columns]}
+2023-12-20 09:31:21 [INFO] Executed in: 7.8830649852752686s
+2023-12-20 09:31:21 [INFO] Executing Step 6: ResultParsing
+2023-12-20 09:31:21 [INFO] 127.0.0.1 - - [20/Dec/2023 09:31:21] "GET /openai HTTP/1.1" 200 -
+2023-12-20 10:46:00 [INFO] 127.0.0.1 - - [20/Dec/2023 10:46:00] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 10:46:01 [INFO] 127.0.0.1 - - [20/Dec/2023 10:46:01] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 10:46:01 [INFO] 127.0.0.1 - - [20/Dec/2023 10:46:01] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 10:46:01 [INFO] 127.0.0.1 - - [20/Dec/2023 10:46:01] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 10:46:01 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences
+2023-12-20 10:46:02 [INFO] Running PandasAI with openai LLM...
+2023-12-20 10:46:02 [INFO] Prompt ID: b4c357b7-0a19-42bc-9f7c-2dd113dbf0c7
+2023-12-20 10:46:02 [INFO] Executing Step 0: CacheLookup
+2023-12-20 10:46:02 [INFO] Using cached response
+2023-12-20 10:46:02 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 10:46:02 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 10:46:02 [INFO] Executing Step 3: CachePopulation
+2023-12-20 10:46:02 [INFO] Executing Step 4: CodeExecution
+2023-12-20 10:46:03 [INFO] Saving charts to C:\Users\HP\OneDrive\Desktop\SIH\Frontend\sih_model\flask-server\exports\charts\temp_chart.png
+2023-12-20 10:46:03 [INFO] 
+Code running:
+```
+dfs[0]['offer'] = dfs[0]['sellingPrice'] - dfs[0]['costPrice']
+dfs[0]['coupon'] = dfs[0].apply(lambda x: f"Get {x['offer']} off on {x['dish_name']}." if x['offer'] > 0 else f"No offer available on {x['dish_name']}.", axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 10:46:03 [INFO] Executing Step 5: ResultValidation
+2023-12-20 10:46:03 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  sellingPrice  costPrice  order_date  offer                            coupon
+0          1  pav bhaji        73           143        133  19-11-2023     10          Get 10 off on pav bhaji.
+1          2  medu vada        69           127        115  19-11-2023     12          Get 12 off on medu vada.
+2          3     samosa        26           133        118  19-11-2023     15             Get 15 off on samosa.
+3          4    biryani        78           135        126  19-11-2023      9             Get 9 off on biryani.
+4          5      thali        47           136        121  19-11-2023     15              Get 15 off on thali.
+..       ...        ...       ...           ...        ...         ...    ...                               ...
+145        1  pav bhaji        40           143         94  18-12-2023     49          Get 49 off on pav bhaji.
+146        2  medu vada        85           127        132  18-12-2023     -5  No offer available on medu vada.
+147        3     samosa        77           133        105  18-12-2023     28             Get 28 off on samosa.
+148        4    biryani        39           135         93  18-12-2023     42            Get 42 off on biryani.
+149        5      thali        51           136        114  18-12-2023     22              Get 22 off on thali.
+
+[150 rows x 8 columns]}
+2023-12-20 10:46:03 [INFO] Executed in: 1.292187213897705s
+2023-12-20 10:46:03 [INFO] Executing Step 6: ResultParsing
+2023-12-20 10:46:03 [INFO] 127.0.0.1 - - [20/Dec/2023 10:46:03] "GET /openai HTTP/1.1" 200 -
+2023-12-20 10:46:11 [INFO] 127.0.0.1 - - [20/Dec/2023 10:46:11] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 10:47:33 [INFO] 127.0.0.1 - - [20/Dec/2023 10:47:33] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 10:47:33 [INFO] 127.0.0.1 - - [20/Dec/2023 10:47:33] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 10:48:01 [INFO] 127.0.0.1 - - [20/Dec/2023 10:48:01] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 10:48:01 [INFO] 127.0.0.1 - - [20/Dec/2023 10:48:01] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 10:59:59 [INFO] 127.0.0.1 - - [20/Dec/2023 10:59:59] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 10:59:59 [INFO] 127.0.0.1 - - [20/Dec/2023 10:59:59] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 10:59:59 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences
+2023-12-20 10:59:59 [INFO] Running PandasAI with openai LLM...
+2023-12-20 10:59:59 [INFO] Prompt ID: 99291aeb-fbe9-4a0c-b6b8-bcfe4134a138
+2023-12-20 10:59:59 [INFO] Executing Step 0: CacheLookup
+2023-12-20 10:59:59 [INFO] Using cached response
+2023-12-20 10:59:59 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 10:59:59 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 10:59:59 [INFO] Executing Step 3: CachePopulation
+2023-12-20 10:59:59 [INFO] Executing Step 4: CodeExecution
+2023-12-20 10:59:59 [INFO] Saving charts to C:\Users\HP\OneDrive\Desktop\SIH\Frontend\sih_model\flask-server\exports\charts\temp_chart.png
+2023-12-20 10:59:59 [INFO] 
+Code running:
+```
+dfs[0]['offer'] = dfs[0]['sellingPrice'] - dfs[0]['costPrice']
+dfs[0]['coupon'] = dfs[0].apply(lambda x: f"Get {x['offer']} off on {x['dish_name']}." if x['offer'] > 0 else f"No offer available on {x['dish_name']}.", axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 10:59:59 [INFO] Executing Step 5: ResultValidation
+2023-12-20 10:59:59 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  sellingPrice  costPrice  order_date  offer                            coupon
+0          1  pav bhaji        73           143        133  19-11-2023     10          Get 10 off on pav bhaji.
+1          2  medu vada        69           127        115  19-11-2023     12          Get 12 off on medu vada.
+2          3     samosa        26           133        118  19-11-2023     15             Get 15 off on samosa.
+3          4    biryani        78           135        126  19-11-2023      9             Get 9 off on biryani.
+4          5      thali        47           136        121  19-11-2023     15              Get 15 off on thali.
+..       ...        ...       ...           ...        ...         ...    ...                               ...
+145        1  pav bhaji        40           143         94  18-12-2023     49          Get 49 off on pav bhaji.
+146        2  medu vada        85           127        132  18-12-2023     -5  No offer available on medu vada.
+147        3     samosa        77           133        105  18-12-2023     28             Get 28 off on samosa.
+148        4    biryani        39           135         93  18-12-2023     42            Get 42 off on biryani.
+149        5      thali        51           136        114  18-12-2023     22              Get 22 off on thali.
+
+[150 rows x 8 columns]}
+2023-12-20 10:59:59 [INFO] Executed in: 0.22447919845581055s
+2023-12-20 10:59:59 [INFO] Executing Step 6: ResultParsing
+2023-12-20 10:59:59 [INFO] 127.0.0.1 - - [20/Dec/2023 10:59:59] "GET /openai HTTP/1.1" 200 -
+2023-12-20 11:00:04 [INFO] 127.0.0.1 - - [20/Dec/2023 11:00:04] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 11:00:09 [INFO] 127.0.0.1 - - [20/Dec/2023 11:00:09] "GET /dishes/topdish HTTP/1.1" 200 -
+2023-12-20 11:04:49 [INFO] 127.0.0.1 - - [20/Dec/2023 11:04:49] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:04:50 [INFO] 127.0.0.1 - - [20/Dec/2023 11:04:50] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:21:38 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:38] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:21:38 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:38] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:21:38 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:38] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 11:21:39 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:39] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 11:21:39 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences
+2023-12-20 11:21:39 [INFO] Running PandasAI with openai LLM...
+2023-12-20 11:21:39 [INFO] Prompt ID: d7e6758c-f99e-4bca-9a2e-4428882253c7
+2023-12-20 11:21:39 [INFO] Executing Step 0: CacheLookup
+2023-12-20 11:21:39 [INFO] Using cached response
+2023-12-20 11:21:39 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 11:21:39 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 11:21:39 [INFO] Executing Step 3: CachePopulation
+2023-12-20 11:21:39 [INFO] Executing Step 4: CodeExecution
+2023-12-20 11:21:39 [INFO] Saving charts to C:\Users\HP\OneDrive\Desktop\SIH\Frontend\sih_model\flask-server\exports\charts\temp_chart.png
+2023-12-20 11:21:39 [INFO] 
+Code running:
+```
+dfs[0]['offer'] = dfs[0]['sellingPrice'] - dfs[0]['costPrice']
+dfs[0]['coupon'] = dfs[0].apply(lambda x: f"Get {x['offer']} off on {x['dish_name']}." if x['offer'] > 0 else f"No offer available on {x['dish_name']}.", axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 11:21:39 [INFO] Executing Step 5: ResultValidation
+2023-12-20 11:21:39 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  sellingPrice  costPrice  order_date  offer                            coupon
+0          1  pav bhaji        73           143        133  19-11-2023     10          Get 10 off on pav bhaji.
+1          2  medu vada        69           127        115  19-11-2023     12          Get 12 off on medu vada.
+2          3     samosa        26           133        118  19-11-2023     15             Get 15 off on samosa.
+3          4    biryani        78           135        126  19-11-2023      9             Get 9 off on biryani.
+4          5      thali        47           136        121  19-11-2023     15              Get 15 off on thali.
+..       ...        ...       ...           ...        ...         ...    ...                               ...
+145        1  pav bhaji        40           143         94  18-12-2023     49          Get 49 off on pav bhaji.
+146        2  medu vada        85           127        132  18-12-2023     -5  No offer available on medu vada.
+147        3     samosa        77           133        105  18-12-2023     28             Get 28 off on samosa.
+148        4    biryani        39           135         93  18-12-2023     42            Get 42 off on biryani.
+149        5      thali        51           136        114  18-12-2023     22              Get 22 off on thali.
+
+[150 rows x 8 columns]}
+2023-12-20 11:21:39 [INFO] Executed in: 0.17412829399108887s
+2023-12-20 11:21:39 [INFO] Executing Step 6: ResultParsing
+2023-12-20 11:21:39 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:39] "GET /openai HTTP/1.1" 200 -
+2023-12-20 11:21:42 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:42] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:21:49 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:49] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 11:21:49 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:49] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 11:21:49 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences
+2023-12-20 11:21:49 [INFO] Running PandasAI with openai LLM...
+2023-12-20 11:21:49 [INFO] Prompt ID: bba58aed-d83a-4801-bc75-89f0146f288f
+2023-12-20 11:21:49 [INFO] Executing Step 0: CacheLookup
+2023-12-20 11:21:49 [INFO] Using cached response
+2023-12-20 11:21:49 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 11:21:49 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 11:21:49 [INFO] Executing Step 3: CachePopulation
+2023-12-20 11:21:49 [INFO] Executing Step 4: CodeExecution
+2023-12-20 11:21:49 [INFO] Saving charts to C:\Users\HP\OneDrive\Desktop\SIH\Frontend\sih_model\flask-server\exports\charts\temp_chart.png
+2023-12-20 11:21:49 [INFO] 
+Code running:
+```
+dfs[0]['offer'] = dfs[0]['sellingPrice'] - dfs[0]['costPrice']
+dfs[0]['coupon'] = dfs[0].apply(lambda x: f"Get {x['offer']} off on {x['dish_name']}." if x['offer'] > 0 else f"No offer available on {x['dish_name']}.", axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 11:21:49 [INFO] Executing Step 5: ResultValidation
+2023-12-20 11:21:49 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  sellingPrice  costPrice  order_date  offer                            coupon
+0          1  pav bhaji        73           143        133  19-11-2023     10          Get 10 off on pav bhaji.
+1          2  medu vada        69           127        115  19-11-2023     12          Get 12 off on medu vada.
+2          3     samosa        26           133        118  19-11-2023     15             Get 15 off on samosa.
+3          4    biryani        78           135        126  19-11-2023      9             Get 9 off on biryani.
+4          5      thali        47           136        121  19-11-2023     15              Get 15 off on thali.
+..       ...        ...       ...           ...        ...         ...    ...                               ...
+145        1  pav bhaji        40           143         94  18-12-2023     49          Get 49 off on pav bhaji.
+146        2  medu vada        85           127        132  18-12-2023     -5  No offer available on medu vada.
+147        3     samosa        77           133        105  18-12-2023     28             Get 28 off on samosa.
+148        4    biryani        39           135         93  18-12-2023     42            Get 42 off on biryani.
+149        5      thali        51           136        114  18-12-2023     22              Get 22 off on thali.
+
+[150 rows x 8 columns]}
+2023-12-20 11:21:49 [INFO] Executed in: 0.12913727760314941s
+2023-12-20 11:21:49 [INFO] Executing Step 6: ResultParsing
+2023-12-20 11:21:49 [INFO] 127.0.0.1 - - [20/Dec/2023 11:21:49] "GET /openai HTTP/1.1" 200 -
+2023-12-20 11:22:54 [INFO] 127.0.0.1 - - [20/Dec/2023 11:22:54] "GET /api/read/ HTTP/1.1" 200 -
+2023-12-20 11:22:54 [INFO] 127.0.0.1 - - [20/Dec/2023 11:22:54] "GET /read-fixed-exp/ HTTP/1.1" 200 -
+2023-12-20 11:22:54 [INFO] Question: suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences
+2023-12-20 11:22:54 [INFO] Running PandasAI with openai LLM...
+2023-12-20 11:22:54 [INFO] Prompt ID: 2b29e897-00ec-4c75-87d8-2c7ff0bfcad8
+2023-12-20 11:22:54 [INFO] Executing Step 0: CacheLookup
+2023-12-20 11:22:54 [INFO] Using cached response
+2023-12-20 11:22:54 [INFO] Executing Step 1: PromptGeneration
+2023-12-20 11:22:54 [INFO] Executing Step 2: CodeGenerator
+2023-12-20 11:22:54 [INFO] Executing Step 3: CachePopulation
+2023-12-20 11:22:54 [INFO] Executing Step 4: CodeExecution
+2023-12-20 11:22:54 [INFO] Saving charts to C:\Users\HP\OneDrive\Desktop\SIH\Frontend\sih_model\flask-server\exports\charts\temp_chart.png
+2023-12-20 11:22:54 [INFO] 
+Code running:
+```
+dfs[0]['offer'] = dfs[0]['sellingPrice'] - dfs[0]['costPrice']
+dfs[0]['coupon'] = dfs[0].apply(lambda x: f"Get {x['offer']} off on {x['dish_name']}." if x['offer'] > 0 else f"No offer available on {x['dish_name']}.", axis=1)
+result = {'type': 'dataframe', 'value': dfs[0]}
+        ```
+2023-12-20 11:22:54 [INFO] Executing Step 5: ResultValidation
+2023-12-20 11:22:54 [INFO] Answer: {'type': 'dataframe', 'value':      dish_id  dish_name  quantity  sellingPrice  costPrice  order_date  offer                            coupon
+0          1  pav bhaji        73           143        133  19-11-2023     10          Get 10 off on pav bhaji.
+1          2  medu vada        69           127        115  19-11-2023     12          Get 12 off on medu vada.
+2          3     samosa        26           133        118  19-11-2023     15             Get 15 off on samosa.
+3          4    biryani        78           135        126  19-11-2023      9             Get 9 off on biryani.
+4          5      thali        47           136        121  19-11-2023     15              Get 15 off on thali.
+..       ...        ...       ...           ...        ...         ...    ...                               ...
+145        1  pav bhaji        40           143         94  18-12-2023     49          Get 49 off on pav bhaji.
+146        2  medu vada        85           127        132  18-12-2023     -5  No offer available on medu vada.
+147        3     samosa        77           133        105  18-12-2023     28             Get 28 off on samosa.
+148        4    biryani        39           135         93  18-12-2023     42            Get 42 off on biryani.
+149        5      thali        51           136        114  18-12-2023     22              Get 22 off on thali.
+
+[150 rows x 8 columns]}
+2023-12-20 11:22:54 [INFO] Executed in: 0.10805034637451172s
+2023-12-20 11:22:54 [INFO] Executing Step 6: ResultParsing
+2023-12-20 11:22:54 [INFO] 127.0.0.1 - - [20/Dec/2023 11:22:54] "GET /openai HTTP/1.1" 200 -
+2023-12-20 11:29:10 [INFO] 127.0.0.1 - - [20/Dec/2023 11:29:10] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:29:11 [INFO] 127.0.0.1 - - [20/Dec/2023 11:29:11] "GET //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:41:51 [INFO] 127.0.0.1 - - [20/Dec/2023 11:41:51] "OPTIONS //api/read/ HTTP/1.1" 200 -
+2023-12-20 11:41:51 [INFO] 127.0.0.1 - - [20/Dec/2023 11:41:51] "GET //api/read/ HTTP/1.1" 200 -
