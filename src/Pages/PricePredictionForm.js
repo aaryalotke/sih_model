@@ -193,7 +193,14 @@ const PricePredictionForm = () => {
             {/* Dashboard Cards or Widgets */}
             <div className=" p-4 rounded-lg ">
               {/* Card Content Here */}
-              <div className="flex mb-4">
+              <div
+                className="mb-4"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: "10px 18px"
+                }}
+              >
                 {/* Commodity */}
                 <div className="flex-1">
                   <label
@@ -202,7 +209,7 @@ const PricePredictionForm = () => {
                   >
                     Commodity:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-72">
                     <select
                       id="Commodity"
                       name="Commodity"
@@ -236,14 +243,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* State */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1">
                   <label
                     htmlFor="state_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     State:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block  w-72">
                     <select
                       id="state_name"
                       name="state_name"
@@ -277,14 +284,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* District */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1">
                   <label
                     htmlFor="district_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     District:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block  w-72">
                     <select
                       id="district_name"
                       name="district_name"
@@ -329,14 +336,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* Market */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1">
                   <label
                     htmlFor="market_center_name"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Market:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block  w-72">
                     <select
                       id="market_center_name"
                       name="market_center_name"
@@ -370,7 +377,7 @@ const PricePredictionForm = () => {
                 </div>
               </div>
 
-              <div className="flex mb-4">
+              <div className="mb-4" style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)"}}>
                 {/* day */}
                 <div className="flex-1">
                   <label
@@ -379,7 +386,7 @@ const PricePredictionForm = () => {
                   >
                     Day:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-44">
                     <select
                       id="day"
                       name="day"
@@ -414,14 +421,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* month */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1 ">
                   <label
                     htmlFor="month"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Month:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-44">
                     <select
                       id="month"
                       name="month"
@@ -455,14 +462,14 @@ const PricePredictionForm = () => {
                 </div>
 
                 {/* year */}
-                <div className="flex-1 ml-4">
+                <div className="flex-1 ">
                   <label
                     htmlFor="year"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Year:
                   </label>
-                  <div className="relative inline-block w-32">
+                  <div className="relative inline-block w-44">
                     <select
                       id="year"
                       name="year"
@@ -499,7 +506,7 @@ const PricePredictionForm = () => {
               <button
                 id="ok"
                 type="submit"
-                className="bg-indigo-500 text-white font-medium text-lg rounded-md px-4 py-2 bg-indigo-500 h-14 w-40 my-8 "
+                className="bg-[#272635] text-white font-medium text-lg rounded-md px-4 py-2 hover:bg-[#000] h-10 w-40 my-8 "
               >
                 Predict
               </button>
