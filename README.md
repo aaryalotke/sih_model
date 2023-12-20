@@ -1,3 +1,6 @@
+Byte Bistro:
+Empowering Restaurants with Data-Driven Dynamic Pricing and Real-Time Insights.
+
 --For starting the server.
 --Run the following steps.
 
