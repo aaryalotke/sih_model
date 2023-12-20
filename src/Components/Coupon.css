@@ -8,46 +8,46 @@
     font-family: "Poppins", sans-serif;
 }
 
-.card {
-    margin: auto;
-    width: 550px;
-    height: 230px;
+.card-coup {
+    width: 450px;
+    /* height: 160px; */
     border-radius: 5px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
     background-color: #e2703a;
     padding: 20px;
     position: relative;
+    margin-bottom: 20px;
 }
 
 .main,
 .copy-button {
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 15px;
     align-items: center;
 }
 
-.card::after {
+.card-coup::after {
     position: absolute;
     content: "";
     height: 40px;
     right: -20px;
     border-radius: 40px;
     z-index: 1;
-    top: 90px;
-    background-color: #fff;
+    top: calc(50% - 20px);
+    background-color: #e5e7eb;
     width: 40px;
 }
 
-.card::before {
+.card-coup::before {
     position: absolute;
     content: "";
     height: 40px;
     left: -20px;
     border-radius: 40px;
     z-index: 1;
-    top: 90px;
-    background-color: #fff;
+    top: calc(50% - 20px);
+    background-color: #e5e7eb;
     width: 40px;
 }
 
@@ -61,11 +61,16 @@
     border-left: 5px dotted black;
     height: 100px;
     position: absolute;
-    left: 40%;
+    left: 35%;
+}
+
+.content{
+    text-align: center;
+    width: 60%;
 }
 
 .content h1 {
-    font-size: 35px;
+    font-size: 1.15em;
     margin-left: -20px;
     color: #fff;
 }
@@ -85,35 +90,4 @@
     font-size: 16px;
     color: #e1e1e1;
     margin-left: -20px;
-}
-
-.copy-button {
-    margin: 12px 0 -5px 0;
-    height: 45px;
-    border-radius: 4px;
-    padding: 0 5px;
-    border: 1px solid #e1e1e1;
-}
-
-.copy-button input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 15px;
-}
-
-.copy-button button {
-    padding: 5px 20px;
-    background-color: #dc143c;
-    color: #fff;
-    border: 1px solid transparent;
-}
-
-.buy {
-    position: absolute;
-    content: "";
-    bottom: 20px;
-    left: 20px;
-    background-color: #dc143c;
 }
