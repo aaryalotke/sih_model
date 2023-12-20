@@ -11,6 +11,9 @@ import hero from '../back_hero.png'
 
 const HeroPage = () => {
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
   
   const [isRotating, setIsRotating] = useState(false);
 
@@ -55,9 +58,9 @@ const HeroPage = () => {
     <section  style={{ backgroundImage: `url(${require('../../assets/resto_bg.jpg') })` }}
  className={`w-full h-screen relative ${isRotating? 'cursor-grabbing': 'cursor-grab'}`}
     >
-      <div  className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
+      {/* <div  className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
         {currentStage && <HomeInfo currentStage={currentStage}/>}
-      </div>
+      </div> */}
       <Canvas
        className='w-full h-screen bg-transparent'
        camera={{near: 0.1, far: 1000}}>
@@ -172,7 +175,7 @@ const HeroPage = () => {
         <h2 className="font-unica text-5xl ">Ready to transform your pricing game? Get started today!</h2>
         
         <div className="  text-lg font-worksans flex ">
-        <button className="m-4 p-4 bg-black text-white rounded-full" ><Link to="/login">JOIN BYTEBISTRO</Link></button>
+        <button className="m-4 p-4 bg-black text-white rounded-full" ><Link onClick={scrollToTop} to="/login">JOIN BYTEBISTRO</Link></button>
         <button className="m-4 p-4 bg-[#B1E5F2] rounded-full">KNOW MORE</button>
         </div>
     </div>

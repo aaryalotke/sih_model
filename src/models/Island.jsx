@@ -120,8 +120,10 @@ export default function Island({
   // This function is called on each frame update
   useFrame(() => {
     // If not rotating, apply damping to slow down the rotation (smoothly)
-    if (!isRotating) {
+    // if (!isRotating) {
       // Apply damping factor
+      islandRef.current.rotation.y += 0.005 * Math.PI;
+      rotationSpeed.current = 0.007;
       rotationSpeed.current *= dampingFactor;
 
       // Stop rotation when speed is very small
@@ -130,7 +132,7 @@ export default function Island({
       }
 
       islandRef.current.rotation.y += rotationSpeed.current;
-    } else {
+    // } else {
       // When rotating, determine the current stage based on island's orientation
       const rotation = islandRef.current.rotation.y;
 
@@ -154,7 +156,7 @@ export default function Island({
           break;
         default:
           setCurrentStage(null);
-      }
+      // }
     }
   });
 
