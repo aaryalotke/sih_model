@@ -26,6 +26,16 @@ import plotly.express as px
 import joblib
 from xgboost import XGBRegressor
 
+
+import requests
+from bs4 import BeautifulSoup
+import pytz
+import time
+
+from pandasai import SmartDataframe
+import pandas as pd
+from pandasai.llm import OpenAI
+
 cred = credentials.Certificate("./permissions.json")
 
 firebase_admin.initialize_app(cred)
@@ -43,9 +53,7 @@ db = firestore.client()
 dishes = db.collection("products")
 
 le = LabelEncoder()
-df_with_id = df
-df_with_id['Vegetarian'] = le.fit_transform(df_with_id['Vegetarian'])
-df_with_id['DayOfWeek'] = le.fit_transform(df_with_id['DayOfWeek'])
+
 
 def generate_transactions(date, vegetarian_value, price_value, dishID_value):
     return [{'Date': date,
@@ -110,6 +118,46 @@ def create_product():
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/add-collaboration/', methods=['POST'])
+def add_collaboration():
+    try:
+        # Assuming the request body is in JSON format
+        req_data = request.get_json()
+
+        # Add a new document to the 'collaborations' collection
+        db.collection('collaborations').document().set({
+            'restaurantName': req_data['restaurantName'],
+            'collaborationDuration': req_data['collaborationDuration'],
+            'collaborationDetails': req_data['collaborationDetails'],
+            'contactPerson': req_data['contactPerson'],
+            'contactEmail': req_data['contactEmail'],
+        })
+
+        return jsonify({'message': 'Collaboration details added successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/get-collaborations/', methods=['GET'])
+def get_collaborations():
+    try:
+        # Reference to the "collaborations" collection in Firebase
+        collaborations_ref = db.collection('collaborations')
+
+        # Fetch all documents from the collection
+        collaborations = collaborations_ref.get()
+
+        # Extract data from documents
+        data = []
+        for doc in collaborations:
+            data.append({**doc.to_dict(), 'id': doc.id})
+
+        return jsonify(data), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
     
 
 
@@ -306,15 +354,74 @@ def get_all_selected_dishes():
 
         # Convert Firestore documents to a list of dictionaries
         selected_dishes_list = []
+        holiday_calendar = holidays.CountryHoliday('IND')
         for doc in selected_dishes:
+            date_weekday = doc.to_dict()['date_added']
+            date_object = datetime.strptime(date_weekday, "%d-%m-%Y")
+            day_of_week = date_object.strftime("%A")
+            holiday_calendar = holidays.CountryHoliday('IND')
+            if date_object in holiday_calendar:
+                occasion = holiday_calendar.get(date_object)
+            else:
+                occasion = "None"
             selected_dishes_list.append({
-                'id': doc.id,
-                'name': doc.to_dict()['name'],
-                'cost_price': doc.to_dict()['cost_price'],
-                'selling_price': doc.to_dict()['selling_price'],
-                'quantity': doc.to_dict()['quantity'],
-                'date_added': doc.to_dict()['date_added'],
+                'DishID': int(doc.to_dict()['id']) + 1,
+                'Price': doc.to_dict()['selling_price'],
+                'QuantitySold': doc.to_dict()['quantity'],
+                'Date': doc.to_dict()['date_added'],
+                'Vegetarian': doc.to_dict()['isveg'],
+                'DayOfWeek': day_of_week,
+                'Occasion': occasion,
             })
+            
+            df_append_foods = pd.DataFrame(selected_dishes_list)
+        
+        result_df = pd.concat([df, df_append_foods], ignore_index=True)
+        print(result_df.tail())
+        
+        result_df.to_csv('food_sales2.csv', index=False)
+
+        return jsonify({'selected_dishes': selected_dishes_list}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/get-all-dishes-openai', methods=['GET'])
+def get_all_dishes_openai():
+    try:
+        # Assuming your Firebase collection is named 'selectedDishes'
+        selected_dishes_ref = db.collection('selectedDishes')
+
+        # Retrieve all documents from the 'selectedDishes' collection
+        selected_dishes = selected_dishes_ref.stream()
+
+        # Convert Firestore documents to a list of dictionaries
+        selected_dishes_list = []
+        holiday_calendar = holidays.CountryHoliday('IND')
+        for doc in selected_dishes:
+            date_weekday = doc.to_dict()['date_added']
+            date_object = datetime.strptime(date_weekday, "%d-%m-%Y")
+            day_of_week = date_object.strftime("%A")
+            holiday_calendar = holidays.CountryHoliday('IND')
+            if date_object in holiday_calendar:
+                occasion = holiday_calendar.get(date_object)
+            else:
+                occasion = "None"
+            selected_dishes_list.append({
+                'dish_id': int(doc.to_dict()['id']) + 1,
+                'dish_name': doc.to_dict()['name'],
+                'sellingPrice': doc.to_dict()['selling_price'],
+                'quantity': doc.to_dict()['quantity'],
+                'order_date': doc.to_dict()['date_added'],
+                'costPrice': doc.to_dict()['cost_price'],
+                'DayOfWeek': day_of_week,
+                'Occasion': occasion,
+            })
+            
+            df_append_foods = pd.DataFrame(selected_dishes_list)
+        
+        df_append_foods.to_csv('./past_month_data.csv', index=False)
 
         return jsonify({'selected_dishes': selected_dishes_list}), 200
 
@@ -359,6 +466,13 @@ def all_dish():
 
 @app.route("/dishes/topdish", methods=['GET', 'POST'])
 def top_dish():
+    df = pd.read_csv("./food_sales2.csv")
+    df = df.dropna()
+
+    all_dish_id = df['DishID'].unique()
+    df_with_id = df
+    df_with_id['Vegetarian'] = le.fit_transform(df_with_id['Vegetarian'])
+    df_with_id['DayOfWeek'] = le.fit_transform(df_with_id['DayOfWeek'])
     future_df_for_all_dishes = pd.DataFrame(columns=['DishID', 'Total Quantity Sales'])
     next_day_df = pd.DataFrame(columns=['DishID', 'Quantity Sales'])
     for i in all_dish_id:
@@ -452,7 +566,7 @@ def top_dish():
 def chart_predict():
     try:
         # Read dataset from a CSV file
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
 
         # Retrieve data from the request (commodity, district, market, and training data)
@@ -545,7 +659,7 @@ def predict_price():
 
     try:
         # Read dataset from a CSV file 
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
 
@@ -619,7 +733,7 @@ def predict_price():
 def notifs_predict():
     try:
         # Read dataset from a CSV file 
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
         # Calculate the end date as 10 days from the current date
@@ -724,7 +838,7 @@ def today_price():
         current_date = datetime.now().date()
 
          # Read dataset from a CSV file 
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         print(dataset)
 
@@ -796,7 +910,7 @@ def today_price():
 def compare_price():
     try:
          # Read dataset from a CSV file
-        dataset_path = 'src\\static\\agmarket_dataset.csv'
+        dataset_path = './../src/static/agmarket_dataset.csv'
         dataset = pd.read_csv(dataset_path)
         data = request.get_json()
         print(data)
@@ -876,6 +990,22 @@ def compare_price():
             'error_message': str(e)
         }
         return jsonify(error_response), 400
+
+@app.route("/openai", methods = ['GET', 'POST'])
+def openai():
+    df = pd.read_csv('./past_month_data.csv')
+    llm = OpenAI(
+        api_token="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",
+        temperature=0.7
+    )
+    sdf = SmartDataframe(df,config={"llm":llm})
+    result = sdf.chat('suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences')
+    no_of_unique_dish = df["dish_name"].nunique()
+    top_5_rows = result.head(no_of_unique_dish)
+    coupons = top_5_rows[["dish_name", "coupon"]]
+    coupon_json_data = coupons.to_json(orient='records')
+    print(coupon_json_data)
+    return coupon_json_data, 200
 
 if __name__ == "__main__":
     app.run(debug=True)
