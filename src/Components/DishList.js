@@ -60,10 +60,10 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
   return (
     <div className="p-4 h-96 bg-gray-100 shadow-md rounded-md" style={{overflowY: "auto"}}>
 
-            <table className="w-full border-collapse border">
+            <table className="w-full  border-collapse border">
               <thead>
-                <tr className="bg-teal-400 text-emerald">
-                  <th className="py-2 border-b">Dish Name</th>
+                <tr className="bg-gray-800 text-white">
+                  <th className="py-2  border-b">Dish Name</th>
                   <th className="py-2 border-b">Cost Price p.u.</th>
                   <th className="py-2 border-b">Selling Price p.u.</th>
                   <th className="py-2 border-b">Quantity</th>
@@ -72,11 +72,11 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
               </thead>
               <tbody>
                 {dishes.map((dish, index) => (
-                  <tr key={dish.id} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
-                    <td className="py-2 border-b">{dish.name}</td>
-                    <td className="py-2 border-b">{dish.cost_price}</td>
-                    <td className="py-2 border-b">{dish.selling_price}</td>
-                    <td className="py-2 border-b">
+                  <tr key={dish.id} className={index % 2 === 0 ? ' bg-gray-200' : 'pl-6 bg-white'}>
+                    <td className="py-2  px-2 border-b">{dish.name}</td>
+                    <td className="py-2 px-2 border-b">{dish.cost_price}</td>
+                    <td className="py-2 px-2 border-b">{dish.selling_price}</td>
+                    <td className="py-2 px-2 border-b">
                       <input
                         type="number"
                         min="0"
@@ -90,7 +90,7 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
                         type="checkbox"
                         checked={selectedDishes[index]?.isChecked || false}
                         onChange={() => handleCheckboxChange(index)}
-                        className="form-checkbox h-5 w-5 text-blue-500"
+                        className="form-checkbox h-5 w-5 bg-indigo-500"
                       />
                     </td>
                   </tr>
@@ -98,7 +98,7 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
               </tbody>
             </table>
 
-            <button onClick={sendData}>Save Data</button>
+            <button  className=" text-white font-medium text-sm rounded-md px-4 py-2 bg-indigo-500 h-10 w-30 my-8" onClick={sendData}>Save Data</button>
           </div>
   );
 };
