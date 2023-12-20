@@ -3,62 +3,7 @@ import React, { useState, useEffect } from 'react';
 const InventoryManagement = () => {
 
     const [data, setData] = useState([
-        {
-            id: 1,
-            name: 'Tomato',
-            category: 'Vegetable',
-            unitOfMeasurement: 'kg',
-            currentStock: 90,
-            minStockThreshold: 50,
-            reorderQuantity: 100,
-            unitCost: 15,
-            lastUpdated: '9/28/2023',
-        },
-        {
-            id: 2,
-            name: 'Onion',
-            category: 'Vegetable',
-            unitOfMeasurement: 'kg',
-            currentStock: 30,
-            minStockThreshold: 50,
-            reorderQuantity: 150,
-            unitCost: 10,
-            lastUpdated: '9/28/2023',
-        },
-        {
-            id: 3,
-            name: 'Potato',
-            category: 'Vegetable',
-            unitOfMeasurement: 'kg',
-            currentStock: 200,
-            minStockThreshold: 50,
-            reorderQuantity: 150,
-            unitCost: 12,
-            lastUpdated: '9/28/2023',
-        },
-        {
-            id: 4,
-            name: 'Corriander',
-            category: 'Vegetable',
-            unitOfMeasurement: '1 bunch',
-            currentStock: 30,
-            minStockThreshold: 25,
-            reorderQuantity: 50,
-            unitCost: 20,
-            lastUpdated: '9/28/2023',
-        },
-        {
-            id: 5,
-            name: 'Garlic',
-            category: 'Vegetable',
-            unitOfMeasurement: '200gm',
-            currentStock: 20,
-            minStockThreshold: 25,
-            reorderQuantity: 50,
-            unitCost: 62,
-            lastUpdated: '9/28/2023',
-        },
-        // Add more data entries as needed
+        
     ]);
 
     const [newCommodity, setNewCommodity] = useState({
@@ -81,36 +26,57 @@ const InventoryManagement = () => {
         }
     };
 
-    const handleAddCommodity = () => {
-        const newCommodityWithId = {
-            ...newCommodity,
-            id: data.length + 1,
-            currentStock: parseInt(newCommodity.currentStock, 10), // Parse to integer
-            minStockThreshold: parseInt(newCommodity.minStockThreshold, 10), // Parse to integer
-            reorderQuantity: parseInt(newCommodity.reorderQuantity, 10), // Parse to integer
-            unitCost: parseFloat(newCommodity.unitCost), // Parse to float
-            lastUpdated: new Date().toLocaleDateString(),
-        };
+    
+  const handleAddCommodity = async () => {
+    try {
+      const newCommodityWithId = {
+        ...newCommodity,
+        id: data.length + 1,
+        currentStock: parseInt(newCommodity.currentStock, 10),
+        minStockThreshold: parseInt(newCommodity.minStockThreshold, 10),
+        reorderQuantity: parseInt(newCommodity.reorderQuantity, 10),
+        unitCost: parseFloat(newCommodity.unitCost),
+        lastUpdated: new Date().toLocaleDateString(),
+      };
 
+      // Send the new commodity data to the API
+      const response = await fetch('http://127.0.0.1:5000/save-inventory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([newCommodityWithId]), // Send as an array to match your API's expectation
+      });
+
+      if (response.ok) {
+        console.log('Data saved successfully');
+        // Update the local state with the new commodity data
         setData([...data, newCommodityWithId]);
+      } else {
+        console.error('Error saving data:', response.statusText);
+      }
 
-        setNewCommodity({
-            id: '',
-            name: '',
-            category: '',
-            unitOfMeasurement: '',
-            currentStock: '',
-            minStockThreshold: '',
-            reorderQuantity: '',
-            unitCost: '',
-        });
-    };
-
+      // Reset the form after adding the commodity
+      setNewCommodity({
+        commodity_id: '',
+        name: '',
+        category: '',
+        unitOfMeasurement: '',
+        currentStock: '',
+        minStockThreshold: '',
+        reorderQuantity: '',
+        unitCost: '',
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
     const [totalReorderItems, setTotalReorderItems] = useState(0);
     const [totalOutOfStock, setTotalOutOfStock] = useState(0);
     const [totalStockCost, setTotalStockCost] = useState(0);
-
+    
     useEffect(() => {
+        // fetchData();
         // Calculate summary values here
         const totalReorderItems = data.filter((item) => item.currentStock < item.minStockThreshold).length;
         const totalOutOfStock = data.filter((item) => item.currentStock === 0).length;
@@ -121,15 +87,34 @@ const InventoryManagement = () => {
 
         setTotalReorderItems(totalReorderItems);
         setTotalOutOfStock(totalOutOfStock);
-        console.log("Out of Stock:", totalOutOfStock);
-        console.log("Re order", totalReorderItems);
-        console.log('Total Stock Cost Before:', totalStockCost.toFixed(2));
+        // console.log("Out of Stock:", totalOutOfStock);
+        // console.log("Re order", totalReorderItems);
+        // console.log('Total Stock Cost Before:', totalStockCost.toFixed(2));
         setTotalStockCost(totalStockCost.toFixed(2));
-        console.log('Total Stock Cost After:', totalStockCost.toFixed(2));
+        // console.log('Total Stock Cost After:', totalStockCost.toFixed(2));
         // You can set these values in state or display them directly in the summary divs
 
+         // Fetch data on component mount
+
+    // Calculate summary values here
 
     }, [data]);
+
+    const fetchData = async () => {
+        try {
+          // Fetch data from the API endpoint
+          const response = await fetch('http://127.0.0.1:5000/get-inventory');
+          const jsonData = await response.json();
+    
+          // Update the state with the fetched data
+          setData(jsonData.inventory || []);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+    
+
+    
 
     return (
         <div>

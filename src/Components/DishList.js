@@ -18,7 +18,7 @@ const DishList = ({ dishes, selectedDishes, handleQuantityChange, handleCheckbox
         selling_price: dishes[index].selling_price,
         quantity: dish.quantity || 0,
         is_veg: dish.is_veg,
-        id: index// Use 0 if quantity is not set
+        id: dishes[index].id// Use 0 if quantity is not set
       }));
 
     console.log("selectedData",selectedData);
