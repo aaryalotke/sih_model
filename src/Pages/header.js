@@ -24,8 +24,8 @@ function Header() {
 
   return (
     <header className="text-indigo-600 body-font">
-      <div className="container flex flex-wrap py-4  mx-7 flex-col md:flex-row items-center w-screen">
-        <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+      <div className="container flex flex-wrap py-4  flex-col md:flex-row items-center">
+        <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 ml-4">
           
           <img
          src={logo} // Replace with the path to your logo image
@@ -34,17 +34,17 @@ function Header() {
       />
           <span className="ml-3 text-xl"><Link to="/home" class="nav-link active">ByteBistro</Link></span>
         </a>
-        <nav className="md:ml-auto flex flex-wrap items-center text-black text-base justify-center">
+        <nav className="md:ml-auto flex items-center text-black text-base justify-around">
          
          
-          <a className='p-2 hover:bg-indigo-400 cursor-pointer  rounded'><Link to="/aboutus" class="nav-link active">About Us</Link> </a> 
-          <a className='p-2 hover:bg-indigo-400 cursor-pointer   rounded'><Link to="/contactus" class="nav-link active">Contact Us</Link> </a> 
-          <a className='p-2 hover:bg-indigo-400 cursor-pointer   rounded'><Link to="/donation" class="nav-link active">Donation</Link> </a> 
+          <a className='p-2 hover:bg-[#272635] hover:text-[#FFF] cursor-pointer  rounded'><Link to="/aboutus" class="nav-link active">About Us</Link> </a> 
+          <a className='p-2 hover:bg-[#272635] hover:text-[#FFF] cursor-pointer  rounded'><Link to="/contactus" class="nav-link active">Contact Us</Link> </a> 
+          <a className='p-2 hover:bg-[#272635] hover:text-[#FFF] cursor-pointer  rounded mr-2'><Link to="/donation" class="nav-link active">Donation</Link> </a> 
           <GoogleTranslateWidget/>
         </nav>
         <div className="md:ml-auto md:mr-0 mt-4 md:mt-0">
-          <button className="inline-flex text-white items-center bg-gray-800 border-0 mr-6 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base" onClick={handleLogout}>
-            Sign out
+          <button className="inline-flex text-[#272635] items-center border-2 border-[#272635] mr-6 py-1 px-3 focus:outline-none hover:bg-[#272635] hover:text-[#FFF] rounded text-base" onClick={handleLogout}>
+            Sign Out
             <svg
               fill="none"
               stroke="currentColor"

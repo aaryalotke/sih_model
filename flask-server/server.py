@@ -999,10 +999,11 @@ def openai():
         temperature=0.7
     )
     sdf = SmartDataframe(df,config={"llm":llm})
-    result = sdf.chat('suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in sentences')
+    result = sdf.chat('suggest some coupons / offers for all dish such that my sellingPrice should not go below the costPrice in a sentence and append it in dataset')
+    print(result)
     no_of_unique_dish = df["dish_name"].nunique()
     top_5_rows = result.head(no_of_unique_dish)
-    coupons = top_5_rows[["dish_name", "coupon"]]
+    coupons = top_5_rows[["dish_name", "offer"]]
     coupon_json_data = coupons.to_json(orient='records')
     print(coupon_json_data)
     return coupon_json_data, 200

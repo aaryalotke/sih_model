@@ -6,9 +6,47 @@ import logo from "./../cutlery.png";
 
 
 const CollaborationList = ({ onBackButtonClick }) => {
-  const [collaborations, setCollaborations] = useState([]);
 
-  
+  const [collaborations, setCollaborations] = useState([
+    {
+      id: 1,
+      name: "Pratapgadchya Killedaranchi Rasoi",
+      duration: "6 months",
+      contactPerson: "Aditya Shirsat",
+      contactEmail: "aditya.shirsat@gmail.com",
+    },
+    {
+      id: 2,
+      name: "Chikhaldara Chatpati Chul",
+      duration: "3 months",
+      contactPerson: "Raj Nair",
+      contactEmail: "raj.nair@example.com",
+    },
+    {
+      id: 3,
+      name: "Matheran Mithaas",
+      duration: "4 months",
+      contactPerson: "Mohini Patil",
+      contactEmail: "mohini.patil@example.com",
+    },
+    {
+      id: 4,
+      name: "Mulshi Swad",
+      duration: "5 months",
+      contactPerson: "Pranav Raut",
+      contactEmail: "Pranav.Raut@example.com",
+    },
+    {
+      id: 5,
+      name: "Kolhapuri Kadhai",
+      duration: "3 months",
+      contactPerson: "Aarti patil",
+      contactEmail: "Aarti.patil@example.com",
+    },
+  ]);
+
+
+
 
   const handleConnectClick = (contactEmail) => {
     // const contactEmail = "aaryalotke@gmail.com";
