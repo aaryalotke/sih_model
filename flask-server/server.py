@@ -328,6 +328,48 @@ def get_all_selected_dishes():
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/get-all-dishes-openai', methods=['GET'])
+def get_all_dishes_openai():
+    try:
+        # Assuming your Firebase collection is named 'selectedDishes'
+        selected_dishes_ref = db.collection('selectedDishes')
+
+        # Retrieve all documents from the 'selectedDishes' collection
+        selected_dishes = selected_dishes_ref.stream()
+
+        # Convert Firestore documents to a list of dictionaries
+        selected_dishes_list = []
+        holiday_calendar = holidays.CountryHoliday('IND')
+        for doc in selected_dishes:
+            date_weekday = doc.to_dict()['date_added']
+            date_object = datetime.strptime(date_weekday, "%d-%m-%Y")
+            day_of_week = date_object.strftime("%A")
+            holiday_calendar = holidays.CountryHoliday('IND')
+            if date_object in holiday_calendar:
+                occasion = holiday_calendar.get(date_object)
+            else:
+                occasion = "None"
+            selected_dishes_list.append({
+                'dish_id': int(doc.to_dict()['id']) + 1,
+                'dish_name': doc.to_dict()['name'],
+                'sellingPrice': doc.to_dict()['selling_price'],
+                'quantity': doc.to_dict()['quantity'],
+                'order_date': doc.to_dict()['date_added'],
+                'costPrice': doc.to_dict()['cost_price'],
+                'DayOfWeek': day_of_week,
+                'Occasion': occasion,
+            })
+            
+            df_append_foods = pd.DataFrame(selected_dishes_list)
+        
+        df_append_foods.to_csv('./past_month_data.csv', index=False)
+
+        return jsonify({'selected_dishes': selected_dishes_list}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/read-fixed-exp/', methods=['GET'])
 def read_fixed_exp():
