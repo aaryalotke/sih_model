@@ -19,6 +19,7 @@ import DailySales from './Pages/DailySales';
 import TopDish from './Pages/Top Dish/TopDish';
 import ShowDish from './Pages/ShowDishPage/ShowDish';
 import Coupon from './Components/Coupon';
+import HeroPage from './Pages/Threejs/HeroPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -32,9 +33,10 @@ root.render(
       <Route
         exact
         path="/"
-        element={<Navigate to="/landing" />} // Use Navigate to redirect
+        element={<Navigate to="/HeroPage" />} // Use Navigate to redirect
       />
        <Route path="/landing" element={<Landing/>}></Route>
+       <Route path="/HeroPage" element={<HeroPage/>}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<Signup />} />
       <Route path="/contactus" element={<Contactus />} />
