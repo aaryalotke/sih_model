@@ -7,4 +7,6 @@ random_forest_model_new.pkl
 package-lock.json
 package.json
 
+/flask-server/cache
+
 
